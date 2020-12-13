@@ -5,13 +5,13 @@ ENV GUNICORN_USER='user_gun'
 ENV APP_PATH='/app'
 ENV VERSION_DEP='vp.0.0.1a'
 
-RUN apk add python3 \
+RUN apk add --no-cache python3 \
     && python3 -m ensurepip \
     && adduser -D -h $APP_PATH $GUNICORN_USER
 
 COPY ./ $APP_PATH
 
-RUN pip3 install -r $APP_PATH/requirements.txt --upgrade
+#RUN pip3 install -r $APP_PATH/requirements.txt --upgrade
 
 EXPOSE ${APP_PORT}/udp
 

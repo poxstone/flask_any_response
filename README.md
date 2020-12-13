@@ -19,7 +19,7 @@ docker build -t poxstone/flask_any_response .;
 # local
 docker run --rm -it --net host -p 8080:8080 -p 5005:5005/udp poxstone/flask_any_response;
 # production
-docker run -itd --restart always --net host -e VERSION_DEP=MAIN -p 8080:8080 poxstone/flask_any_response;
+docker run -itd --restart always --net host -e VERSION_DEP=MAIN -p 8080:8080 -p 5005:5005/udp poxstone/flask_any_response;
 ```
 - Publish
 ```bash

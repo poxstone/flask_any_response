@@ -8,8 +8,8 @@ ENV = os.environ
 UDP_IP = "0.0.0.0"
 UDP_PORT = ENV['UDP_PORT'] if 'UDP_PORT' in ENV else 5005
 
-print("(print) UDP starting...")
-logging.info("(logging.info) UDP starting...")
+print("(print) UDP starting ... {}".format(UDP_PORT))
+logging.info("(logging.info) UDP starting ... {}".format(UDP_PORT))
 
 
 def app(host=UDP_IP, port=UDP_PORT):

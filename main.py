@@ -40,7 +40,7 @@ def testudp():
                          socket.SOCK_DGRAM) # UDP
     sock.sendto(MESSAGE, (UDP_IP, int(UDP_PORT)))
     
-    return print_request(message)
+    return '{} ---- {}'.format(message, print_request(message))
 
 
 @app.route('/', methods=FULL_METHODS)
