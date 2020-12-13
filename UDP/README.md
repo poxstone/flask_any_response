@@ -31,7 +31,11 @@ sudo nmap -Pn -sU -P0 -v felix 127.0.0.1 -p 5005;
 # build
 docker build -t poxstone/udpserver:latest .;
 # run
-docker run --rm -it --name udpserver --net host -p "5005:5005/udp" poxstone/udpserver:latest;
+docker run --rm -it --name udpserver --net host -e UDP_PORT=5006 -p "5006:5006/udp" poxstone/udpserver:latest;
 # production
-docker run -itd --restart always --net host -e VERSION_DEP=MAIN -p "5005:5005/udp" poxstone/udpserver:latest;
+docker run -itd --restart always --net host -e VERSION_DEP=MAIN -e UDP_PORT=5006 -p "5006:5006/udp" poxstone/udpserver:latest;
+```
+
+```bash
+docker push poxstone/udpserver:latest;
 ```

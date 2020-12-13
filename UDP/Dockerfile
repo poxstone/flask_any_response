@@ -13,7 +13,7 @@ COPY ./ $APP_PATH
 
 #RUN pip3 install -r $APP_PATH/requirements.txt --upgrade
 
-EXPOSE ${APP_PORT}/udp
+EXPOSE ${UDP_PORT}/udp
 
 USER $GUNICORN_USER
 WORKDIR $APP_PATH
