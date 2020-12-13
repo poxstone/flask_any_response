@@ -23,7 +23,7 @@ python3 receiving.py;
 ```
 - Client nmap
 ```bash
-sudo nmap -Pn -sU -P0 -v felix 127.0.0.1 -p 5005;
+sudo nmap -Pn -sU -P0 127.0.0.1 -p 5005;
 ```
 
 ## Build annd run

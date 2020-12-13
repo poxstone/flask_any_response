@@ -33,14 +33,15 @@ def testudp():
         UDP_PORT = ENV['UDP_PORT'] if 'UDP_PORT' in ENV else 5005
         MESSAGE = b"Hello, World!"
     
-    message = '<pre>{}\n UDP_IP = {}\n UDP_PORT = {}\n MESSAGE = MESSAGE<pre>'\
+    message = '<pre>UDP_IP = {}\n UDP_PORT = {}\n MESSAGE = {}<pre>'\
                 .format(UDP_IP,  UDP_PORT, str(MESSAGE))
     logging.info(message)
     sock = socket.socket(socket.AF_INET, # Internet
                          socket.SOCK_DGRAM) # UDP
-    sock.sendto(MESSAGE, (UDP_IP, int(UDP_PORT)))
+    server_address = (UDP_IP, int(UDP_PORT))
+    sock.sendto(MESSAGE, server_address)
     
-    return '{} ---- {}'.format(message, print_request(message))
+    return '{} ---- {}'.format(message, print_request(request))
 
 
 @app.route('/', methods=FULL_METHODS)
