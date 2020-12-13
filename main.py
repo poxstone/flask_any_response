@@ -1,8 +1,12 @@
 import os
+import logging
+import socket
 from flask import Flask, request
 
-app = Flask(__name__)
 
+logging.basicConfig(level=logging.DEBUG)
+app = Flask(__name__)
+ENV = os.environ
 FULL_METHODS = ['POST', 'GET', 'HEAD', 'PUT', 'DELETE']
 
 
@@ -12,7 +16,31 @@ def print_request(request):
       key = str(i)
       if not (key.startswith('_') or key.startswith('__')):
           response = ('{}\n<b>{}</b> = {}'.format(response, key, getattr(request, key)))
-    return '<pre>{}\n env = {}<pre>'.format(response,  os.environ)
+    
+    message = '<pre>{}\n env = {}<pre>'.format(response,  ENV)
+    logging.info(message)
+    return message
+
+@app.route('/testudp/', methods=FULL_METHODS)
+def testudp():
+    req_val = request.values
+    try:
+        APP_PORT = req_val.get('APP_PORT')
+        APP_PORT = req_val.get('EXT_HOST')
+        MESSAGE = req_val.get('MESSAGE')
+    except Exception as e:
+        UDP_IP = ENV["EXT_HOST"] if "EXT_HOST" in ENV else "127.0.0.1"
+        UDP_PORT = ENV['APP_PORT'] if 'APP_PORT' in ENV else 5005
+        MESSAGE = b"Hello, World!"
+    
+    message = '<pre>{}\n UDP_IP = {}\n UDP_PORT = {}\n MESSAGE = MESSAGE<pre>'\
+                .format(UDP_IP,  UDP_PORT, str(MESSAGE))
+    logging.info(message)
+    sock = socket.socket(socket.AF_INET, # Internet
+                         socket.SOCK_DGRAM) # UDP
+    sock.sendto(MESSAGE, (UDP_IP, int(UDP_PORT)))
+    
+    return print_request(message)
 
 
 @app.route('/', methods=FULL_METHODS)

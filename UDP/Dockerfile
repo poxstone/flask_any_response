@@ -1,25 +1,18 @@
 FROM alpine:latest
 
-ENV APP_PORT=8080
 ENV UDP_PORT=5005
-ENV GUNICORN_MODULE='main'
-ENV GUNICORN_CALLABLE='app'
 ENV GUNICORN_USER='user_gun'
 ENV APP_PATH='/app'
-ENV WORKERS=3 
-ENV TIMEOUT=120
 ENV VERSION_DEP='vp.0.0.1a'
 
-RUN apk add --no-cache python3 \
+RUN apk add python3 \
     && python3 -m ensurepip \
-    && pip3 install --upgrade pip gunicorn \
     && adduser -D -h $APP_PATH $GUNICORN_USER
 
 COPY ./ $APP_PATH
 
 RUN pip3 install -r $APP_PATH/requirements.txt --upgrade
 
-EXPOSE $APP_PORT
 EXPOSE ${APP_PORT}/udp
 
 USER $GUNICORN_USER
