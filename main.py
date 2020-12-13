@@ -25,12 +25,12 @@ def print_request(request):
 def testudp():
     req_val = request.values
     try:
-        APP_PORT = req_val.get('APP_PORT')
-        APP_PORT = req_val.get('EXT_HOST')
-        MESSAGE = req_val.get('MESSAGE')
+        UDP_IP = req_val.get('UDP_IP')
+        UDP_PORT = req_val.get('UDP_PORT')
+        MESSAGE = bytes(req_val.get('MESSAGE'), 'utf-8')
     except Exception as e:
-        UDP_IP = ENV["EXT_HOST"] if "EXT_HOST" in ENV else "127.0.0.1"
-        UDP_PORT = ENV['APP_PORT'] if 'APP_PORT' in ENV else 5005
+        UDP_IP = ENV["UDP_IP"] if "UDP_IP" in ENV else "127.0.0.1"
+        UDP_PORT = ENV['UDP_PORT'] if 'UDP_PORT' in ENV else 5005
         MESSAGE = b"Hello, World!"
     
     message = '<pre>{}\n UDP_IP = {}\n UDP_PORT = {}\n MESSAGE = MESSAGE<pre>'\
