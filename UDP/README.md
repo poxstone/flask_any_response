@@ -3,7 +3,7 @@
 ## Build
 - Server simple
 ```bash
-python3 main.py;
+python3 application.py;
 ```
 - Server enviroment
 ```bash

@@ -5,7 +5,7 @@ from flask import Flask, request
 
 
 logging.basicConfig(level=logging.DEBUG)
-app = Flask(__name__)
+application = app = Flask(__name__)
 ENV = os.environ
 FULL_METHODS = ['POST', 'GET', 'HEAD', 'PUT', 'DELETE']
 

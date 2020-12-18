@@ -10,7 +10,7 @@ python3 -m pip install -r requirements.txt;
 ```
 - Run
 ```bash
-python3 main.py;
+python3 application.py;
 ```
 
 - Docker
