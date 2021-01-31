@@ -1,6 +1,7 @@
 import os
 import logging
 import socket
+import subprocess
 from flask import Flask, request
 
 
@@ -20,6 +21,23 @@ def print_request(request):
     message = '<pre>{}\n env = {}<pre>'.format(response,  ENV)
     logging.info(message)
     return message
+
+
+def ping(host, count='3'):
+    command = ['ping', '-c', count, host]
+    return subprocess.call(command) == 0
+
+
+def getPost(request):
+    param = None
+    try:
+        param = request.form.to_dict()
+        if len(param) == 0:
+            raise Exception("no dict")
+    except:
+        param = request.json
+    return param
+
 
 @app.route('/testudp/', methods=FULL_METHODS)
 def testudp():
@@ -48,6 +66,56 @@ def testudp():
 def l0():
     return print_request(request)
 
+
+@app.route('/ping/<host>/', methods=FULL_METHODS)
+def doPing(host):
+    count = request.args.get('count') if request.args.get('count') else '3'
+    res = ping(host=host, count=count)
+    return str(res)
+
+
+@app.route('/do/com/', methods=['POST'])
+def doCom():
+    command = getPost(request)
+    if ('command' in command):
+        res = subprocess.check_output(command['command'])
+        return str(res)
+    return 'nothing to do'
+
+
+@app.route('/requests/<protocol>/<domain>/<port>/', methods=FULL_METHODS)
+def requests(protocol, domain, port):
+    import requests
+    method = request.args.get('method').upper() if request.args.get('method') \
+                                                else request.method
+    path = request.args.get('path') if request.args.get('path') else ''
+    path = path if path.startswith('/') else '/{}'.format(path)
+    parameters = ''
+    search_path = request.full_path.rsplit('?')
+    # build url search
+    if len(search_path) > 1:
+        for i in range(1, len(search_path)):
+            parameters += '?{}'.format(search_path[i])
+    body_data = {}
+    if request.form:
+        body_data = getPost(request)
+
+    request.full_path
+    url = '{protocol}://{domain}:{port}{path}{parameters}'.format(
+                                                            protocol=protocol,
+                                                            domain=domain,
+                                                            port=port,
+                                                            path=path,
+                                                            parameters=parameters)
+    res = ''
+    if method == 'GET':
+        res = requests.get(url).text
+    elif method == 'POST':
+        res = requests.post(url, data=body_data).text
+    else:
+        res = 'not supported method'
+    return str(res)
+    
 @app.route('/<lv1>', methods=FULL_METHODS)
 def l1(lv1):
     return print_request(request)
