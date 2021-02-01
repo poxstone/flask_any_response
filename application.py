@@ -2,6 +2,7 @@ import os
 import logging
 import socket
 import subprocess
+from time import sleep
 from flask import Flask, request
 
 
@@ -78,8 +79,11 @@ def doPing(host):
 def doCom():
     command = getPost(request)
     if ('command' in command):
-        res = subprocess.check_output(command['command'])
-        return str(res)
+        res = str(subprocess.check_output(command['command']).decode("utf-8"))
+        subprocess.check_output(['date'])
+        sleep(1)
+        logging.info('command: ' + res)
+        return res
     return 'nothing to do'
 
 

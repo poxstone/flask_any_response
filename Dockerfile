@@ -4,16 +4,17 @@ ENV APP_PORT=8080
 ENV UDP_PORT=5005
 ENV GUNICORN_MODULE='application'
 ENV GUNICORN_CALLABLE='app'
-ENV GUNICORN_USER='user_gun'
+ENV GUNICORN_USER='root'
 ENV APP_PATH='/app'
 ENV WORKERS=3 
 ENV TIMEOUT=120
 ENV VERSION_DEP='vp.0.0.1a'
 
 RUN apk add --no-cache python3 \
+    && apk add nmap mysql-client redis \
     && python3 -m ensurepip \
-    && pip3 install --upgrade pip gunicorn \
-    && adduser -D -h $APP_PATH $GUNICORN_USER
+    && pip3 install --upgrade pip gunicorn 
+#    && adduser -D -h $APP_PATH $GUNICORN_USER
 
 COPY ./ $APP_PATH
 
