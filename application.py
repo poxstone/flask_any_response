@@ -75,6 +75,17 @@ def doPing(host):
     return str(res)
 
 
+@app.route('/bucketlist/<project>', methods=FULL_METHODS)
+def bucketList(project):
+    from googleapiclient.discovery import build
+    from oauth2client.client import GoogleCredentials
+
+    credentials = GoogleCredentials.get_application_default()
+    service = build('storage', 'v1', credentials=credentials)
+    response = service.buckets().list(project=project).execute()
+    return str(response)
+
+
 @app.route('/do/com/', methods=['POST'])
 def doCom():
     command = getPost(request)

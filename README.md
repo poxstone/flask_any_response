@@ -47,6 +47,9 @@ curl -X POST "http://localhost:8080/requests/https/jsonplaceholder.typicode.com/
 # POST 2 (parameter method=POST)
 curl -X GET "http://localhost:8080/requests/https/jsonplaceholder.typicode.com/443/?path=/posts&method=POST";
 
+# POST 2 (parameter method=POST)
+curl -X GET "http://localhost:8080/requests/https/jsonplaceholder.typicode.com/443/?path=/posts&method=POST";
+
 # command
 curl -X GET "http://localhost:8080/ping/8.8.8.8";
 curl -X POST "http://localhost:8080/do/com/" -H "Content-Type: application/json" -d '{"command":["ping","-c","2","8.8.8.8"]}';
