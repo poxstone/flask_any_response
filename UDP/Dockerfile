@@ -3,7 +3,7 @@ FROM alpine:latest
 ENV UDP_PORT=5005
 ENV GUNICORN_USER='user_gun'
 ENV APP_PATH='/app'
-ENV VERSION_DEP='vp.0.0.1a'
+ENV VERSION_DEP='vp.0.0.1b'
 
 RUN apk add --no-cache python3 \
     && python3 -m ensurepip \

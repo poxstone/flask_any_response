@@ -8,7 +8,7 @@ ENV GUNICORN_USER='root'
 ENV APP_PATH='/app'
 ENV WORKERS=3 
 ENV TIMEOUT=120
-ENV VERSION_DEP='vp.0.0.1a'
+ENV VERSION_DEP='vp.0.0.1b'
 
 RUN apk add --no-cache python3 \
     && apk add nmap mysql-client redis \

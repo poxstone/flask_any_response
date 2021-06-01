@@ -13,7 +13,7 @@ FULL_METHODS = ['POST', 'GET', 'HEAD', 'PUT', 'DELETE']
 
 
 def print_request(request, title="Response"):
-    response = f'<h1>{title}<h1>'
+    response = f'<h1>{title}</h1>'
     for i in dir(request):
       key = str(i)
       if not (key.startswith('_') or key.startswith('__')):
@@ -60,7 +60,7 @@ def testudp():
     server_address = (UDP_IP, int(UDP_PORT))
     sock.sendto(MESSAGE, server_address)
     
-    return '{} ---- {}'.format(message, print_request(request))
+    return '{} ---- {}'.format(message, print_request(request, title="udp"))
 
 
 @app.route('/', methods=FULL_METHODS)

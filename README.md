@@ -52,8 +52,9 @@ curl -X GET "http://localhost:8080/requests/https/jsonplaceholder.typicode.com/4
 
 # command
 curl -X GET "http://localhost:8080/ping/8.8.8.8";
+curl -X GET "http://localhost:8080/redirect/relative";
+curl -X GET "http://localhost:8080/redirect/absolute/https/google.com/443";
 curl -X POST "http://localhost:8080/do/com/" -H "Content-Type: application/json" -d '{"command":["ping","-c","2","8.8.8.8"]}';
 curl -X POST "http://localhost:8080/do/com/" -H "Content-Type: application/json" -d '{"command":["nmap","localhost"]}';
 curl -X POST "http://localhost:8080/do/com/" -H "Content-Type: application/json" -d '{"command":["mysql", "-u", "root", "-h", "34.74.45.17", "-pMyPass", "-D", "cloudkey", "-e", "select * from users"]}';
-
 ```
