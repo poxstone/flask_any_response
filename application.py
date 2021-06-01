@@ -3,7 +3,7 @@ import logging
 import socket
 import subprocess
 from time import sleep
-from flask import Flask, request
+from flask import Flask, request, redirect, url_for
 
 
 logging.basicConfig(level=logging.DEBUG)
@@ -12,8 +12,8 @@ ENV = os.environ
 FULL_METHODS = ['POST', 'GET', 'HEAD', 'PUT', 'DELETE']
 
 
-def print_request(request):
-    response = ''
+def print_request(request, title="Response"):
+    response = f'<h1>{title}<h1>'
     for i in dir(request):
       key = str(i)
       if not (key.startswith('_') or key.startswith('__')):
@@ -130,6 +130,21 @@ def requests(protocol, domain, port):
     else:
         res = 'not supported method'
     return str(res)
+
+@app.route('/redirect/relative', methods=FULL_METHODS)
+def redirect_relative():
+    return redirect(url_for('redirected'))
+
+
+@app.route('/redirect/absolute/<protocol>/<domain>/<port>', methods=FULL_METHODS)
+def redirect_absolute(protocol, domain, port):
+    return redirect(f'{protocol}://{domain}:{port}/redirection/redirected')
+
+
+@app.route('/redirect/redirected', methods=FULL_METHODS)
+def redirected():
+    return print_request(request, title="Redirected")
+
     
 @app.route('/<lv1>', methods=FULL_METHODS)
 def l1(lv1):
