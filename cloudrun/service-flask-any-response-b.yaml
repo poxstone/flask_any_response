@@ -12,7 +12,7 @@ spec:
     spec:
       containerConcurrency: 5
       timeoutSeconds: 300
-      serviceAccountName: gke-oscar@mygcp-delivery-infra-service.iam.gserviceaccount.com
+      #serviceAccountName: gke-oscar@mygcp-delivery-infra-service.iam.gserviceaccount.com
       containers:
       - image: gcr.io/mygcp-delivery-infra-service/flask_any_response:latest
         ports:

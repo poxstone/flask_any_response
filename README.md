@@ -16,6 +16,7 @@ python3 application.py;
 - Docker
 ```bash
 docker build -t poxstone/flask_any_response .;
+docker push poxstone/flask_any_response;
 # local
 docker run --rm -it --net host -p 8080:8080 -p 5005:5005/udp poxstone/flask_any_response;
 # production
@@ -121,18 +122,18 @@ curl -X GET "${URL}/requests/https/jsonplaceholder.typicode.com/443/?path=/posts
 # simple ping (for validate)
 curl -X GET "${URL}/ping/8.8.8.8";
 
-# simper 302 redirect
-curl -X GET -ikL "${URL}/redirect/relative";
-
-# redirect absolute
-curl -X GET -ikL "${URL}/redirect/absolute/https/google.com/443";
-
-# some bash commands by exex
+# some bash commands by exec
 curl -X POST "${URL}/do/com/" -H "Content-Type: application/json" -d '{"command":["ping","-c","2","8.8.8.8"]}';
 curl -X POST "${URL}/do/com/" -H "Content-Type: application/json" -d '{"command":["nmap","localhost"]}';
 curl -X POST "${URL}/do/com/" -H "Content-Type: application/json" -d '{"command":["mysql", "-u", "root", "-h", "34.74.45.17", "-pMyPass", "-D", "cloudkey", "-e", "select * from users"]}';
 # some bash commands by bash script (more support)
 curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"command":"date > date.txt; ls;cat date.txt"}';
+
+# test redirction 302 simple relative
+curl -X GET -kLI "${URL}/redirect/relative";
+
+# test redirction 302 custom absolute
+curl -X GET -kLI "${URL}/redirect/absolute/https/eltiempo.com/443?path=/opinion/columnistas/martha-senn";
 
 # tests stress --time (cloud run not works)
 curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"command":"stress-ng --cpu 1 --vm-bytes 128M"}';
@@ -141,6 +142,6 @@ curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"comma
 # cloud run metadata curl get token
 curl -X POST "${URL}/do/script/" -H "Content-Type: application/json"  -d '{"command":"curl  -H \"Metadata-Flavor: Google\" http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token"}'
 
-
+# use authorization
 -H "Authorization: Bearer ya29.a..."
 ```

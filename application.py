@@ -47,11 +47,10 @@ def getPost(request):
     return param
 
 
-
 @app.route('/', methods=FULL_METHODS)
 def l0():
     logging.info('lv0():')
-    return print_request(request)
+    return print_request(request, title='lv0():')
 
 
 @app.route('/testudp/', methods=FULL_METHODS)
@@ -75,7 +74,7 @@ def testudp():
     server_address = (UDP_IP, int(UDP_PORT))
     sock.sendto(MESSAGE, server_address)
     
-    return '{} ---- {}'.format(message, print_request(request, title="udp"))
+    return '{} ---- {}'.format(message, print_request(request, title="testudp():"))
 
 
 @app.route('/ping/<host>/', methods=FULL_METHODS)
@@ -109,6 +108,7 @@ def doCom():
         logging.info('command: ' + res)
         return f"command: {command['command']} > response: \n {res}"
     return 'nothing to do'
+
 
 @app.route('/do/script/', methods=['POST'])
 def doScript():
@@ -154,12 +154,7 @@ def requests(protocol, domain, port):
         body_data = getPost(request)
 
     request.full_path
-    url = '{protocol}://{domain}:{port}{path}{parameters}'.format(
-                                                            protocol=protocol,
-                                                            domain=domain,
-                                                            port=port,
-                                                            path=path,
-                                                            parameters=parameters)
+    url = f'{protocol}://{domain}:{port}{path}{parameters}'
     res = ''
     if method == 'GET':
         res = requests.get(url).text
@@ -175,6 +170,7 @@ def requests(protocol, domain, port):
         res = 'not supported method'
     return str(res)
 
+
 @app.route('/redirect/relative', methods=FULL_METHODS)
 def redirect_relative():
     logging.info('redirect_relative():')
@@ -184,7 +180,10 @@ def redirect_relative():
 @app.route('/redirect/absolute/<protocol>/<domain>/<port>', methods=FULL_METHODS)
 def redirect_absolute(protocol, domain, port):
     logging.info('redirect_absolute(protocol, domain, port):')
-    return redirect(f'{protocol}://{domain}:{port}/redirection/redirected')
+    path = request.args.get('path') if request.args.get('path') else ''
+    path = path if path.startswith('/') else '/{}'.format(path)
+    location = f'{protocol}://{domain}:{port}{path}'
+    return redirect(location)
 
 
 @app.route('/redirect/redirected', methods=FULL_METHODS)
@@ -198,25 +197,30 @@ def l1(lv1):
     logging.info('def l1(lv1):')
     return print_request(request)
 
+
 @app.route('/<lv1>/<lv2>', methods=FULL_METHODS)
 def l2(lv1, lv2):
     logging.info('def l2(lv1, lv2):')
     return print_request(request)
+
 
 @app.route('/<lv1>/<lv2>/<lv3>', methods=FULL_METHODS)
 def l3(lv1, lv2, lv3):
     logging.info('def l3(lv1, lv2, lv3):')
     return print_request(request)
 
+
 @app.route('/<lv1>/<lv2>/<lv3>/<lv4>', methods=FULL_METHODS)
 def l4(lv1, lv2, lv3, lv4):
     logging.info('def l4(lv1, lv2, lv3, lv4):')
     return print_request(request)
 
+
 @app.route('/<lv1>/<lv2>/<lv3>/<lv4>/<lv5>', methods=FULL_METHODS)
 def lv5(lv1, lv2, lv3, lv4, lv5):
     logging.info('lv5(lv1, lv2, lv3, lv4, lv5):')
     return print_request(request)
+
 
 @app.route('/<lv1>/<lv2>/<lv3>/<lv4>/<lv5>/<lv6>', methods=FULL_METHODS)
 def lv6(lv1, lv2, lv3, lv4, lv5, lv6):
@@ -226,5 +230,6 @@ def lv6(lv1, lv2, lv3, lv4, lv5, lv6):
 
 if __name__ == "__main__":
     app.run(debug=False, host="0.0.0.0", port="8080")
+
 
 print("POXSTONE_LOG --- Flask Ended")
