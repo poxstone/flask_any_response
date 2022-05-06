@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "flaskanyresponse-helm.fullname" . }}-test-connection"
+  labels:
+    {{- include "flaskanyresponse-helm.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "flaskanyresponse-helm.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never

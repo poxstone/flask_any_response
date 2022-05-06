@@ -1,0 +1,28 @@
+# variables: https://cloud.google.com/build/docs/configuring-builds/substitute-variable-values
+options:
+  substitution_option: ALLOW_LOOSE
+
+steps:
+# Build the container image
+- name: 'gcr.io/cloud-builders/docker'
+  id: Construir contenedor
+  args: ['build', '-t', 'gcr.io/${PROJECT_ID}/flask_any_response', '.']
+
+# Push the container image to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  id: cargar contenedor
+  args: ['push', 'gcr.io/${PROJECT_ID}/flask_any_response']
+
+# Deploy container image to Cloud Run
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  id: desplegar contenedor a
+  entrypoint: gcloud
+  args: ['run', 'deploy', 'flask-any-response-a', '--image', 'gcr.io/${PROJECT_ID}/flask_any_response', '--region', '$LOCATION']
+
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  id: desplegar contenedor b
+  entrypoint: gcloud
+  args: ['run', 'deploy', 'flask-any-response-b', '--image', 'gcr.io/${PROJECT_ID}/flask_any_response', '--region', '$LOCATION']
+
+images:
+- gcr.io/${PROJECT_ID}/flask_any_response

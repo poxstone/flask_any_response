@@ -1,0 +1,45 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: flask-any-response-b
+spec:
+  template:
+    metadata:
+      name: flask-any-response-b-00004-hilo
+      annotations:
+        autoscaling.knative.dev/maxScale: '10'
+        run.googleapis.com/cpu-throttling: 'false'
+    spec:
+      containerConcurrency: 5
+      timeoutSeconds: 300
+      serviceAccountName: gke-oscar@mygcp-delivery-infra-service.iam.gserviceaccount.com
+      containers:
+      - image: gcr.io/mygcp-delivery-infra-service/flask_any_response:latest
+        ports:
+        - name: http1
+          containerPort: 8080
+        env:
+        - name: VERSION_DEP
+          value: v1.run-b2
+        - name: INIT_APP_TIME
+          value: 0
+        - name: UDP_PORT
+          value: '5005'
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+        volumeMounts:
+        - name: secret-fe95b315-84ee-43ae-a370-0b2f1f2e56de
+          readOnly: true
+          mountPath: /secret
+      volumes:
+      - name: secret-fe95b315-84ee-43ae-a370-0b2f1f2e56de
+        secret:
+          secretName: gke-oscar-test1
+          items:
+          - key: latest
+            path: gke-oscar-test1
+  traffic:
+  - percent: 100
+    latestRevision: true

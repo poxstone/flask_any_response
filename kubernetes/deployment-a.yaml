@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: flask-any-response-a
+  name: flask-any-deployment-a
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-any-response-a
+  template:
+    metadata:
+      labels:
+        app: flask-any-response-a
+    spec:
+      containers:
+      - env:
+        - name: APP_PORT
+          value: '8080'
+        - name: UDP_PORT
+          value: '5005'
+        - name: WORKERS
+          value: '3'
+        - name: TIMEOUT
+          value: '120'
+        - name: VERSION_DEP
+          value: 'vp.0.0.1b'
+        - name: INIT_APP_TIME
+          value: '0'
+        image: poxstone/flask_any_response:latest
+        livenessProbe:
+          failureThreshold: 2
+          #tcpSocket:
+          httpGet:
+            path: /index.html
+            port: 8080
+            scheme: HTTP
+          #exec:
+          #  command:
+          #  - sleep
+          #  - 10
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          successThreshold: 1
+          timeoutSeconds: 3
+        name: flask-any-response-a
+        ports:
+        - containerPort: 8080
+        - containerPort: 5000
+        readinessProbe:
+          failureThreshold: 2
+          #tcpSocket:
+          httpGet:
+            path: /index.html
+            port: 8080
+            scheme: HTTP
+          #exec:
+          #  command:
+          #  - sleep
+          #  - 10
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          successThreshold: 1
+          timeoutSeconds: 3
+        resources:
+          limits:
+            cpu: 500m
+            memory: 256Mi
+          requests:
+            cpu: 250m
+            memory: 128Mi
