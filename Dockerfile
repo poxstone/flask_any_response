@@ -7,18 +7,25 @@ ENV GUNICORN_MODULE='application'
 ENV GUNICORN_CALLABLE='app'
 ENV GUNICORN_USER='root'
 ENV APP_PATH='/app'
-ENV WORKERS='3' 
+ENV WORKERS='1'
 ENV TIMEOUT='120'
 ENV INIT_APP_TIME='0'
-ENV VERSION_DEP='vp.0.0.1b'
+ENV VERSION_DEP='vp.0.0.2dock'
 ENV UDP_PORT='5005'
+# for gcp Profiler
+#ENV GOOGLE_CLOUD_PROJECT=''
 
 
-RUN apk add --no-cache python3 \
+RUN apk add --no-cache python3 ca-certificates\
     && apk add nmap mysql-client redis lsblk curl tcpdump tar tmux bind-tools stress-ng \
     && python3 -m ensurepip \
     && pip3 install --upgrade pip gunicorn 
 #    && adduser -D -h $APP_PATH $GUNICORN_USER
+
+# add gcp profiler
+RUN apk add python3-dev ca-certificates gcc build-base\
+    && pip3 wheel --wheel-dir=/tmp/wheels google-cloud-profiler \
+    && pip3 install --no-index --find-links=/tmp/wheels google-cloud-profiler
 
 COPY ./ $APP_PATH
 

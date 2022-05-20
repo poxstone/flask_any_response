@@ -11,6 +11,20 @@ logging.basicConfig(level=logging.DEBUG)
 application = app = Flask(__name__)
 ENV = os.environ
 FULL_METHODS = ['POST', 'GET', 'HEAD', 'PUT', 'DELETE']
+VERSION_DEP = os.getenv('VERSION_DEP', 'nover')
+GOOGLE_CLOUD_PROJECT = os.getenv('GOOGLE_CLOUD_PROJECT', '')
+
+# gcp profiler
+try:
+    logging.info(f'ERROR_vars_init: VERSION_DEP={VERSION_DEP} -- GOOGLE_CLOUD_PROJECT={GOOGLE_CLOUD_PROJECT}')
+    import googlecloudprofiler
+    if GOOGLE_CLOUD_PROJECT:
+        googlecloudprofiler.start(service='flask_any_response'. service_version=VERSION_DEP, verbose=3, project_id=GOOGLE_CLOUD_PROJEC )
+    else:
+        googlecloudprofiler.start(service='flask_any_response'. service_version=VERSION_DEP, verbose=3)
+
+except (ValueError, NotImplementedError) as exc:
+    logging.info(f'ERROR_flaskanyresponse_profiler: {exc}')
 
 
 def print_request(request, title="Response"):
