@@ -19,9 +19,9 @@ try:
     logging.info(f'ERROR_vars_init: VERSION_DEP={VERSION_DEP} -- GOOGLE_CLOUD_PROJECT={GOOGLE_CLOUD_PROJECT}')
     import googlecloudprofiler
     if GOOGLE_CLOUD_PROJECT:
-        googlecloudprofiler.start(service='flask_any_response'. service_version=VERSION_DEP, verbose=3, project_id=GOOGLE_CLOUD_PROJEC )
+        googlecloudprofiler.start(service='flask_any_response', service_version=VERSION_DEP, verbose=3, project_id=GOOGLE_CLOUD_PROJECT )
     else:
-        googlecloudprofiler.start(service='flask_any_response'. service_version=VERSION_DEP, verbose=3)
+        googlecloudprofiler.start(service='flask_any_response', service_version=VERSION_DEP, verbose=3)
 
 except (ValueError, NotImplementedError) as exc:
     logging.info(f'ERROR_flaskanyresponse_profiler: {exc}')
