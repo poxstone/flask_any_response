@@ -25,7 +25,7 @@ spec:
         - name: TIMEOUT
           value: '120'
         - name: VERSION_DEP
-          value: 'vp.0.0.1b'
+          value: 'vp.0.0.1a'
         - name: INIT_APP_TIME
           value: '0'
         image: poxstone/flask_any_response:latest

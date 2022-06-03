@@ -1,0 +1,46 @@
+swagger: "2.0"
+info:
+  title: API_ID optional-string
+  description: "Get the name of an airport from its three-letter IATA code."
+  version: "1.0.0"
+host: api-run01-0z3azi3h1mkfv.apigateway.service-a-351416.cloud.goog
+schemes:
+  - "https"
+paths:
+  "/do/script":
+    get:
+      description: "get flask api one"
+      operationId: "api-one"
+      x-google-backend:
+        address: https://flask-any-response-a-qycvpzb2nq-ue.a.run.app
+      parameters:
+      - name: parametro1
+        in: query
+        required: true
+        type: string
+      responses:
+        200:
+          description: "Success full one."
+          schema:
+            type: string
+        400:
+          description: "api de pruebas one"
+  "/do/script":
+    post:
+      description: "get flask api script"
+      operationId: "api-script"
+      x-google-backend:
+        address: https://flask-any-response-a-qycvpzb2nq-ue.a.run.app
+      parameters:
+      - in: body
+        name: body
+        schema:
+          type: object
+      responses:
+        200:
+          description: "Success full script."
+          schema:
+            type: string
+        400:
+          description: "api de pruebas script"
+

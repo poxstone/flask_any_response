@@ -144,6 +144,13 @@ curl -X POST "${URL}/do/script/" -H "Content-Type: application/json"  -d '{"comm
 
 # use authorization
 -H "Authorization: Bearer ya29.a..."
+
+
+# function
+function sc { curl -X POST -kiL "${2}/do/script/" -H "Content-Type: application/json" -d "{\"command\":\"${1}\"}"; };
+# ping ipv6
+sc "curl -6 'http://[2600:1901:0:38c4::]:80'" "${URL}";
+sc "curl '$URLlb "${URL1}";
 ```
 
 ## Utils
