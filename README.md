@@ -126,6 +126,8 @@ curl -X GET "${URL}/ping/8.8.8.8";
 curl -X POST "${URL}/do/com/" -H "Content-Type: application/json" -d '{"command":["ping","-c","2","8.8.8.8"]}';
 curl -X POST "${URL}/do/com/" -H "Content-Type: application/json" -d '{"command":["nmap","localhost"]}';
 curl -X POST "${URL}/do/com/" -H "Content-Type: application/json" -d '{"command":["mysql", "-u", "root", "-h", "34.74.45.17", "-pMyPass", "-D", "cloudkey", "-e", "select * from users"]}';
+# redis response PONG if is well 
+curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"command":"redis-cli -h 10.18.241.3 -p 6379 PING"}';
 # some bash commands by bash script (more support)
 curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"command":"date > date.txt; ls;cat date.txt"}';
 
