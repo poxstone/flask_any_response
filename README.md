@@ -129,7 +129,7 @@ curl -X POST "${URL}/do/com/" -H "Content-Type: application/json" -d '{"command"
 # redis response PONG if is well 
 curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"command":"redis-cli -h 10.18.241.3 -p 6379 PING"}';
 # sql server connect
-curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"command":"sqlcmd -S 34.133.118.251 -U sqlserver -P Evo76AUS -b -Q \"SELECT Name from sys.databases;\""}';
+curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"command":"sqlcmd -S 34.133.118.251 -U sqlserver -P MyPASS -b -Q \"SELECT Name from sys.databases;\""}';
 # some bash commands by bash script (more support)
 curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"command":"date > date.txt; ls;cat date.txt"}';
 
