@@ -1,5 +1,5 @@
-FROM alpine:latest
-#FROM ubuntu:20.04
+FROM alpine:3.16.0
+#FROM alpine:latest
 
 ENV APP_PORT=8080
 ENV UDP_PORT=5005
@@ -12,6 +12,7 @@ ENV TIMEOUT='120'
 ENV INIT_APP_TIME='0'
 ENV VERSION_DEP='vp.0.0.2dock'
 ENV UDP_PORT='5005'
+ENV MSSQL_VERSION='17.5.2.1-1'
 # for gcp Profiler
 #ENV GOOGLE_CLOUD_PROJECT=''
 
