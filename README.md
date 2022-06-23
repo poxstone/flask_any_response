@@ -128,6 +128,8 @@ curl -X POST "${URL}/do/com/" -H "Content-Type: application/json" -d '{"command"
 curl -X POST "${URL}/do/com/" -H "Content-Type: application/json" -d '{"command":["mysql", "-u", "root", "-h", "34.74.45.17", "-pMyPass", "-D", "cloudkey", "-e", "select * from users"]}';
 # redis response PONG if is well 
 curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"command":"redis-cli -h 10.18.241.3 -p 6379 PING"}';
+# sql server connect
+curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"command":"sqlcmd -S 34.133.118.251 -U sqlserver -P PASSWORD -q \"SELECT * FROM AdventureWorks2012.Person.Person\" "}';
 # some bash commands by bash script (more support)
 curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"command":"date > date.txt; ls;cat date.txt"}';
 
