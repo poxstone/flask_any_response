@@ -125,6 +125,7 @@ curl -X GET "${URL}/ping/8.8.8.8";
 # some bash commands by exec
 curl -X POST "${URL}/do/com/" -H "Content-Type: application/json" -d '{"command":["ping","-c","2","8.8.8.8"]}';
 curl -X POST "${URL}/do/com/" -H "Content-Type: application/json" -d '{"command":["nmap","localhost"]}';
+curl -X POST "${URL}/do/com/" -H "Content-Type: application/json" -d '{"command":["dig","google.com"]}';
 curl -X POST "${URL}/do/com/" -H "Content-Type: application/json" -d '{"command":["mysql", "-u", "root", "-h", "34.74.45.17", "-pMyPass", "-D", "cloudkey", "-e", "select * from users"]}';
 # redis response PONG if is well 
 curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"command":"redis-cli -h 10.18.241.3 -p 6379 PING"}';
@@ -148,7 +149,10 @@ curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"comma
 # cloud run metadata curl get token
 curl -X POST "${URL}/do/script/" -H "Content-Type: application/json"  -d '{"command":"curl  -H \"Metadata-Flavor: Google\" http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token"}'
 
-# use authorization
+# basic authentication
+curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"command":"curl -u 'usuario1:contrasenia1'"}';
+
+# use authorization with curl
 -H "Authorization: Bearer ya29.a..."
 
 
