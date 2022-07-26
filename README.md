@@ -154,6 +154,7 @@ curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"comma
 
 # use authorization with curl
 -H "Authorization: Bearer ya29.a..."
+-H "Authorization: Basic bG9naW4..."
 
 
 # function
