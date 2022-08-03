@@ -2,6 +2,7 @@ import os
 import json
 import logging
 import socket
+import datetime
 import subprocess
 from time import sleep
 from flask import Flask, request, redirect, url_for
@@ -28,7 +29,12 @@ except (ValueError, NotImplementedError) as exc:
 
 
 def print_request(request, title="Response"):
-    response = f'<h1>{title}</h1>'
+    
+    response = f"""<h1>{title}</h1>
+<small>date_system = {str(datetime.datetime.now())}</small>
+<small>date_utc = {str(datetime.datetime.utcnow())}</small>
+"""
+    
     for i in dir(request):
         try:
             key = str(i)
