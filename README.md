@@ -102,6 +102,9 @@ export URL="http://localhost:8080";
 ```
 
 ```bash
+# blank print for healthcheck tests
+curl -X GET "${URL}/blank";
+
 export
 # levels
 curl -X GET "${URL}/lv1/lv2";

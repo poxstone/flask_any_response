@@ -16,6 +16,7 @@ VERSION_DEP = os.getenv('VERSION_DEP', 'nover')
 GOOGLE_CLOUD_PROJECT = os.getenv('GOOGLE_CLOUD_PROJECT', '')
 
 # gcp profiler
+"""
 try:
     logging.info(f'ERROR_vars_init: VERSION_DEP={VERSION_DEP} -- GOOGLE_CLOUD_PROJECT={GOOGLE_CLOUD_PROJECT}')
     import googlecloudprofiler
@@ -26,6 +27,7 @@ try:
 
 except (ValueError, NotImplementedError) as exc:
     logging.info(f'ERROR_flaskanyresponse_profiler: {exc}')
+"""
 
 
 def print_request(request, title="Response"):
@@ -190,7 +192,16 @@ def requests(protocol, domain, port):
         res = 'not supported method'
     return str(res)
 
+# to no print
+@app.route('/blank', methods=FULL_METHODS)
+def blank():
+    return ""
 
+@app.route('/favicon.ico', methods=FULL_METHODS)
+def favicon():
+    return ""
+
+# relative dir
 @app.route('/redirect/relative', methods=FULL_METHODS)
 def redirect_relative():
     logging.info('redirect_relative():')
