@@ -102,7 +102,7 @@ export URL="http://localhost:8080";
 ```
 
 ```bash
-# blank print for healthcheck tests
+# blank print for healthcheck tests set env PATH_IGNORE= "favicon.ico,blank,echo.php,proxy.php"
 curl -X GET "${URL}/blank";
 
 export

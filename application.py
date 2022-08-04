@@ -12,6 +12,7 @@ logging.basicConfig(level=logging.DEBUG)
 application = app = Flask(__name__)
 ENV = os.environ
 FULL_METHODS = ['POST', 'GET', 'HEAD', 'PUT', 'DELETE']
+PATH_IGNORE = os.getenv('PATH_IGNORE', "favicon.ico,blank,echo.php,proxy.php")
 VERSION_DEP = os.getenv('VERSION_DEP', 'nover')
 GOOGLE_CLOUD_PROJECT = os.getenv('GOOGLE_CLOUD_PROJECT', '')
 
@@ -192,14 +193,6 @@ def requests(protocol, domain, port):
         res = 'not supported method'
     return str(res)
 
-# to no print
-@app.route('/blank', methods=FULL_METHODS)
-def blank():
-    return ""
-
-@app.route('/favicon.ico', methods=FULL_METHODS)
-def favicon():
-    return ""
 
 # relative dir
 @app.route('/redirect/relative', methods=FULL_METHODS)
@@ -225,6 +218,9 @@ def redirected():
     
 @app.route('/<lv1>', methods=FULL_METHODS)
 def l1(lv1):
+    if lv1 in PATH_IGNORE.split(','):
+        return ""
+
     logging.info('def l1(lv1):')
     return print_request(request)
 
