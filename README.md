@@ -68,6 +68,26 @@ istioctl kube-inject -f ../kubernetes/deployment-b.yaml -o ./deployment-b-withis
 kubectl apply -f ./;
 ```
 
+## App Engine
+
+### appengine standard
+- [appengine standard](https://cloud.google.com/appengine/docs/standard/python3/runtime)
+- [hello_world](https://cloud.google.com/appengine/docs/standard/python3/runtime)
+
+```bash
+gcloud app deploy --appyaml="app_standard.yaml" --project="${GOOGLE_CLOUD_PROJECT}"
+gcloud app browse;
+```
+
+### appengine flex
+- [appengine standard](https://cloud.google.com/appengine/docs/standard/python3/runtime)
+- [hello_world](https://cloud.google.com/appengine/docs/standard/python3/runtime)
+
+```bash
+gcloud app deploy --appyaml="app_flex.yaml" --project="${GOOGLE_CLOUD_PROJECT}"
+gcloud app browse;
+```
+
 ## Cloud Run
 
 ### cloud run - command
