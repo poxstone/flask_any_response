@@ -1,0 +1,40 @@
+swagger: '2.0'
+info:
+  description: flask.any.response
+  title: API
+  termsOfService: http://swagger.io/terms/
+  contact:
+    name: API Support
+    url: http://www.swagger.io/support
+    email: support@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: '1.0'
+schemes:
+  - https
+paths:
+  "/":
+    get:
+      description: Root
+      tags:
+      - Person
+      summary: Api root
+      operationId: simple-api-root
+      x-google-backend:
+        address: https://scientific-crow-353414.ue.r.appspot.com/
+      responses:
+        '200':
+          description: OK
+  "/api":
+    get:
+      description: ValidateCustomer
+      tags:
+      - Person
+      summary: Api tests
+      operationId: simple-api-test
+      x-google-backend:
+        address: https://scientific-crow-353414.ue.r.appspot.com/
+      responses:
+        '200':
+          description: OK
