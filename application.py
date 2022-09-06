@@ -6,7 +6,9 @@ import datetime
 import subprocess
 from time import sleep
 from flask import Flask, request, redirect, url_for
-
+# email
+import smtplib
+import sys
 
 logging.basicConfig(level=logging.DEBUG)
 application = app = Flask(__name__)
@@ -106,6 +108,21 @@ def doPing(host):
     count = request.args.get('count') if request.args.get('count') else '3'
     res = ping(host=host, count=count)
     return str(res)
+
+@app.route('/testsmtp/<email>/<pwd>', methods=FULL_METHODS)
+def sendEmail(email, pwd):
+    # Sending the mail
+    try:
+        server = smtplib.SMTP('smtp.gmail.com:587')
+        server.starttls()
+        server.login(email,pwd)
+        server.quit()
+        logging.info('command: ' + "loging")
+        print("loging")
+        return str("loging")
+    except Exception as e:
+        logging.info('command: ' + str(e))
+        return str(e)
 
 
 @app.route('/bucketlist/<project>', methods=FULL_METHODS)

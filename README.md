@@ -165,6 +165,9 @@ curl -X GET -kLI "${URL}/redirect/relative";
 # test redirction 302 custom absolute
 curl -X GET -kLI "${URL}/redirect/absolute/https/eltiempo.com/443?path=/opinion/columnistas/martha-senn";
 
+# test smtp
+curl -X GET "${URL}/testsmtp/user@comain.com/MyPasswd";
+
 # tests stress --time (cloud run not works)
 curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"command":"stress-ng --cpu 1 --vm-bytes 128M"}';
 curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"command":"stress-ng -c 1 -i 1 -m 1 --vm-bytes 128M -t 10s"}';
