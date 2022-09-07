@@ -109,11 +109,11 @@ def doPing(host):
     res = ping(host=host, count=count)
     return str(res)
 
-@app.route('/testsmtp/<email>/<pwd>', methods=FULL_METHODS)
-def sendEmail(email, pwd):
+@app.route('/testsmtp/<host>/<email>/<pwd>', methods=FULL_METHODS)
+def sendEmail(host, email, pwd):
     # Sending the mail
     try:
-        server = smtplib.SMTP('smtp.gmail.com:587')
+        server = smtplib.SMTP(host) # smtp.gmail.com:587
         server.starttls()
         server.login(email,pwd)
         server.quit()
