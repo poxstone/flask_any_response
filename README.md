@@ -145,6 +145,10 @@ curl -X GET "${URL}/requests/https/jsonplaceholder.typicode.com/443/?path=/posts
 # simple ping (for validate)
 curl -X GET "${URL}/ping/8.8.8.8";
 
+# mime-types (css,txt,html,js,pdf,image,bin)
+curl -X GET "${URL}/my_file.css";
+# => mime_type = text/css
+
 # some bash commands by exec
 curl -X POST "${URL}/do/com/" -H "Content-Type: application/json" -d '{"command":["ping","-c","2","8.8.8.8"]}';
 curl -X POST "${URL}/do/com/" -H "Content-Type: application/json" -d '{"command":["nmap","localhost"]}';

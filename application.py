@@ -4,8 +4,9 @@ import logging
 import socket
 import datetime
 import subprocess
+import re
 from time import sleep
-from flask import Flask, request, redirect, url_for
+from flask import Flask, request, redirect, url_for, Response
 # email
 import smtplib
 import sys
@@ -39,12 +40,28 @@ def print_request(request, title="Response"):
         internal_ip = str(subprocess.check_output(["./script.sh", "ip address"]).decode("utf-8"))
     except Exception as e:
         print(e)
+    mime_type = "text/html"
+    if re.match('.', request.path):
+        path_ext = re.split(r'\.', request.path)[-1] 
+        if re.match(r'((png)|(jpe?g)|(ico)|(gif)|(bmp))$', path_ext):
+            mime_type = f"image/{path_ext}"
+        elif re.match(r'((html?)|(css)|(css)|(ics)|(txt))$', path_ext):
+            mime_type = f"text/{path_ext}"
+        elif re.match(r'((json)|(ogg)|(pdf)|(rtf)|(xml))$', path_ext):
+            mime_type = f"application/{path_ext}"
+        elif re.match(r'((js))$', path_ext):
+            mime_type = f"text/javascript"
+        elif re.match(r'((bin))$', path_ext):
+            mime_type = f"application/octet-stream"
+        else:
+            mime_type = "text/html"
+
     response = f"""<h1>{title}</h1>
 <small>date_system = {str(datetime.datetime.now())}</small>
 <small>date_utc = {str(datetime.datetime.utcnow())}</small>
+<small>mime_type = {str(mime_type)}</small>
 <small>ip_address = {str(internal_ip)}</small>
 """
-    
     for i in dir(request):
         try:
             key = str(i)
@@ -55,7 +72,7 @@ def print_request(request, title="Response"):
     
     message = '<pre>{}\n env = {}<pre>'.format(response,  ENV)
     logging.info(message)
-    return message
+    return message, mime_type
 
 
 def ping(host, count='3'):
@@ -80,7 +97,8 @@ def getPost(request):
 @app.route('/', methods=FULL_METHODS)
 def l0():
     logging.info('lv0():')
-    return print_request(request, title='lv0():')
+    resp, mime_type = print_request(request, title='lv0():')
+    return Response(resp, mimetype=mime_type)
 
 
 @app.route('/testudp/', methods=FULL_METHODS)
@@ -103,8 +121,8 @@ def testudp():
                          socket.SOCK_DGRAM) # UDP
     server_address = (UDP_IP, int(UDP_PORT))
     sock.sendto(MESSAGE, server_address)
-    
-    return '{} ---- {}'.format(message, print_request(request, title="testudp():"))
+    resp, mime_type = print_request(request, title="testudp():")
+    return '{} ---- {}'.format(message, resp)
 
 
 @app.route('/ping/<host>/', methods=FULL_METHODS)
@@ -235,7 +253,8 @@ def redirect_absolute(protocol, domain, port):
 @app.route('/redirect/redirected', methods=FULL_METHODS)
 def redirected():
     logging.info('redirected(): 302')
-    return print_request(request, title="Redirected")
+    resp, mime_type = print_request(request, title="Redirected")
+    return Response(resp, mimetype=mime_type)
 
     
 @app.route('/<lv1>', methods=FULL_METHODS)
@@ -244,37 +263,43 @@ def l1(lv1):
         return ""
 
     logging.info('def l1(lv1):')
-    return print_request(request)
+    resp, mime_type = print_request(request)
+    return Response(resp, mimetype=mime_type)
 
 
 @app.route('/<lv1>/<lv2>', methods=FULL_METHODS)
 def l2(lv1, lv2):
     logging.info('def l2(lv1, lv2):')
-    return print_request(request)
+    resp, mime_type = print_request(request)
+    return Response(resp, mimetype=mime_type)
 
 
 @app.route('/<lv1>/<lv2>/<lv3>', methods=FULL_METHODS)
 def l3(lv1, lv2, lv3):
     logging.info('def l3(lv1, lv2, lv3):')
-    return print_request(request)
+    resp, mime_type = print_request(request)
+    return Response(resp, mimetype=mime_type)
 
 
 @app.route('/<lv1>/<lv2>/<lv3>/<lv4>', methods=FULL_METHODS)
 def l4(lv1, lv2, lv3, lv4):
     logging.info('def l4(lv1, lv2, lv3, lv4):')
-    return print_request(request)
+    resp, mime_type = print_request(request)
+    return Response(resp, mimetype=mime_type)
 
 
 @app.route('/<lv1>/<lv2>/<lv3>/<lv4>/<lv5>', methods=FULL_METHODS)
 def lv5(lv1, lv2, lv3, lv4, lv5):
     logging.info('lv5(lv1, lv2, lv3, lv4, lv5):')
-    return print_request(request)
+    resp, mime_type = print_request(request)
+    return Response(resp, mimetype=mime_type)
 
 
 @app.route('/<lv1>/<lv2>/<lv3>/<lv4>/<lv5>/<lv6>', methods=FULL_METHODS)
 def lv6(lv1, lv2, lv3, lv4, lv5, lv6):
     logging.info('lv6(lv1, lv2, lv3, lv4, lv5, lv6):')
-    return print_request(request)
+    resp, mime_type = print_request(request)
+    return Response(resp, mimetype=mime_type)
 
 
 if __name__ == "__main__":
