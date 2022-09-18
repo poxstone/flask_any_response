@@ -34,10 +34,15 @@ except (ValueError, NotImplementedError) as exc:
 
 
 def print_request(request, title="Response"):
-    
+    internal_ip = 'none'
+    try:
+        internal_ip = str(subprocess.check_output(["./script.sh", "ip address"]).decode("utf-8"))
+    except Exception as e:
+        print(e)
     response = f"""<h1>{title}</h1>
 <small>date_system = {str(datetime.datetime.now())}</small>
 <small>date_utc = {str(datetime.datetime.utcnow())}</small>
+<small>ip_address = {str(internal_ip)}</small>
 """
     
     for i in dir(request):
