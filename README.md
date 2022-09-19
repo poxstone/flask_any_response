@@ -207,10 +207,10 @@ for (let i=0;i<10;i++) { fetch(`${location.href}?i=${i}`); }
 - Interval request
 ```javascript
 /* Test req/s */
-var num_requests = 18;
-var sec_interval= 1*1000;
+var num_requests = 18;  // req per 1 sec
+var sec_interval= 1*1000; // each 1 sec
+var count_until = 180; // 180 sec
 var count = 0;
-var count_until = 1;
 var req_path = `${location.origin}/do/script/`;
 var req_cont =  {
   "headers": {"cache-control":"max-age=10000", "Content-Type":"application/json"},
