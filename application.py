@@ -36,8 +36,13 @@ except (ValueError, NotImplementedError) as exc:
 
 def print_request(request, title="Response"):
     internal_ip = 'none'
+    free_mem = 'none'
     try:
         internal_ip = str(subprocess.check_output(["./script.sh", "ip address"]).decode("utf-8"))
+    except Exception as e:
+        print(e)
+    try:
+        free_mem = str(subprocess.check_output(["./script.sh", "free -h"]).decode("utf-8"))
     except Exception as e:
         print(e)
     mime_type = "text/html"
@@ -61,6 +66,7 @@ def print_request(request, title="Response"):
 <small>date_utc = {str(datetime.datetime.utcnow())}</small>
 <small>mime_type = {str(mime_type)}</small>
 <small>ip_address = {str(internal_ip)}</small>
+<small>free_mem = {str(free_mem)}</small>dock
 """
     for i in dir(request):
         try:
