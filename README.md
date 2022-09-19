@@ -198,5 +198,7 @@ sc "curl '$URLlb "${URL1}";
 
 - (Setting up an internal HTTP(S) load balancer with Cloud Run)[https://console.cloud.google.com/net-services/loadbalancing/details/internalRegionalHttp/us-central1/urlmap-oscar-run-internal]
 
-
-# for (i=0;i<1000;i++) {fetch("http://34.149.217.136/");}
+## Browser requests test
+```javascript
+for (let i=0;i<10;i++) { fetch(`${location.href}?i=${i}`); }
+```
