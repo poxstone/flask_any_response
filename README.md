@@ -199,6 +199,23 @@ sc "curl '$URLlb "${URL1}";
 - (Setting up an internal HTTP(S) load balancer with Cloud Run)[https://console.cloud.google.com/net-services/loadbalancing/details/internalRegionalHttp/us-central1/urlmap-oscar-run-internal]
 
 ## Browser requests test
+- Simple request
 ```javascript
 for (let i=0;i<10;i++) { fetch(`${location.href}?i=${i}`); }
+```
+
+- Interval request
+```javascript
+/* Test req/s */
+var num_requests = 18;
+var sec_interval= 1*1000;
+var count = 0;
+var count_until = 1;
+var req_path = `${location.origin}/do/script/`;
+var req_cont =  {
+  "headers": {"cache-control":"max-age=10000", "Content-Type":"application/json"},
+  "method": "POST",
+  "body": JSON.stringify({messaje:'my_mesaje', command:'sleep 1'}),
+};
+setInterval(() => {for (let i=0;i<=num_requests;i++) {if (count <= count_until) { fetch(`${req_path}?i=${i}&c=${count}`, req_cont);count=i<num_requests?count:count+1;} } }, sec_interval);
 ```
