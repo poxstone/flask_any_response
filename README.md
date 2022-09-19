@@ -211,11 +211,20 @@ var num_requests = 18;  // req per 1 sec
 var sec_interval= 1*1000; // each 1 sec
 var count_until = 180; // 180 sec
 var count = 0;
+// simple request
+var req_path = `${location.origin}/my_page`;
+var req_cont =  {
+  "headers": {"cache-control":"max-age=10000"},
+  "method": "GET",
+};
+// great request
 var req_path = `${location.origin}/do/script/`;
 var req_cont =  {
   "headers": {"cache-control":"max-age=10000", "Content-Type":"application/json"},
   "method": "POST",
   "body": JSON.stringify({messaje:'my_mesaje', command:'sleep 1'}),
 };
+
+
 setInterval(() => {for (let i=0;i<=num_requests;i++) {if (count <= count_until) { fetch(`${req_path}?i=${i}&c=${count}`, req_cont);count=i<num_requests?count:count+1;} } }, sec_interval);
 ```
