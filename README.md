@@ -18,9 +18,9 @@ python3 application.py;
 docker build -t poxstone/flask_any_response .;
 docker push poxstone/flask_any_response;
 # local
-docker run --rm -it --net host -p 9090:9090 -p 7070:7070 -p 8080:8080 -p 5005:5005/udp -e GOOGLE_CLOUD_PROJECT="${GOOGLE_CLOUD_PROJECT}" poxstone/flask_any_response;
+docker run --rm -it --net host -p 80:80 -p 9090:9090/tcp -p 9191:9191 -p 8080:8080 -p 5005:5005/udp -e GOOGLE_CLOUD_PROJECT="${GOOGLE_CLOUD_PROJECT}" poxstone/flask_any_response;
 # production
-docker run -itd --pull=always --restart always --net host -e VERSION_DEP=MAIN -p 9090:9090 -p 7070:7070 -p 8080:8080 -p 5005:5005/udp -e GOOGLE_CLOUD_PROJECT="${GOOGLE_CLOUD_PROJECT}" poxstone/flask_any_response;
+docker run -itd --pull=always --restart always --net host -e VERSION_DEP=MAIN -p 9090:9090/tcp -p 80:80 -p 9191:9191 -p 8080:8080 -p 5005:5005/udp -e GOOGLE_CLOUD_PROJECT="${GOOGLE_CLOUD_PROJECT}" poxstone/flask_any_response;
 ```
 
 # to GCP by tag
