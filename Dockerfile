@@ -1,7 +1,11 @@
-FROM alpine:3.16.0
-#FROM alpine:latest
+#FROM alpine:3.16.0
+FROM nginx:stable-alpine-perl
 
 ENV APP_PORT=8080
+ENV PROXY_HTTP_PORT=9191
+ENV PROXY_TCP_PORT=9090
+ENV PROXY_REDIRECT_HTTP_HOST='http://localhost:8080/'
+ENV PROXY_REDIRECT_TCP_HOST='localhost:8080'
 ENV UDP_PORT=5005
 ENV GUNICORN_MODULE='application'
 ENV GUNICORN_CALLABLE='app'
@@ -18,7 +22,7 @@ ENV MSSQL_VERSION='17.5.2.1-1'
 
 
 RUN apk add --no-cache python3 ca-certificates\
-    && apk add nmap mysql-client redis lsblk curl tcpdump tar tmux bind-tools stress-ng \
+    && apk add nmap mysql-client redis lsblk curl tcpdump tar tmux bind-tools stress-ng vim \
     && python3 -m ensurepip \
     && pip3 install --upgrade pip gunicorn 
 #    && adduser -D -h $APP_PATH $GUNICORN_USER
@@ -46,13 +50,22 @@ RUN apk add --no-cache curl gnupg --virtual .build-dependencies -- && \
     echo y | apk add --allow-untrusted msodbcsql17_${MSSQL_VERSION}_amd64.apk mssql-tools_${MSSQL_VERSION}_amd64.apk && \
     # Deleting packages
     apk del .build-dependencies && rm -f msodbcsql*.sig mssql-tools*.apk && \
-    ln -s /opt/mssql-tools/bin/sqlcmd /usr/bin/sqlcmd && ln -s /opt/mssql-tools/bin/bcp /usr/bin/bcp
+    ln -s /opt/mssql-tools/bin/sqlcmd /usr/bin/sqlcmd && ln -s /opt/mssql-tools/bin/bcp /usr/bin/bcp; \
+    mkdir -p /etc/nginx/sites-enabled/ && mkdir -p /etc/nginx/sites-available/
 
 COPY ./ $APP_PATH
 
 RUN pip3 install -r $APP_PATH/requirements.txt --upgrade
 
+# config nginx
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY ./nginx/reverse-proxy.conf /etc/nginx/sites-available/reverse-proxy.conf
+RUN ln -s /etc/nginx/sites-available/reverse-proxy.conf /etc/nginx/sites-enabled/reverse-proxy.conf
+
 EXPOSE $APP_PORT
+EXPOSE $PROXY_HTTP_PORT
+EXPOSE ${PROXY_TCP_PORT}/tcp
 EXPOSE ${APP_PORT}/udp
 
 USER $GUNICORN_USER
