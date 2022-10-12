@@ -194,6 +194,44 @@ sc "curl -6 'http://[2600:1901:0:38c4::]:80'" "${URL}";
 sc "curl '$URLlb "${URL1}";
 ```
 
+## websocket
+- Browser: http://localhost:8080/web-socket.html?port=5678&host=localhost
+- nodejs: 
+  - `npm install -g wscat`
+  - `wscat -c "ws://localhost:5678"`
+
+```bash
+curl --include 
+     --no-buffer 
+     --header "Connection: Upgrade" \
+     --header "Upgrade: websocket" 
+     --header "Host: localhost:5678" 
+     --header "Origin: http://localhost:5678" 
+     --header "Sec-WebSocket-Key: SGVsbG8sIHdvcmxkIQ==" 
+     --header "Sec-WebSocket-Version: 13" 
+     "http://localhost:5678/"
+
+curl 'http://localhost:5678/' \
+  -H "Connection: Upgrade" \
+  -H 'Pragma: no-cache' \
+  -H 'Origin: http://localhost:5678' \
+  -H 'Sec-WebSocket-Key: IxtOwIPwOjTwA8OAGmtWSA==' \
+  -H 'Upgrade: websocket' \
+  -H 'Cache-Control: no-cache' \
+  -H 'Connection: Upgrade' \
+  -H 'Sec-WebSocket-Version: 13' \
+  -H 'Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits' \
+  --include \
+  --no-buffer \
+  --compressed \
+  --connect-timeout 300 \
+  --max-time 300 \
+  --output "websocket.txt";
+  # other TTY
+  tail -f websocket.txt;
+```
+
+
 ## Utils
 
 - (Setting up an internal HTTP(S) load balancer with Cloud Run)[https://console.cloud.google.com/net-services/loadbalancing/details/internalRegionalHttp/us-central1/urlmap-oscar-run-internal]

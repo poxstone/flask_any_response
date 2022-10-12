@@ -6,13 +6,13 @@ import datetime
 import subprocess
 import re
 from time import sleep
-from flask import Flask, request, redirect, url_for, Response
+from flask import Flask, request, redirect, url_for, Response, render_template
 # email
 import smtplib
 import sys
 
 logging.basicConfig(level=logging.DEBUG)
-application = app = Flask(__name__)
+application = app = Flask(__name__, template_folder=os.path.abspath('htmls'))
 ENV = os.environ
 FULL_METHODS = ['POST', 'GET', 'HEAD', 'PUT', 'DELETE']
 PATH_IGNORE = os.getenv('PATH_IGNORE', "favicon.ico,blank,echo.php,proxy.php")
@@ -262,6 +262,10 @@ def redirected():
     resp, mime_type = print_request(request, title="Redirected")
     return Response(resp, mimetype=mime_type)
 
+# test socket
+@app.route('/web-socket.html')
+def index():
+    return render_template('web-socket.html')
     
 @app.route('/<lv1>', methods=FULL_METHODS)
 def l1(lv1):

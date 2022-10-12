@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html><head><title>WebSocket test</title></head><body>
+<script>
+window.addEventListener("DOMContentLoaded", () => {
+  const messages = document.createElement("pre");
+  messages.innerHTML += `EXAMPLE GET: ${location.origin}${location.pathname}?port=5678&host=eltiempo.com\n`;
+  document.body.appendChild(messages);
+  const protocol = location.protocol == 'https:' ? 'wss' : 'ws';
+  host_search = location.search.match(/host=[-.a-z0-9]+/);
+  const host  = host_search ? host_search[0].split(/=/)[1] : location.hostname;
+  port_search = location.search.match(/port=[0-9]+/);
+  const port  = port_search ? port_search[0].split(/=/)[1] : '5678';
+  var websocket_location = `${protocol}://${host}:${port}/`;
+  
+  console.log('socket to connect:', websocket_location);
+  const websocket = new WebSocket(websocket_location);
+  websocket.onmessage = ({ data }) => {
+    messages.innerHTML += `${data}\n`;
+  };
+});
+</script>
+</body></html>

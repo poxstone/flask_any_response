@@ -5,3 +5,4 @@ __pycache__
 .git
 Dockerfile
 gke.yaml
+websocket.txt
