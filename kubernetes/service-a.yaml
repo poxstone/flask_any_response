@@ -6,15 +6,28 @@ spec:
   selector:
     app: flask-any-response-a
   ports:
-    - protocol: TCP
-      name: tcp
+    - name: tcp
+      protocol: TCP
       port: 8080
       targetPort: 8080
-    #- protocol: UDP
-      name: udp
-    #  port: 5005
-    #  targetPort: 5005
-  type: LoadBalancer
+    - name: proxyhttp
+      protocol: TCP
+      port: 9191
+      targetPort: 9191
+    - name: proxytcp
+      protocol: TCP
+      port: 9090
+      targetPort: 9090
+    - name: udp
+      protocol: UDP
+      port: 5005
+      targetPort: 5005
+    - name: ws
+      protocol: TCP
+      port: 5678
+      targetPort: 5678
+  #type: LoadBalancer
+  type: ClusterIP
   #type: NodePort
   selector:
     app: flask-any-response-a
