@@ -5,27 +5,10 @@ metadata:
     autoscaling.alpha.kubernetes.io/metrics: '[{"type":"Resource","resource":{"name":"memory","targetAverageUtilization":90}}]'
   name: flask-any-deployment-a
 spec:
-  maxReplicas: 3
-  minReplicas: 1
+  minReplicas: 2
+  maxReplicas: 12
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
     name: flask-any-deployment-a
-  targetCPUUtilizationPercentage: 90
-
----
-
-apiVersion: autoscaling/v1
-kind: HorizontalPodAutoscaler
-metadata:
-  annotations:
-    autoscaling.alpha.kubernetes.io/metrics: '[{"type":"Resource","resource":{"name":"memory","targetAverageUtilization":90}}]'
-  name: flask-any-deployment-a
-spec:
-  maxReplicas: 3
-  minReplicas: 1
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: flask-any-deployment-b
   targetCPUUtilizationPercentage: 90
