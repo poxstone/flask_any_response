@@ -28,7 +28,8 @@ FULL_METHODS = ['POST', 'GET', 'HEAD', 'PUT', 'DELETE']
 PATH_IGNORE = os.getenv('PATH_IGNORE', "favicon.ico,blank,echo.php,proxy.php")
 VERSION_DEP = os.getenv('VERSION_DEP', 'nover')
 GOOGLE_CLOUD_PROJECT = os.getenv('GOOGLE_CLOUD_PROJECT', '')
-REQUEST_LENGTH = os.getenv('REQUEST_LENGTH', '5')
+REQUEST_STR_LENGTH = os.getenv('REQUEST_STR_LENGTH', '5')
+SLEEP_TIME = os.getenv('SLEEP_TIME', '0')
 
 # gcp profiler
 """
@@ -45,7 +46,7 @@ except (ValueError, NotImplementedError) as exc:
 """
 
 def print_request(request, title="Response"):
-    str_request = f'{str_global}-{get_random_string(int(REQUEST_LENGTH))}'
+    str_request = f'{str_global}-{get_random_string(int(REQUEST_STR_LENGTH))}'
     internal_ip = 'none'
     free_mem = 'none'
     try:
@@ -89,9 +90,11 @@ def print_request(request, title="Response"):
     # trigger sleeptime
     try:
         sleep_time = int(request.args.get('sleep'))
-        print(f'{str_request}: - SLEEPING({sleep_time})...')
+        logging.info(f'{str_request}: - SLEEPING_FROM_GET({sleep_time})...')
         sleep(sleep_time)
     except:
+        logging.info(f'{str_request}: - SLEEPING_FROM_ENV({sleep_time})...')
+        sleep(int(SLEEP_TIME))
         pass
     message = '<pre>{}\n env = {}<pre>'.format(response,  ENV)
     message_code = ''
