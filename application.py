@@ -4,6 +4,8 @@ import logging
 import socket
 import datetime
 import subprocess
+import random
+import string
 import re
 from time import sleep
 from flask import Flask, request, redirect, url_for, Response, render_template
@@ -11,6 +13,14 @@ from flask import Flask, request, redirect, url_for, Response, render_template
 import smtplib
 import sys
 
+def get_random_string(length):
+    # choose from all lowercase letter
+    letters = string.ascii_lowercase
+    result_str = ''.join(random.choice(letters) for i in range(length))
+    return result_str
+
+str_global = get_random_string(3)
+print(f'INSTANCEID={str_global}')
 logging.basicConfig(level=logging.DEBUG)
 application = app = Flask(__name__, template_folder=os.path.abspath('htmls'))
 ENV = os.environ
@@ -18,6 +28,7 @@ FULL_METHODS = ['POST', 'GET', 'HEAD', 'PUT', 'DELETE']
 PATH_IGNORE = os.getenv('PATH_IGNORE', "favicon.ico,blank,echo.php,proxy.php")
 VERSION_DEP = os.getenv('VERSION_DEP', 'nover')
 GOOGLE_CLOUD_PROJECT = os.getenv('GOOGLE_CLOUD_PROJECT', '')
+REQUEST_LENGTH = os.getenv('REQUEST_LENGTH', '5')
 
 # gcp profiler
 """
@@ -33,8 +44,8 @@ except (ValueError, NotImplementedError) as exc:
     logging.info(f'ERROR_flaskanyresponse_profiler: {exc}')
 """
 
-
 def print_request(request, title="Response"):
+    str_request = f'{str_global}-{get_random_string(int(REQUEST_LENGTH))}'
     internal_ip = 'none'
     free_mem = 'none'
     try:
@@ -75,10 +86,19 @@ def print_request(request, title="Response"):
                 response = ('{}\n<b>{}</b> = {}'.format(response, key, getattr(request, key)))
         except Exception as e:
             print(e)
-    
+    # trigger sleeptime
+    try:
+        sleep_time = int(request.args.get('sleep'))
+        print(f'{str_request}: - SLEEPING({sleep_time})...')
+        sleep(sleep_time)
+    except:
+        pass
     message = '<pre>{}\n env = {}<pre>'.format(response,  ENV)
-    logging.info(message)
-    return message, mime_type
+    message_code = ''
+    for line in message.splitlines():
+        message_code += f'{str_request}: {line}\n'
+    logging.info(message_code)
+    return message_code, mime_type
 
 
 def ping(host, count='3'):
@@ -262,11 +282,13 @@ def redirected():
     resp, mime_type = print_request(request, title="Redirected")
     return Response(resp, mimetype=mime_type)
 
+
 # test socket
 @app.route('/web-socket.html')
 def index():
     return render_template('web-socket.html')
     
+
 @app.route('/<lv1>', methods=FULL_METHODS)
 def l1(lv1):
     if lv1 in PATH_IGNORE.split(','):
