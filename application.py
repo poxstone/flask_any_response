@@ -29,7 +29,7 @@ PATH_IGNORE = os.getenv('PATH_IGNORE', "favicon.ico,blank,echo.php,proxy.php")
 VERSION_DEP = os.getenv('VERSION_DEP', 'nover')
 GOOGLE_CLOUD_PROJECT = os.getenv('GOOGLE_CLOUD_PROJECT', '')
 REQUEST_STR_LENGTH = os.getenv('REQUEST_STR_LENGTH', '5')
-SLEEP_TIME = os.getenv('SLEEP_TIME', '0')
+SLEEP_TIME = os.getenv('SLEEP_TIME', '3')
 
 # gcp profiler
 """
@@ -93,7 +93,7 @@ def print_request(request, title="Response"):
         logging.info(f'{str_request}: - SLEEPING_FROM_GET({sleep_time})...')
         sleep(sleep_time)
     except:
-        logging.info(f'{str_request}: - SLEEPING_FROM_ENV({sleep_time})...')
+        logging.info(f'{str_request}: - SLEEPING_FROM_ENV({SLEEP_TIME})...')
         sleep(int(SLEEP_TIME))
         pass
     message = '<pre>{}\n env = {}<pre>'.format(response,  ENV)
