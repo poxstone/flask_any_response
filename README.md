@@ -129,6 +129,8 @@ export
 # levels
 curl -X GET "${URL}/lv1/lv2";
 curl -X POST "${URL}/lv1/lv2";
+# sleep in any get level or url
+curl -X GET "${URL}/lv1/lv2?sleep=10";
 
 # udp send
 curl -X GET "${URL}/testudp/?UDP_IP=127.0.0.1&UDP_PORT=5005&MESSAGE=hola";
