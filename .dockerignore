@@ -6,3 +6,5 @@ __pycache__
 Dockerfile
 gke.yaml
 websocket.txt
+*.bin
+filedowload*

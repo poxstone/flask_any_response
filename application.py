@@ -8,7 +8,7 @@ import random
 import string
 import re
 from time import sleep
-from flask import Flask, request, redirect, url_for, Response, render_template
+from flask import Flask, request, redirect, url_for, Response, render_template, send_file
 # email
 import smtplib
 import sys
@@ -30,6 +30,7 @@ VERSION_DEP = os.getenv('VERSION_DEP', 'nover')
 GOOGLE_CLOUD_PROJECT = os.getenv('GOOGLE_CLOUD_PROJECT', '')
 REQUEST_STR_LENGTH = os.getenv('REQUEST_STR_LENGTH', '5')
 SLEEP_TIME = os.getenv('SLEEP_TIME', '3')
+APP_PORT = os.getenv('APP_PORT', '8080')
 
 # gcp profiler
 """
@@ -290,6 +291,24 @@ def redirected():
 @app.route('/web-socket.html')
 def index():
     return render_template('web-socket.html')
+
+
+@app.route('/download/<size>')
+def downloadFile (size):
+    str_request = f'{str_global}-{get_random_string(int(REQUEST_STR_LENGTH))}'
+    file_prefix = 'filedowload'
+    file_name = f"{file_prefix}_{size}-{str_request}.bin"
+    logging.info(f'{str_request}: - downloadFile({file_name}): generating...')
+    try:
+        # remover previously files
+        res = str(subprocess.check_output(["./script.sh", f"rm -rf {file_prefix}*"]).decode("utf-8"))
+        # generate file 1M 1G...
+        res = str(subprocess.check_output(["./script.sh", f"fallocate -l {size} {file_name}"]).decode("utf-8"))
+    except Exception as e:
+        res = f'{str_request}: - COMMAND_ERROR: {str(e)}'
+    path = f"{file_name}"
+    logging.info(f'{str_request}: - Downloading...')
+    return send_file(path, as_attachment=True)
     
 
 @app.route('/<lv1>', methods=FULL_METHODS)
@@ -337,8 +356,15 @@ def lv6(lv1, lv2, lv3, lv4, lv5, lv6):
     return Response(resp, mimetype=mime_type)
 
 
+@app.route('/<lv1>/<lv2>/<lv3>/<lv4>/<lv5>/<lv6>', methods=FULL_METHODS)
+def lv7(lv1, lv2, lv3, lv4, lv5, lv6, lv7):
+    logging.info('lv6(lv1, lv2, lv3, lv4, lv5, lv6, lv7):')
+    resp, mime_type = print_request(request)
+    return Response(resp, mimetype=mime_type)
+
+
 if __name__ == "__main__":
-    app.run(debug=False, host="0.0.0.0", port="8080")
+    app.run(debug=False, host="0.0.0.0", port=APP_PORT)
 
 
 print("POXSTONE_LOG --- Flask Ended")

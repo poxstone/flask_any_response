@@ -3,3 +3,5 @@ venv/*
 __pycache__
 *.out
 websocket.txt
+*.bin
+filedowload*

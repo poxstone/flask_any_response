@@ -151,6 +151,9 @@ curl -X GET "${URL}/ping/8.8.8.8";
 curl -X GET "${URL}/my_file.css";
 # => mime_type = text/css
 
+# generate downloable file (1M | 1G | 1T...)
+curl -X GET "${URL}/download/1M" --output "bigfile.bin";
+
 # some bash commands by exec
 curl -X POST "${URL}/do/com/" -H "Content-Type: application/json" -d '{"command":["ping","-c","2","8.8.8.8"]}';
 curl -X POST "${URL}/do/com/" -H "Content-Type: application/json" -d '{"command":["nmap","localhost"]}';
