@@ -29,7 +29,7 @@ PATH_IGNORE = os.getenv('PATH_IGNORE', "favicon.ico,blank,echo.php,proxy.php")
 VERSION_DEP = os.getenv('VERSION_DEP', 'nover')
 GOOGLE_CLOUD_PROJECT = os.getenv('GOOGLE_CLOUD_PROJECT', '')
 REQUEST_STR_LENGTH = os.getenv('REQUEST_STR_LENGTH', '5')
-SLEEP_TIME = os.getenv('SLEEP_TIME', '3')
+SLEEP_TIME = os.getenv('SLEEP_TIME', '0')
 APP_PORT = os.getenv('APP_PORT', '8080')
 
 # gcp profiler

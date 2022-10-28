@@ -34,6 +34,8 @@ spec:
           value: 'vp.0.0.1a'
         - name: INIT_APP_TIME
           value: '0'
+        - name: SLEEP_TIME
+          value: '0'
         image: poxstone/flask_any_response:latest
         livenessProbe:
           failureThreshold: 2
