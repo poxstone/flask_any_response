@@ -2,6 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: flask-any-service-b
+  annotations:
+    beta.cloud.google.com/backend-config: '{"ports": {"8080":"flask-any-backendconfig-a"}}'
 spec:
   selector:
     app: flask-any-response-b
@@ -26,8 +28,8 @@ spec:
       protocol: TCP
       port: 5678
       targetPort: 5678
-  type: LoadBalancer
+  #type: LoadBalancer
   #type: ClusterIP
-  #type: NodePort
+  type: NodePort
   selector:
     app: flask-any-response-b
