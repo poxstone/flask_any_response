@@ -4,6 +4,8 @@ metadata:
   generation: 1
   name: flask-any-service-a-ingress
   namespace: default
+  annotations:
+    cloud.google.com/backend-config: '{"default": "flask-any-backendconfig-a"}'
 spec:
     defaultBackend:
       service:

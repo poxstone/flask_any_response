@@ -14,6 +14,8 @@ spec:
       labels:
         app: flask-any-response-a
     spec:
+      #nodeSelector:
+      #  cloud.google.com/gke-nodepool: nodepool-apps
       containers:
       - env:
         - name: APP_PORT

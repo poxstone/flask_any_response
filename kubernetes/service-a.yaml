@@ -4,7 +4,7 @@ metadata:
   name: flask-any-service-a
   annotations:
     beta.cloud.google.com/backend-config: '{"ports": {"8080":"flask-any-backendconfig-a"}}'
-
+    cloud.google.com/neg: '{"ingress": true}'
 spec:
   selector:
     app: flask-any-response-a

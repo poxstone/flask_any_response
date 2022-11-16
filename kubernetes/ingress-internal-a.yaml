@@ -6,6 +6,7 @@ metadata:
     networking.gke.io/load-balancer-type: "Internal"
 spec:
   type: LoadBalancer
+  #loadBalancerIP: 10.128.0.54
   externalTrafficPolicy: Cluster
   selector:
     app: flask-any-response-a
