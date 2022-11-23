@@ -47,6 +47,8 @@ spec:
           value: vp.0.0.1a
         - name: INIT_APP_TIME
           value: "0"
+        - name: LOGS_PRINT
+          value: 'true'
         image: poxstone/flask_any_response:latest
         livenessProbe:
           failureThreshold: 2

@@ -31,11 +31,12 @@ GOOGLE_CLOUD_PROJECT = os.getenv('GOOGLE_CLOUD_PROJECT', '')
 REQUEST_STR_LENGTH = os.getenv('REQUEST_STR_LENGTH', '5')
 SLEEP_TIME = os.getenv('SLEEP_TIME', '0')
 APP_PORT = os.getenv('APP_PORT', '8080')
+LOGS_PRINT = os.getenv('LOGS_PRINT', 'true')
 
 # gcp profiler
 """
 try:
-    logging.info(f'ERROR_vars_init: VERSION_DEP={VERSION_DEP} -- GOOGLE_CLOUD_PROJECT={GOOGLE_CLOUD_PROJECT}')
+    printing(f'ERROR_vars_init: VERSION_DEP={VERSION_DEP} -- GOOGLE_CLOUD_PROJECT={GOOGLE_CLOUD_PROJECT}')
     import googlecloudprofiler
     if GOOGLE_CLOUD_PROJECT:
         googlecloudprofiler.start(service='flask_any_response', service_version=VERSION_DEP, verbose=3, project_id=GOOGLE_CLOUD_PROJECT )
@@ -43,8 +44,14 @@ try:
         googlecloudprofiler.start(service='flask_any_response', service_version=VERSION_DEP, verbose=3)
 
 except (ValueError, NotImplementedError) as exc:
-    logging.info(f'ERROR_flaskanyresponse_profiler: {exc}')
+    printing(f'ERROR_flaskanyresponse_profiler: {exc}')
 """
+
+def printing(string):
+    if LOGS_PRINT.lower() == 'true':
+        logging.info(str(string))
+    return ''
+
 
 def print_request(request, title="Response"):
     str_request = f'{str_global}-{get_random_string(int(REQUEST_STR_LENGTH))}'
@@ -53,11 +60,11 @@ def print_request(request, title="Response"):
     try:
         internal_ip = str(subprocess.check_output(["./script.sh", "ip address"]).decode("utf-8"))
     except Exception as e:
-        print(e)
+        printing(e)
     try:
         free_mem = str(subprocess.check_output(["./script.sh", "free -h"]).decode("utf-8"))
     except Exception as e:
-        print(e)
+        printing(e)
     mime_type = "text/html"
     if re.match('.', request.path):
         path_ext = re.split(r'\.', request.path)[-1] 
@@ -87,21 +94,21 @@ def print_request(request, title="Response"):
             if not (key.startswith('_') or key.startswith('__')):
                 response = ('{}\n<b>{}</b> = {}'.format(response, key, getattr(request, key)))
         except Exception as e:
-            print(e)
+            printing(e)
     # trigger sleeptime
     try:
         sleep_time = int(request.args.get('sleep'))
-        logging.info(f'{str_request}: - SLEEPING_FROM_GET({sleep_time})...')
+        printing(f'{str_request}: - SLEEPING_FROM_GET({sleep_time})...')
         sleep(sleep_time)
     except:
-        logging.info(f'{str_request}: - SLEEPING_FROM_ENV({SLEEP_TIME})...')
+        printing(f'{str_request}: - SLEEPING_FROM_ENV({SLEEP_TIME})...')
         sleep(int(SLEEP_TIME))
         pass
     message = '<pre>{}\n env = {}<pre>'.format(response,  ENV)
     message_code = ''
     for line in message.splitlines():
         message_code += f'{str_request}: {line}\n'
-    logging.info(message_code)
+    printing(message_code)
     return message_code, mime_type
 
 
@@ -126,14 +133,14 @@ def getPost(request):
 
 @app.route('/', methods=FULL_METHODS)
 def l0():
-    logging.info('lv0():')
+    printing('lv0():')
     resp, mime_type = print_request(request, title='lv0():')
     return Response(resp, mimetype=mime_type)
 
 
 @app.route('/testudp/', methods=FULL_METHODS)
 def testudp():
-    logging.info('testudp():')
+    printing('testudp():')
     req_val = request.values
     try:
         UDP_IP = req_val.get('UDP_IP')
@@ -146,7 +153,7 @@ def testudp():
     
     message = '<pre>UDP_IP = {}\n UDP_PORT = {}\n MESSAGE = {}<pre>'\
                 .format(UDP_IP,  UDP_PORT, str(MESSAGE))
-    logging.info(message)
+    printing(message)
     sock = socket.socket(socket.AF_INET, # Internet
                          socket.SOCK_DGRAM) # UDP
     server_address = (UDP_IP, int(UDP_PORT))
@@ -157,7 +164,7 @@ def testudp():
 
 @app.route('/ping/<host>/', methods=FULL_METHODS)
 def doPing(host):
-    logging.info('doPing(host):')
+    printing('doPing(host):')
     count = request.args.get('count') if request.args.get('count') else '3'
     res = ping(host=host, count=count)
     return str(res)
@@ -170,17 +177,17 @@ def sendEmail(host, email, pwd):
         server.starttls()
         server.login(email,pwd)
         server.quit()
-        logging.info('command: ' + "loging")
-        print("loging")
+        printing('command: ' + "loging")
+        printing("loging")
         return str("loging")
     except Exception as e:
-        logging.info('command: ' + str(e))
+        printing('command: ' + str(e))
         return str(e)
 
 
 @app.route('/bucketlist/<project>', methods=FULL_METHODS)
 def bucketList(project):
-    logging.info('bucketList(project):')
+    printing('bucketList(project):')
     from googleapiclient.discovery import build
     from oauth2client.client import GoogleCredentials
 
@@ -192,38 +199,38 @@ def bucketList(project):
 
 @app.route('/do/com/', methods=['POST'])
 def doCom():
-    logging.info('doCom():')
+    printing('doCom():')
     command = getPost(request)
     if ('command' in command):
         res = str(subprocess.check_output(command['command']).decode("utf-8"))
         subprocess.check_output(['date'])
         sleep(1)
-        logging.info('command: ' + res)
+        printing('command: ' + res)
         return f"command: {command['command']} > response: \n {res}"
     return 'nothing to do'
 
 
 @app.route('/do/script/', methods=['POST'])
 def doScript():
-    logging.info('doScript():')
+    printing('doScript():')
     command = getPost(request)
     if ('command' in command):
         if type(command['command']) is not str:
             command['command'] = ' '.join(command['command'])
-        logging.info('command_to_do: ' + command['command'])
+        printing('command_to_do: ' + command['command'])
         try:
             res = str(subprocess.check_output(["./script.sh", command['command']]).decode("utf-8"))
         except Exception as e:
             res = f'COMMAND_ERROR: {str(e)}'
         subprocess.check_output(['date'])
-        logging.info('command: ' + res)
+        printing('command: ' + res)
         return f"command: {command['command']} > response: \n {res}"
     return 'nothing to do'
 
 
 @app.route('/requests/<protocol>/<domain>/<port>/', methods=FULL_METHODS)
 def requests(protocol, domain, port):
-    logging.info('requests(protocol, domain, port):')
+    printing('requests(protocol, domain, port):')
     import requests
     method = request.args.get('method').upper() if request.args.get('method') \
                                                 else request.method
@@ -267,13 +274,13 @@ def requests(protocol, domain, port):
 # relative dir
 @app.route('/redirect/relative', methods=FULL_METHODS)
 def redirect_relative():
-    logging.info('redirect_relative():')
+    printing('redirect_relative():')
     return redirect(url_for('redirected'))
 
 
 @app.route('/redirect/absolute/<protocol>/<domain>/<port>', methods=FULL_METHODS)
 def redirect_absolute(protocol, domain, port):
-    logging.info('redirect_absolute(protocol, domain, port):')
+    printing('redirect_absolute(protocol, domain, port):')
     path = request.args.get('path') if request.args.get('path') else ''
     path = path if path.startswith('/') else '/{}'.format(path)
     location = f'{protocol}://{domain}:{port}{path}'
@@ -282,7 +289,7 @@ def redirect_absolute(protocol, domain, port):
 
 @app.route('/redirect/redirected', methods=FULL_METHODS)
 def redirected():
-    logging.info('redirected(): 302')
+    printing('redirected(): 302')
     resp, mime_type = print_request(request, title="Redirected")
     return Response(resp, mimetype=mime_type)
 
@@ -298,7 +305,7 @@ def downloadFile (size):
     str_request = f'{str_global}-{get_random_string(int(REQUEST_STR_LENGTH))}'
     file_prefix = 'filedowload'
     file_name = f"{file_prefix}_{size}-{str_request}.bin"
-    logging.info(f'{str_request}: - downloadFile({file_name}): generating...')
+    printing(f'{str_request}: - downloadFile({file_name}): generating...')
     try:
         # remover previously files
         res = str(subprocess.check_output(["./script.sh", f"rm -rf {file_prefix}*"]).decode("utf-8"))
@@ -307,7 +314,7 @@ def downloadFile (size):
     except Exception as e:
         res = f'{str_request}: - COMMAND_ERROR: {str(e)}'
     path = f"{file_name}"
-    logging.info(f'{str_request}: - Downloading...')
+    printing(f'{str_request}: - Downloading...')
     return send_file(path, as_attachment=True)
     
 
@@ -316,49 +323,49 @@ def l1(lv1):
     if lv1 in PATH_IGNORE.split(','):
         return ""
 
-    logging.info('def l1(lv1):')
+    printing('def l1(lv1):')
     resp, mime_type = print_request(request)
     return Response(resp, mimetype=mime_type)
 
 
 @app.route('/<lv1>/<lv2>', methods=FULL_METHODS)
 def l2(lv1, lv2):
-    logging.info('def l2(lv1, lv2):')
+    printing('def l2(lv1, lv2):')
     resp, mime_type = print_request(request)
     return Response(resp, mimetype=mime_type)
 
 
 @app.route('/<lv1>/<lv2>/<lv3>', methods=FULL_METHODS)
 def l3(lv1, lv2, lv3):
-    logging.info('def l3(lv1, lv2, lv3):')
+    printing('def l3(lv1, lv2, lv3):')
     resp, mime_type = print_request(request)
     return Response(resp, mimetype=mime_type)
 
 
 @app.route('/<lv1>/<lv2>/<lv3>/<lv4>', methods=FULL_METHODS)
 def l4(lv1, lv2, lv3, lv4):
-    logging.info('def l4(lv1, lv2, lv3, lv4):')
+    printing('def l4(lv1, lv2, lv3, lv4):')
     resp, mime_type = print_request(request)
     return Response(resp, mimetype=mime_type)
 
 
 @app.route('/<lv1>/<lv2>/<lv3>/<lv4>/<lv5>', methods=FULL_METHODS)
 def lv5(lv1, lv2, lv3, lv4, lv5):
-    logging.info('lv5(lv1, lv2, lv3, lv4, lv5):')
+    printing('lv5(lv1, lv2, lv3, lv4, lv5):')
     resp, mime_type = print_request(request)
     return Response(resp, mimetype=mime_type)
 
 
 @app.route('/<lv1>/<lv2>/<lv3>/<lv4>/<lv5>/<lv6>', methods=FULL_METHODS)
 def lv6(lv1, lv2, lv3, lv4, lv5, lv6):
-    logging.info('lv6(lv1, lv2, lv3, lv4, lv5, lv6):')
+    printing('lv6(lv1, lv2, lv3, lv4, lv5, lv6):')
     resp, mime_type = print_request(request)
     return Response(resp, mimetype=mime_type)
 
 
 @app.route('/<lv1>/<lv2>/<lv3>/<lv4>/<lv5>/<lv6>', methods=FULL_METHODS)
 def lv7(lv1, lv2, lv3, lv4, lv5, lv6, lv7):
-    logging.info('lv6(lv1, lv2, lv3, lv4, lv5, lv6, lv7):')
+    printing('lv6(lv1, lv2, lv3, lv4, lv5, lv6, lv7):')
     resp, mime_type = print_request(request)
     return Response(resp, mimetype=mime_type)
 
@@ -367,4 +374,4 @@ if __name__ == "__main__":
     app.run(debug=False, host="0.0.0.0", port=APP_PORT)
 
 
-print("POXSTONE_LOG --- Flask Ended")
+printing("POXSTONE_LOG --- Flask Ended")

@@ -38,6 +38,8 @@ spec:
           value: '0'
         - name: SLEEP_TIME
           value: '0'
+        - name: LOGS_PRINT
+          value: 'true'
         image: poxstone/flask_any_response:latest
         livenessProbe:
           failureThreshold: 2
