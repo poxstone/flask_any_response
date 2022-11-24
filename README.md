@@ -251,7 +251,7 @@ ge -c 255 "${URL}";
 ```
 ```bash
 sudo apt-get install apache2-utils -y;
-ab -t 120 -n 50000 -c 1000 http://34.149.216.170/
+ab -t 120 -n 50000 -c 1000 "${URL}";
 ```
 ## Browser requests test
 - Simple request
