@@ -49,7 +49,8 @@ except (ValueError, NotImplementedError) as exc:
 
 def printing(string):
     if LOGS_PRINT.lower() == 'true':
-        logging.info(str(string))
+        #logging.info(str(string))
+        print(str(string))
     return ''
 
 
