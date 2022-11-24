@@ -246,9 +246,13 @@ curl 'http://localhost:5678/' \
 ```bash
 sudo apt install siege;
 # simule 255 concurrents users
-siege -c 255 "http://${URL}";
+sie
+ge -c 255 "${URL}";
 ```
-
+```bash
+sudo apt-get install apache2-utils -y;
+ab -t 120 -n 50000 -c 1000 http://34.149.216.170/
+```
 ## Browser requests test
 - Simple request
 ```javascript
