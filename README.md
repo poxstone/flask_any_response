@@ -37,7 +37,7 @@ gcloud builds submit --tag "gcr.io/${GOOGLE_CLOUD_PROJECT}/flask_any_response";
 ```
 - Publish
 ```bash
-docker push poxstone/flask_any_response:latest;
+docker push "poxstone/flask_any_response:latest";
 ```
 
 ## Kubernetes
@@ -61,11 +61,11 @@ cd ./istio;
 istioctl install;
 
 # inject istio in deployments
-istioctl kube-inject -f ../kubernetes/deployment-a.yaml -o ./deployment-a-withistio.yaml;
-istioctl kube-inject -f ../kubernetes/deployment-b.yaml -o ./deployment-b-withistio.yaml;
+istioctl kube-inject -f "../kubernetes/deployment-a.yaml" -o "./deployment-a-withistio.yaml";
+istioctl kube-inject -f "../kubernetes/deployment-b.yaml" -o "./deployment-b-withistio.yaml";
 
 # deploy
-kubectl apply -f ./;
+kubectl apply -f "./";
 ```
 
 ## App Engine
@@ -98,8 +98,8 @@ gcloud run deploy
 ### cloud run - Yaml
 ```bash
 cd cloudrun;
-gcloud run services replace service-flask-any-response-a.yaml --project "${GOOGLE_CLOUD_PROJECT}" --region us-central1;
-gcloud run services replace service-flask-any-response-b.yaml --project "${GOOGLE_CLOUD_PROJECT}" --region us-central1;
+gcloud run services replace "service-flask-any-response-a.yaml" --project "${GOOGLE_CLOUD_PROJECT}" --region "us-central1";
+gcloud run services replace "service-flask-any-response-b.yaml" --project "${GOOGLE_CLOUD_PROJECT}" --region "us-central1";
 ```
 
 ## Cloud build
@@ -107,7 +107,7 @@ gcloud run services replace service-flask-any-response-b.yaml --project "${GOOGL
 ### cloud build - commandline
 ```bash
 cd cloudrun;
-gcloud builds submit --config="./cloudbuild.yaml" --region "us-central1" --project "${GOOGLE_CLOUD_PROJECT}" --region us-central1;
+gcloud builds submit --config="./cloudbuild.yaml" --region "us-central1" --project "${GOOGLE_CLOUD_PROJECT}";
 ```
 
 
@@ -240,6 +240,14 @@ curl 'http://localhost:5678/' \
 ## Utils
 
 - (Setting up an internal HTTP(S) load balancer with Cloud Run)[https://console.cloud.google.com/net-services/loadbalancing/details/internalRegionalHttp/us-central1/urlmap-oscar-run-internal]
+
+## Linux requests test
+
+```bash
+sudo apt install siege;
+# simule 255 concurrents users
+siege -c 255 "http://${URL}";
+```
 
 ## Browser requests test
 - Simple request
