@@ -5,7 +5,7 @@
 replicaCount: 1
 
 containermap:
-- name: "APP_PORT"
+- name: "PORT"
   value: "8080"
 - name: "UDP_PORT"
   value: "5005" 

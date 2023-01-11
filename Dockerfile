@@ -1,7 +1,7 @@
 #FROM alpine:3.16.0
 FROM nginx:stable-alpine-perl
 
-ENV APP_PORT=8080
+ENV PORT=8080
 ENV PROXY_HTTP_PORT=9191
 ENV PROXY_TCP_PORT=9090
 ENV PROXY_REDIRECT_HTTP_HOST='http://localhost:8080/'
@@ -67,10 +67,10 @@ COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY ./nginx/reverse-proxy.conf /etc/nginx/sites-available/reverse-proxy.conf
 RUN ln -s /etc/nginx/sites-available/reverse-proxy.conf /etc/nginx/sites-enabled/reverse-proxy.conf
 
-EXPOSE $APP_PORT
+EXPOSE $PORT
 EXPOSE $PROXY_HTTP_PORT
 EXPOSE ${PROXY_TCP_PORT}/tcp
-EXPOSE ${APP_PORT}/udp
+EXPOSE ${PORT}/udp
 
 USER $GUNICORN_USER
 WORKDIR $APP_PATH

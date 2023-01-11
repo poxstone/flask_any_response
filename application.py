@@ -30,7 +30,7 @@ VERSION_DEP = os.getenv('VERSION_DEP', 'nover')
 GOOGLE_CLOUD_PROJECT = os.getenv('GOOGLE_CLOUD_PROJECT', '')
 REQUEST_STR_LENGTH = os.getenv('REQUEST_STR_LENGTH', '5')
 SLEEP_TIME = os.getenv('SLEEP_TIME', '0')
-APP_PORT = os.getenv('APP_PORT', '8080')
+PORT = os.getenv('PORT', '8080')
 LOGS_PRINT = os.getenv('LOGS_PRINT', 'true')
 
 # gcp profiler
@@ -372,7 +372,7 @@ def lv7(lv1, lv2, lv3, lv4, lv5, lv6, lv7):
 
 
 if __name__ == "__main__":
-    app.run(debug=False, host="0.0.0.0", port=APP_PORT)
+    app.run(debug=False, host="0.0.0.0", port=PORT)
 
 
 printing("POXSTONE_LOG --- Flask Ended")

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # delete nginx default service id use port 80
-if [[ "${APP_PORT}" == "80" || "${PROXY_HTTP_PORT}" == "80" || "${PROXY_TCP_PORT}" == "80" ]];then
+if [[ "${PORT}" == "80" || "${PROXY_HTTP_PORT}" == "80" || "${PROXY_TCP_PORT}" == "80" ]];then
     echo "" > /etc/nginx/conf.d/default.conf;
 fi;
 # run nginx
@@ -20,4 +20,4 @@ sleep "${INIT_APP_TIME}";
 python3 ./UDP/application.py & \
 python3 ./WEBSOCKET/websocket.py & \
 # python3 ./GCP_PROFILER/bench.py & \
-gunicorn --workers=$WORKERS --timeout=$TIMEOUT --bind 0.0.0.0:$APP_PORT $GUNICORN_MODULE:$GUNICORN_CALLABLE;
+gunicorn --workers=$WORKERS --timeout=$TIMEOUT --bind 0.0.0.0:$PORT $GUNICORN_MODULE:$GUNICORN_CALLABLE;
