@@ -1,8 +1,8 @@
 runtime: python39
-#entrypoint: uwsgi --http-socket :$PORT --wsgi-file application.py --callable app --master --processes 1 --threads 2
-entrypoint: uwsgi --wsgi-file application.py --callable app --master --processes 1 --threads 2
-#env_variables:
-#  PORT: "8080"
-#vpc_access_connector:
-#  name: projects/PROJECT_ID/locations/ZONE/connectors/VPC_SERVERLESS_NAME
-#  egress_setting: private-ip-ranges
+entrypoint: uwsgi --http-socket 0.0.0.0:$PORT --wsgi-file application.py --callable app --master --processes 1 --threads 2
+service: flask-any-response
+env_variables:
+  PORT: "8080"
+vpc_access_connector:
+  name: projects/carbide-booth-374422/locations/us-central1/connectors/vcp-serverless-us-central
+  egress_setting: private-ranges-only  # 'all-traffic' | 'private-ranges-only'
