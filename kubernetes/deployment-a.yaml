@@ -39,9 +39,12 @@ spec:
           value: '0'
         - name: SLEEP_TIME
           value: '0'
+        - name: LETS_TOKEN
+          value: ''
         - name: LOGS_PRINT
           value: 'true'
         image: poxstone/flask_any_response:latest
+        #imagePullPolicy: Always
         livenessProbe:
           failureThreshold: 2
           #tcpSocket:

@@ -32,6 +32,7 @@ REQUEST_STR_LENGTH = os.getenv('REQUEST_STR_LENGTH', '5')
 SLEEP_TIME = os.getenv('SLEEP_TIME', '0')
 PORT = os.getenv('PORT', '8080')
 LOGS_PRINT = os.getenv('LOGS_PRINT', 'true')
+lets_token = os.getenv('LETS_TOKEN', '')
 
 # gcp profiler
 """
@@ -317,6 +318,21 @@ def downloadFile (size):
     path = f"{file_name}"
     printing(f'{str_request}: - Downloading...')
     return send_file(path, as_attachment=True)
+
+
+# Lets encrypt
+@app.route('/.well-known/acme-challenge/<hash2>', methods=FULL_METHODS)
+def lets_encrypt(hash2):
+    #lets_token = "vBvxn5Lcwets4GsiBhnvzlpXz8O3Fw1F6pIeCnheJWU.8nbTZcTXCOMNdGffVilLuytrq7uDN8SOAMGubsIm1II"
+    printing(f'lets_encrypt(): {lets_token}')
+    return lets_token.strip()
+
+@app.route('/.well-known/acme-challenge/set/<hash1>', methods=FULL_METHODS)
+def sets_encrypt(hash1):
+    global lets_token
+    lets_token = hash1.strip()
+    printing(f'sets_encrypt(): {lets_token}')
+    return lets_token.strip()
     
 
 @app.route('/<lv1>', methods=FULL_METHODS)

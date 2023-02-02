@@ -34,11 +34,14 @@ spec:
           value: 'vp.0.0.1b'
         - name: INIT_APP_TIME
           value: '0'
+        - name: LETS_TOKEN
+          value: ''
         - name: SLEEP_TIME
           value: '0'
         - name: LOGS_PRINT
           value: 'true'
         image: poxstone/flask_any_response:latest
+        #imagePullPolicy: Always 
         livenessProbe:
           failureThreshold: 2
           #tcpSocket:

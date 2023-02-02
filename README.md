@@ -195,6 +195,12 @@ curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"comma
 -H "Authorization: Bearer ya29.a..."
 -H "Authorization: Basic bG9naW4..."
 
+# USE LETS ENCRIPT
+# set token with url (also you can use enviroment var LETS_TOKEN)
+curl -X GET "${URL}/.well-known/acme-challenge/set/my_return_t0k3nex4mpl3";
+# get token (let's encrypt service validate on public url)
+curl -X GET "${URL}/.well-known/acme-challenge/t0k3nex4mpl3.from_lets_encrypt";
+
 
 # function
 function sc { curl -X POST -kiL "${2}/do/script/" -H "Content-Type: application/json" -d "{\"command\":\"${1}\"}"; };
