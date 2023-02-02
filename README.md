@@ -28,8 +28,12 @@ docker run -itd --pull=always --restart always --net host -e VERSION_DEP=MAIN -p
 # loging
 gcloud auth configure-docker;
 # change tag (optional)
+# Container registry
 docker tag "poxstone/flask_any_response" "gcr.io/${GOOGLE_CLOUD_PROJECT}/flask_any_response";
 docker push "gcr.io/${GOOGLE_CLOUD_PROJECT}/flask_any_response";
+# Artifact registry
+docker tag "poxstone/flask_any_response" "us-east1-docker.pkg.dev/${GOOGLE_CLOUD_PROJECT}/repo/flask_any_response";
+docker push "us-east1-docker.pkg.dev/${GOOGLE_CLOUD_PROJECT}/repo/flask_any_response";
 
 # Build direct to GCP
 gcloud builds submit --tag "gcr.io/${GOOGLE_CLOUD_PROJECT}/flask_any_response";
