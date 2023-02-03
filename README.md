@@ -23,7 +23,7 @@ docker run --rm -it --net host -p 80:80 -p 9090:9090/tcp -p 9191:9191 -p 8080:80
 docker run -itd --pull=always --restart always --net host -e VERSION_DEP=MAIN -p 9090:9090/tcp -p 80:80 -p 9191:9191 -p 5678:5678 -p 8080:8080 -p 5005:5005/udp -e GOOGLE_CLOUD_PROJECT="${GOOGLE_CLOUD_PROJECT}" poxstone/flask_any_response;
 ```
 
-# to GCP by tag
+# To GCP by tag
 ```bash
 # loging
 gcloud auth configure-docker;
@@ -77,6 +77,7 @@ kubectl apply -f "./";
 ### appengine standard
 - [appengine standard](https://cloud.google.com/appengine/docs/standard/python3/runtime)
 - [hello_world](https://cloud.google.com/appengine/docs/standard/python3/runtime)
+- Uncomment "uwsgi==..." from **requirements.txt**
 
 ```bash
 gcloud app deploy --appyaml="app_standard.yaml" --project="${GOOGLE_CLOUD_PROJECT}"
@@ -202,7 +203,7 @@ sc "curl -6 'http://[2600:1901:0:38c4::]:80'" "${URL}";
 sc "curl '$URLlb "${URL1}";
 ```
 
-## websocket
+## Websocket
 - Browser: http://localhost:8080/web-socket.html?port=5678&host=localhost
 - nodejs: 
   - `npm install -g wscat`
@@ -286,13 +287,13 @@ var req_cont =  {
 
 setInterval(() => {for (let i=0;i<=num_requests;i++) {if (count <= count_until) { fetch(`${req_path}?i=${i}&c=${count}`, req_cont);count=i<num_requests?count:count+1;} } }, sec_interval);
 ```
-## Gernerate let's encrypt certs
+## Generate let's encrypt certs
 
 1. Run let´s encrypt code (cloud shell works)
 ```bash
 export MY_DOMAIN="my.domain.com";
 # create alias
-alias cerbot="docker run --rm -it -p 443:443 -v $HOME/cerbot:/etc/letsencrypt -v $HOME/cerbot/log:/var/log/letsencrypt quay.io/letsencrypt/letsencrypt:latest";
+alias cerbot="docker run --rm -it -p 443:443 -v ${HOME}/cerbot:/etc/letsencrypt -v ${HOME}/cerbot/log:/var/log/letsencrypt quay.io/letsencrypt/letsencrypt:latest";
 cerbot certonly --manual -d "${MY_DOMAIN}";
 # Follow instructions...
 ```
@@ -300,9 +301,10 @@ cerbot certonly --manual -d "${MY_DOMAIN}";
 ```bash
 # USE LETS ENCRIPT
 # set token with url (also you can use enviroment var LETS_TOKEN)
-curl -X GET "${URL}/.well-known/acme-challenge/set/my_return_t0k3nex4mpl3";
+curl -X GET "http://${MY_DOMAIN}/.well-known/acme-challenge/set/my_return_t0k3nex4mpl3";
 # get token (let's encrypt service validate on public url)
-curl -X GET "${URL}/.well-known/acme-challenge/t0k3nex4mpl3.from_lets_encrypt";
+curl -X GET "http://${MY_DOMAIN}/.well-known/acme-challenge/t0k3nex4mpl3.from_lets_encrypt";
+# output: > my_return_t0k3nex4mpl3
 ```
 3. Go back first TTY and 
 ```bash
@@ -317,8 +319,8 @@ cd ./cerbot/archive/${MY_DOMAIN}/;
 5. Keys for kubernetes secret (secret-ssl-flask-any-service)
 ```bash
 # tls.crt and tls.key
-ln -s ./cert1.pem tls.crt;
-ln -s ./privkey1.pem tls.key;
+ln -s ./cert1.pem "tls.crt";
+ln -s ./privkey1.pem "tls.key";
 
 kubectl create secret generic ssl-temp --from-file="./tls.crt" --from-file="./tls.key";
 # get keys
@@ -326,7 +328,7 @@ kubectl get secrets temp -o yaml;
 ```
 6. Paste base64 values **tls.crt** and **tls.key** into **secret-ssl-a.yaml** and deploy with kubectl
 ```bash
-kubectl applly -f secret-ssl-a.yaml;
+kubectl applly -f "secret-ssl-a.yaml";
 ```
 7. Edit ingress-a.yaml and ensure:
 ```yaml
@@ -338,8 +340,10 @@ spec:
     secretName: secret-ssl-flask-any-service
 ...
 ```
-8. Apply ingress
+8. Apply ingress and wait
 ```bash
-kubectl applly -f ingress-a.yaml;
+kubectl applly -f "ingress-a.yaml";
+# get ingress status
+kubectl describe ingress flask-any-service-a-ingress;
 ```
 

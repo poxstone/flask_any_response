@@ -1,9 +1,10 @@
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
+  name: flask-any-deployment-a
+  namespace: default
   #annotations:
   #  autoscaling.alpha.kubernetes.io/metrics: '[{"type":"Resource","resource":{"name":"memory","targetAverageUtilization":90}}]'
-  name: flask-any-deployment-a
 spec:
   minReplicas: 2
   maxReplicas: 12

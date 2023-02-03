@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: flask-any-service-b
+  namespace: default
   #annotations:
   #  beta.cloud.google.com/backend-config: '{"ports": {"8080":"flask-any-backendconfig-a"}}'
 spec:

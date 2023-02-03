@@ -1,9 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: flask-any-deployment-a
+  namespace: default
   labels:
     app: flask-any-response-a
-  name: flask-any-deployment-a
 spec:
   replicas: 1
   selector:

@@ -2,6 +2,7 @@ apiVersion: cloud.google.com/v1
 kind: BackendConfig
 metadata:
   name: flask-any-backendconfig-a
+  namespace: default
 spec:
   timeoutSec: 300
   logging:  # https://cloud.google.com/kubernetes-engine/docs/how-to/ingress-features#http_logging
