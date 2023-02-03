@@ -4,11 +4,28 @@ metadata:
   generation: 1
   name: flask-any-service-a-ingress
   namespace: default
-  #annotations:
-  #  cloud.google.com/backend-config: '{"default": "flask-any-backendconfig-a"}'
+# annotations:
+#   networking.gke.io/managed-certificates: "flask1-poxsilver5-store-google"  # https://cloud.google.com/kubernetes-engine/docs/how-to/ingress-multi-ssl#specifying_certificates_for_your_ingress
+#   cloud.google.com/backend-config: '{"default": "flask-any-backendconfig-a"}'
+#   kubernetes.io/ingress.global-static-ip-name: "web-static-ip-name"  # https://cloud.google.com/kubernetes-engine/docs/tutorials/http-balancer#optional_configuring_a_static_ip_address
 spec:
-    defaultBackend:
-      service:
-        name: flask-any-service-a
-        port:
-          number: 8080
+  tls:
+  - hosts:
+    - my.domain.com
+    secretName: secret-ssl-flask-any-service
+
+  defaultBackend:
+    service:
+      name: flask-any-service-a
+      port:
+        number: 8080
+  rules:
+  - host: my.domain.com
+    http:
+      paths:
+      - pathType: ImplementationSpecific
+        backend:
+          service:
+            name: flask-any-service-a
+            port:
+              number: 8080

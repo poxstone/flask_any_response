@@ -195,13 +195,6 @@ curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"comma
 -H "Authorization: Bearer ya29.a..."
 -H "Authorization: Basic bG9naW4..."
 
-# USE LETS ENCRIPT
-# set token with url (also you can use enviroment var LETS_TOKEN)
-curl -X GET "${URL}/.well-known/acme-challenge/set/my_return_t0k3nex4mpl3";
-# get token (let's encrypt service validate on public url)
-curl -X GET "${URL}/.well-known/acme-challenge/t0k3nex4mpl3.from_lets_encrypt";
-
-
 # function
 function sc { curl -X POST -kiL "${2}/do/script/" -H "Content-Type: application/json" -d "{\"command\":\"${1}\"}"; };
 # ping ipv6
@@ -293,3 +286,60 @@ var req_cont =  {
 
 setInterval(() => {for (let i=0;i<=num_requests;i++) {if (count <= count_until) { fetch(`${req_path}?i=${i}&c=${count}`, req_cont);count=i<num_requests?count:count+1;} } }, sec_interval);
 ```
+## Gernerate let's encrypt certs
+
+1. Run let´s encrypt code (cloud shell works)
+```bash
+export MY_DOMAIN="my.domain.com";
+# create alias
+alias cerbot="docker run --rm -it -p 443:443 -v $HOME/cerbot:/etc/letsencrypt -v $HOME/cerbot/log:/var/log/letsencrypt quay.io/letsencrypt/letsencrypt:latest";
+cerbot certonly --manual -d "${MY_DOMAIN}";
+# Follow instructions...
+```
+2. In another TTY or Browser: Set and get hash/token lets encrypt ${URL} has ${MY_DOMAIN}
+```bash
+# USE LETS ENCRIPT
+# set token with url (also you can use enviroment var LETS_TOKEN)
+curl -X GET "${URL}/.well-known/acme-challenge/set/my_return_t0k3nex4mpl3";
+# get token (let's encrypt service validate on public url)
+curl -X GET "${URL}/.well-known/acme-challenge/t0k3nex4mpl3.from_lets_encrypt";
+```
+3. Go back first TTY and 
+```bash
+sudo chown -R "$(id -u):$(id -g)" ./cerbot;
+cd ./cerbot/archive/${MY_DOMAIN}/;
+```
+4. Keys into folder:
+  - **cert1.pem** (cert.pem, tls.crt): PEM encoded X.509 public key, certificate. Into kubernetes secret values are **tls.crt** but in base 64
+  - **chain1.pem** (chain.pem): 
+  - **fullchain1.pem** (fullchain.pem): 
+  - **privkey1.pem** (privkey.pem, tls.key): unencrypted PEM encoded RSA, private key. Into kubernetes secret values are **tls.key** but in base 64
+5. Keys for kubernetes secret (secret-ssl-flask-any-service)
+```bash
+# tls.crt and tls.key
+ln -s ./cert1.pem tls.crt;
+ln -s ./privkey1.pem tls.key;
+
+kubectl create secret generic ssl-temp --from-file="./tls.crt" --from-file="./tls.key";
+# get keys
+kubectl get secrets temp -o yaml;
+```
+6. Paste base64 values **tls.crt** and **tls.key** into **secret-ssl-a.yaml** and deploy with kubectl
+```bash
+kubectl applly -f secret-ssl-a.yaml;
+```
+7. Edit ingress-a.yaml and ensure:
+```yaml
+...
+spec:
+  tls:
+  - hosts:
+    - my.domain.com
+    secretName: secret-ssl-flask-any-service
+...
+```
+8. Apply ingress
+```bash
+kubectl applly -f ingress-a.yaml;
+```
+
