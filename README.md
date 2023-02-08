@@ -324,7 +324,7 @@ ln -s ./privkey1.pem "tls.key";
 
 kubectl create secret generic ssl-temp --from-file="./tls.crt" --from-file="./tls.key";
 # get keys
-kubectl get secrets temp -o yaml;
+kubectl get secrets ssl-temp -o yaml;
 ```
 6. Paste base64 values **tls.crt** and **tls.key** into **secret-ssl-a.yaml** and deploy with kubectl
 ```bash
