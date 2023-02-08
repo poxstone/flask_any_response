@@ -1,7 +1,6 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  generation: 1
   name: flask-any-service-a-ingress
   namespace: default
 # annotations:
