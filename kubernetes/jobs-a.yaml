@@ -1,0 +1,18 @@
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: flask-any-job-a-1
+  namespace: default
+spec:
+  template:
+    spec:
+      containers:
+      - name: flask-any-job-response-a
+        image: poxstone/flask_any_response:latest
+        command: ["stress-ng",  "--cpu", "1", "-t", "3m", "--vm-bytes", "128M"]
+        env:
+          - name: ENTRYPOINT
+            value: 'stress-ng --cpu 1 -t 3m --vm-bytes 128M'
+      restartPolicy: Never
+  backoffLimit: 4

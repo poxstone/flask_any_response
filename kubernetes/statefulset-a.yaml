@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: flask-any-statefulset-a
+  name: flask-statefulset-any-a
   namespace: default
   labels:
     app: flask-statefulset-any-response-a
@@ -23,8 +23,8 @@ spec:
       #terminationGracePeriodSeconds: 10
       containers:
       - env:
-        - name: ENTRYPOINT
-          value: 'stress-ng --cpu 1 -t 3m --vm-bytes 128M'
+        #- name: ENTRYPOINT
+        #  value: 'stress-ng --cpu 1 -t 3m --vm-bytes 128M'
         - name: PORT
           value: '8080'
         - name: UDP_PORT
