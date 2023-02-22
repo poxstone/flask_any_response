@@ -1,0 +1,24 @@
+
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: flask-any-cronjob-a-1
+  namespace: default
+spec:
+  schedule: "1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          #nodeSelector:
+          #  cloud.google.com/gke-nodepool: nodepool-apps
+          #  process: bigExtraPapa
+          containers:
+          - name: flask-any-cronjob-response-a
+            image: poxstone/flask_any_response:latest
+            command: ["stress-ng",  "--cpu", "1", "-t", "3m", "--vm-bytes", "128M"]
+            env:
+              - name: ENTRYPOINT
+                value: 'stress-ng --cpu 1 -t 3m --vm-bytes 128M'
+          restartPolicy: OnFailure
+      backoffLimit: 4

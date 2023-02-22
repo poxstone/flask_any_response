@@ -7,6 +7,9 @@ metadata:
 spec:
   template:
     spec:
+      #nodeSelector:
+      #  cloud.google.com/gke-nodepool: nodepool-apps
+      #  process: bigExtraPapa
       containers:
       - name: flask-any-job-response-a
         image: poxstone/flask_any_response:latest
