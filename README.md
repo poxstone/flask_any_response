@@ -45,6 +45,17 @@ docker push "poxstone/flask_any_response:latest";
 ```
 
 ## Kubernetes
+
+- Derraform (update PROJECT_ID variable)
+```bash
+cd terraform;
+export TF_VAR_PROJECT_ID="${GOOGLE_CLOUD_PROJECT}";
+terraform init;
+terraform apply;
+gcloud container clusters get-credentials "gke-cluster-flask-01" --zone "us-east1-b" --project "${GOOGLE_CLOUD_PROJECT}";
+
+```
+- Deploy
 ```bash
 cd kubernetes;
 kubectl apply -f ./;

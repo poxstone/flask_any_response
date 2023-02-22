@@ -1,7 +1,12 @@
 venv/*
 *.pyc
+sw[mnop]
 __pycache__
 *.out
 websocket.txt
 *.bin
 filedowload*
+.terraform
+credentials*
+venv/*
+*.tfstate*
