@@ -1,4 +1,12 @@
 #!/bin/sh
+echo "CONTAINER_TIME_INIT: $(date)";
+# If ENTRYPOINT VAR is manual set
+if [[ "${ENTRYPOINT}" != "" ]];then
+  echo "COMMAND_RUN: -- ${ENTRYPOINT}";
+  sh $APP_PATH/script.sh ${ENTRYPOINT} && echo "COMMAND_RUN: FINISHED" || echo "COMMAND_RUN: END_WITH_ERRORS";
+  echo "CONTAINER_TIME_END: $(date)";
+  exit 0;
+fi;
 
 # delete nginx default service id use port 80
 if [[ "${PORT}" == "80" || "${PROXY_HTTP_PORT}" == "80" || "${PROXY_TCP_PORT}" == "80" ]];then
@@ -17,7 +25,9 @@ nohup nginx &
 cd $APP_PATH;
 # run udp and gunicorn
 sleep "${INIT_APP_TIME}";
+echo "CONTAINER_TIME_PY_INIT: $(date)";
 python3 ./UDP/application.py & \
 python3 ./WEBSOCKET/websocket.py & \
 # python3 ./GCP_PROFILER/bench.py & \
 gunicorn --workers=$WORKERS --timeout=$TIMEOUT --bind 0.0.0.0:$PORT $GUNICORN_MODULE:$GUNICORN_CALLABLE;
+echo "CONTAINER_TIME_PY_END: $(date)";

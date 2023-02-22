@@ -5,3 +5,6 @@ __pycache__
 .git
 *.bin
 filedowload*
+.terraform
+credentials*
+*.tfstate*

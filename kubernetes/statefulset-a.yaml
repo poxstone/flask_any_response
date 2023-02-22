@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: flask-any-statefulset-a
+  namespace: default
+  labels:
+    app: flask-statefulset-any-response-a
+spec:
+  replicas: 3
+  serviceName: flask-statefulset-any-response-a
+  minReadySeconds: 30
+  selector:
+    matchLabels:
+      app: flask-statefulset-any-response-a
+  template:
+    metadata:
+      labels:
+        app: flask-statefulset-any-response-a
+    spec:
+      #nodeSelector:
+      #  cloud.google.com/gke-nodepool: nodepool-apps
+      #  process: bigExtraPapa
+      #terminationGracePeriodSeconds: 10
+      containers:
+      - env:
+        - name: ENTRYPOINT
+          value: 'stress-ng --cpu 1 -t 3m --vm-bytes 128M'
+        - name: PORT
+          value: '8080'
+        - name: UDP_PORT
+          value: '5005'
+        - name: PROXY_HTTP_PORT
+          value: '9191'
+        - name: PROXY_TCP_PORT
+          value: '9090'
+        - name: WEBSOCKET_PORT
+          value: '5678'
+        - name: WORKERS
+          value: '3'
+        - name: TIMEOUT
+          value: '120'
+        - name: VERSION_DEP
+          value: 'vp.0.0.1a'
+        - name: INIT_APP_TIME
+          value: '0'
+        - name: SLEEP_TIME
+          value: '0'
+        - name: LETS_TOKEN
+          value: ''
+        - name: LOGS_PRINT
+          value: 'true'
+        image: poxstone/flask_any_response:latest
+        #imagePullPolicy: Always
+        livenessProbe:
+          failureThreshold: 2
+          #tcpSocket:
+          httpGet:
+            path: /index.html
+            port: 8080
+            scheme: HTTP
+          #exec:
+          #  command:
+          #  - sleep
+          #  - 10
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          successThreshold: 1
+          timeoutSeconds: 3
+        name: flask-statefulset-any-response-a
+        ports:
+        - containerPort: 8080
+        - containerPort: 5005
+        - containerPort: 5678
+        - containerPort: 9191
+        - containerPort: 9090
+        resources:
+          limits:
+            cpu: 500m
+            memory: 256Mi
+          requests:
+            cpu: 250m
+            memory: 128Mi

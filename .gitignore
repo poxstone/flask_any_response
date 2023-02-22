@@ -8,5 +8,4 @@ websocket.txt
 filedowload*
 .terraform
 credentials*
-venv/*
 *.tfstate*

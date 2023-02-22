@@ -387,6 +387,8 @@ def lv7(lv1, lv2, lv3, lv4, lv5, lv6, lv7):
     return Response(resp, mimetype=mime_type)
 
 
+printing(f'INIT_TIME_APP_PY_: {str(datetime.datetime.now())}')
+
 if __name__ == "__main__":
     app.run(debug=False, host="0.0.0.0", port=PORT)
 

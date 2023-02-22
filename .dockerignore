@@ -8,3 +8,6 @@ gke.yaml
 websocket.txt
 *.bin
 filedowload*
+.terraform
+credentials*
+*.tfstate*
