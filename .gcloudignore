@@ -8,3 +8,4 @@ filedowload*
 .terraform
 credentials*
 *.tfstate*
+websocket.txt
