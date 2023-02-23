@@ -15,7 +15,7 @@ spec:
     name: "policy-app-02"
   cdn:  # https://cloud.google.com/kubernetes-engine/docs/how-to/ingress-features
     enabled: true
-  iap:  # its only apply if cdn is disabled or configure it in another configbackend
-    enabled: true
-    oauthclientCredentials:
-      secretName: my-secret
+  #iap:  # its only apply if cdn is disabled or configure it in another configbackend
+  #  enabled: true
+  #  oauthclientCredentials:
+  #    secretName: my-secret

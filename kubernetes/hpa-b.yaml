@@ -1,7 +1,7 @@
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: flask-any-deployment-a
+  name: flask-any-deployment-b
   namespace: default
   #annotations:
   #  autoscaling.alpha.kubernetes.io/metrics: '[{"type":"Resource","resource":{"name":"memory","targetAverageUtilization":90}}]'
@@ -11,5 +11,5 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: flask-any-deployment-a
+    name: flask-any-deployment-b
   targetCPUUtilizationPercentage: 60

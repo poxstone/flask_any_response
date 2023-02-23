@@ -6,7 +6,7 @@ metadata:
   labels:
     app: flask-any-response-b
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: flask-any-response-b
@@ -15,6 +15,9 @@ spec:
       labels:
         app: flask-any-response-b
     spec:
+      nodeSelector:
+        #cloud.google.com/gke-nodepool: nodepool-apps
+        process: medium
       containers:
       - env:
         - name: PORT
@@ -28,7 +31,7 @@ spec:
         - name: WEBSOCKET_PORT
           value: '5678'
         - name: WORKERS
-          value: '3'
+          value: '3'  # this increase ram required
         - name: TIMEOUT
           value: '120'
         - name: VERSION_DEP
@@ -40,7 +43,7 @@ spec:
         - name: SLEEP_TIME
           value: '0'
         - name: LOGS_PRINT
-          value: 'true'
+          value: 'false'
         image: poxstone/flask_any_response
         #imagePullPolicy: Always 
         livenessProbe:
@@ -82,7 +85,7 @@ spec:
           timeoutSeconds: 3
         resources:
           limits:
-            cpu: 400m
+            cpu: 500m
             memory: 256Mi
           requests:
             cpu: 250m

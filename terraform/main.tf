@@ -113,6 +113,28 @@ resource "google_container_node_pool" "nodepool_preemptible_small" {
   }
   autoscaling {
       min_node_count = 0
-      max_node_count = 5
+      max_node_count = 20
+  }
+}
+
+resource "google_container_node_pool" "nodepool_preemptible_small2" {
+  name       = "nodepool-${var.PREFIX_APP}-e2-medium-preemptible2"
+  cluster    = google_container_cluster.gke_cluster1.id
+  node_count = 1
+
+  node_config {
+    preemptible  = true
+    machine_type = "e2-standard-2"
+    tags = []
+
+    # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
+    #service_account = google_service_account.default.email
+    oauth_scopes = [
+      "https://www.googleapis.com/auth/cloud-platform"
+    ]
+  }
+  autoscaling {
+      min_node_count = 0
+      max_node_count = 20
   }
 }
