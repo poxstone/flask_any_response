@@ -12,7 +12,7 @@ spec:
       #  process: bigExtraPapa
       containers:
       - name: flask-any-job-response-a
-        image: poxstone/flask_any_response:latest
+        image: poxstone/flask_any_response
         command: ["stress-ng",  "--cpu", "1", "-t", "3m", "--vm-bytes", "128M"]
         env:
           - name: ENTRYPOINT

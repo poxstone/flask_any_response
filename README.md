@@ -359,4 +359,3 @@ kubectl applly -f "ingress-a.yaml";
 # get ingress status
 kubectl describe ingress flask-any-service-a-ingress;
 ```
-

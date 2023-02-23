@@ -43,8 +43,8 @@ spec:
         - name: LETS_TOKEN
           value: ''
         - name: LOGS_PRINT
-          value: 'true'
-        image: poxstone/flask_any_response:latest
+          value: 'false'
+        image: poxstone/flask_any_response
         #imagePullPolicy: Always
         livenessProbe:
           failureThreshold: 2

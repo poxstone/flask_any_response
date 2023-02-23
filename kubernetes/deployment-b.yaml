@@ -41,7 +41,7 @@ spec:
           value: '0'
         - name: LOGS_PRINT
           value: 'true'
-        image: poxstone/flask_any_response:latest
+        image: poxstone/flask_any_response
         #imagePullPolicy: Always 
         livenessProbe:
           failureThreshold: 2

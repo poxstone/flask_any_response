@@ -49,7 +49,7 @@ spec:
           value: "0"
         - name: LOGS_PRINT
           value: 'true'
-        image: poxstone/flask_any_response:latest
+        image: poxstone/flask_any_response
         livenessProbe:
           failureThreshold: 2
           httpGet:
