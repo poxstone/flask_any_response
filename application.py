@@ -99,12 +99,12 @@ def print_request(request, title="Response"):
             printing(e)
     # trigger sleeptime
     try:
-        sleep_time = int(request.args.get('sleep'))
+        sleep_time = float(request.args.get('sleep'))
         printing(f'{str_request}: - SLEEPING_FROM_GET({sleep_time})...')
         sleep(sleep_time)
     except:
         printing(f'{str_request}: - SLEEPING_FROM_ENV({SLEEP_TIME})...')
-        sleep(int(SLEEP_TIME))
+        sleep(float(SLEEP_TIME))
         pass
     message = '<pre>{}\n env = {}<pre>'.format(response,  ENV)
     message_code = ''
