@@ -162,6 +162,13 @@ curl -X POST "${URL}/requests/https/jsonplaceholder.typicode.com/443/?path=/post
 # note remove scape slash for browser
 # proxy request POST with GET test API (parameter method=POST body=\{\"hola\":\"mundo\"\})
 curl -X GET "${URL}/requests/https/jsonplaceholder.typicode.com/443/?path=/posts&method=POST&body=\{\"hola\":\"mundo\"\}&headers=\{\"Content-Type\":\"application/json\"\}";
+# get token
+curl -X GET "${URL}/requests/http/metadata.google.internal/80/?path=/computeMetadata/v1/instance/service-accounts/default/token&method=GET&headers=\{\"Content-Type\":\"application/json\",\"Metadata-Flavor\":\"Google\"\}";
+# get vm lists: /requests/https/compute.googleapis.com/443/?path=/compute/v1/projects/my-gcp-project/zones/us-east1-b/instances&method=GET&headers={"Content-Type":"application/json","Authorization":"Bearer ya29.c...."}
+curl -X GET "${URL}/requests/https/compute.googleapis.com/443/?path=/compute/v1/projects/${GOOGLE_CLOUD_PROJECT}/zones/us-east1-b/instances&method=GET&headers=\{\"Content-Type\":\"application/json\",\"Authorization\":\"Bearer%20ya29.c...\"\}";
+
+
+curl -X POST "${URL}/do/script/" -H "Content-Type: application/json"  -d '{"command":"curl  -H \"Metadata-Flavor: Google\" http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token"}'
 # proxy request POST with GET test API (parameter method=GET https://jsonplaceholder.typicode.com:443/comments?params=postId=1,sort=first)
 curl -X GET "${URL}/requests/https/jsonplaceholder.typicode.com/443/?path=/comments&method=GET&params=postId=1,sort=first";
 
