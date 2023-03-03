@@ -159,8 +159,11 @@ curl -X GET "${URL}/requests/https/eltiempo.com/443/?path=/opinion/columnistas/m
 # proxy request POST test API (curl -k -X POST https://jsonplaceholder.typicode.com/posts -H "Content-Type: application/json" -d '{"hola":"perro"}')
 curl -X POST "${URL}/requests/https/jsonplaceholder.typicode.com/443/?path=/posts" -H "Content-Type: application/json" -d '{"hola":"perro"}';
 
+# note remove scape slash for browser
 # proxy request POST with GET test API (parameter method=POST body=\{\"hola\":\"mundo\"\})
-curl -X GET "${URL}/requests/https/jsonplaceholder.typicode.com/443/?path=/posts&method=POST&body=\{\"hola\":\"mundo\"\}";
+curl -X GET "${URL}/requests/https/jsonplaceholder.typicode.com/443/?path=/posts&method=POST&body=\{\"hola\":\"mundo\"\}&headers=\{\"Content-Type\":\"application/json\"\}";
+# proxy request POST with GET test API (parameter method=GET https://jsonplaceholder.typicode.com:443/comments?params=postId=1,sort=first)
+curl -X GET "${URL}/requests/https/jsonplaceholder.typicode.com/443/?path=/comments&method=GET&params=postId=1,sort=first";
 
 # simple ping (for validate)
 curl -X GET "${URL}/ping/8.8.8.8";

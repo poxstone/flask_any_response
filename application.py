@@ -238,12 +238,24 @@ def requests(protocol, domain, port):
                                                 else request.method
     path = request.args.get('path') if request.args.get('path') else ''
     path = path if path.startswith('/') else '/{}'.format(path)
-    parameters = ''
-    search_path = request.full_path.rsplit('?')
-    # build url search
-    if len(search_path) > 1:
-        for i in range(1, len(search_path)):
-            parameters += '?{}'.format(search_path[i])
+    headers_data = {}
+    params_data = ''
+
+    # get header
+    if request.args.get('headers'):
+        try:
+            headers_data = json.loads(request.args.get('headers'))
+        except:
+            headers_data = {}
+
+    # get search parameters
+    if request.args.get('params'):
+        try:
+            params_data = '?' + request.args.get('params').replace(',','&')
+        except:
+            params_data = ''
+    
+    # get body
     if method in ['POST','PUT','DELETE','PATCH'] and request.args.get('body'):
         try:
             body_data = json.loads(request.args.get('body'))
@@ -254,20 +266,21 @@ def requests(protocol, domain, port):
     
     if request.form:
         body_data = getPost(request)
-
+    
     request.full_path
-    url = f'{protocol}://{domain}:{port}{path}{parameters}'
+    url = f'{protocol}://{domain}:{port}{path}{params_data}'
+
     res = ''
     if method == 'GET':
-        res = requests.get(url).text
+        res = requests.get(url, headers=headers_data).text
     elif method == 'POST':
-        res = requests.post(url, data=body_data).text
+        res = requests.post(url, data=body_data, headers=headers_data).text
     elif method == 'DELETE':
-        res = requests.delete(url, data=body_data).text
+        res = requests.delete(url, data=body_data, headers=headers_data).text
     elif method == 'PUT':
-        res = requests.put(url, data=body_data).text
+        res = requests.put(url, data=body_data, headers=headers_data).text
     elif method == 'PATCH':
-        res = requests.patch(url, data=body_data).text
+        res = requests.patch(url, data=body_data, headers=headers_data).text
     else:
         res = 'not supported method'
     return str(res)
