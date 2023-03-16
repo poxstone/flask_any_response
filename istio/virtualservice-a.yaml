@@ -5,9 +5,10 @@ metadata:
   namespace: default
 spec:
   hosts:
+  - '*'
   - my.domain1.com
   gateways:
-  - myapp-gateway
+  - flask-gateway
   http:
   - name: flask-any-service-a-virtualservice
     match:

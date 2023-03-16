@@ -87,14 +87,15 @@ istioctl kube-inject -f "../kubernetes/deployment-b.yaml" -o "./deployment-b-wit
 kubectl apply -f "./";
 ```
 Istio kinds:
+- Gateway: Load Balancer (L4)
+- VirtualService: Service ()
 - IstioOperator
-- VirtualService: Service
 - FrontendConfig
-- Gateway: Load Balancer
 - EnvoyFilter
 - IstioOperator
 - DestinationRule: service comunication
 - ServiceEntry
+
 
 Ingress (gce) > istio-ingressgateway (backend)
 
