@@ -9,16 +9,14 @@
       "type": "python",
       "request": "launch",
       "program": "${workspaceFolder}/application.py",
-      "console": "internalConsole",
-      "python": "${command:python.interpreterPath}"
+      "console": "internalConsole"
     },
     {
         "name": "udp",
         "type": "python",
         "request": "launch",
         "program": "${workspaceFolder}/UDP/application.py",
-        "console": "internalConsole",
-        "python": "${command:python.interpreterPath}"
+        "console": "internalConsole"
       }
   ]
 }

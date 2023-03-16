@@ -286,6 +286,25 @@ def requests(protocol, domain, port):
     return str(res)
 
 
+@app.route('/concat-requests/<num>/', methods=FULL_METHODS)
+def concat_requests(num):
+    printing(f'/concat-requests/{num}/')
+    import requests
+    hosts = request.args.get('hosts').lower() if request.args.get('hosts') \
+                                                else ''
+    printing('concat_requests num={num} - hosts={hosts}:')
+    if not hosts:
+        resp, mime_type = print_request(request)
+        return Response(resp, mimetype=mime_type)
+
+    path = hosts.split(',')[0]
+    hosts_query = f'?hosts={",".join(hosts.split(",")[1:])}'
+    url = f'{hosts.split(",")[0]}/concat-requests/{int(num)+1}/{hosts_query}'
+    
+    res = requests.get(url).text
+    return str(res)
+
+
 # relative dir
 @app.route('/redirect/relative', methods=FULL_METHODS)
 def redirect_relative():
