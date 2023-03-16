@@ -15,9 +15,9 @@ spec:
       labels:
         app: flask-any-response-b
     spec:
-      nodeSelector:
-        #cloud.google.com/gke-nodepool: nodepool-apps
-        process: medium
+      #nodeSelector:
+      #  #cloud.google.com/gke-nodepool: nodepool-apps
+      #  process: medium
       containers:
       - env:
         - name: PORT

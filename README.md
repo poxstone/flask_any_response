@@ -52,10 +52,12 @@ docker push "poxstone/flask_any_response:latest";
 ```bash
 cd terraform;
 export TF_VAR_PROJECT_ID="${GOOGLE_CLOUD_PROJECT}";
+export TF_VAR_PREFIX_APP="flask";
+export TF_VAR_REGION_DEFAULT="us-east1";
+
 terraform init;
 terraform apply;
-gcloud container clusters get-credentials "gke-cluster-flask-01" --zone "us-east1-b" --project "${GOOGLE_CLOUD_PROJECT}";
-
+gcloud container clusters get-credentials "gke-cluster-${TF_VAR_PREFIX_APP}-01" --zone "${TF_VAR_REGION_DEFAULT}" --project "${GOOGLE_CLOUD_PROJECT}";
 ```
 - Deploy
 ```bash
@@ -84,6 +86,18 @@ istioctl kube-inject -f "../kubernetes/deployment-b.yaml" -o "./deployment-b-wit
 # deploy
 kubectl apply -f "./";
 ```
+Istio kinds:
+- IstioOperator
+- VirtualService: Service
+- FrontendConfig
+- Gateway: Load Balancer
+- EnvoyFilter
+- IstioOperator
+- DestinationRule: service comunication
+- ServiceEntry
+
+Ingress (gce) > istio-ingressgateway (backend)
+
 
 ## App Engine
 
@@ -195,6 +209,8 @@ curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"comma
 curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"command":"sqlcmd -S 34.133.118.251 -U sqlserver -P MyPASS -b -Q \"SELECT Name from sys.databases;\""}';
 # some bash commands by bash script (more support)
 curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"command":"date > date.txt; ls;cat date.txt"}';
+# set DS hosts (don't works)
+curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"command":"echo \"my.domain1.com 192.168.49.2\" >> /etc/hosts"}';
 
 # test redirction 302 simple relative
 curl -X GET -kLI "${URL}/redirect/relative";
@@ -314,7 +330,7 @@ setInterval(() => {for (let i=0;i<=num_requests;i++) {if (count <= count_until) 
 
 1. Run let´s encrypt code (cloud shell works)
 ```bash
-export MY_DOMAIN="my.domain.com";
+export MY_DOMAIN="my.domain1.com";
 # create alias
 alias cerbot="docker run --rm -it -p 443:443 -v ${HOME}/cerbot:/etc/letsencrypt -v ${HOME}/cerbot/log:/var/log/letsencrypt quay.io/letsencrypt/letsencrypt:latest";
 cerbot certonly --manual -d "${MY_DOMAIN}";
@@ -359,7 +375,7 @@ kubectl applly -f "secret-ssl-a.yaml";
 spec:
   tls:
   - hosts:
-    - my.domain.com
+    - my.domain1.com
     secretName: secret-ssl-flask-any-service
 ...
 ```

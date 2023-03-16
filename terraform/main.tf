@@ -11,17 +11,20 @@
 # VARIABLES
 variable "PROJECT_ID" {default="PROJECT_ID"}
 variable "REGION_DEFAULT" {default="us-east1"}
-variable "ZONE_DEFAULT" {default="us-east1-b"}
+variable "ZONE_DEFAULT" {default="b"}
 variable "PREFIX_APP" {default="flask"}
 variable "SUBNET_RANGE_INFRA" {default="10.0.0.0/24"}
 variable "SUBNET_RANGE_GKE" {default="10.100.0.0/20"}
 variable "SUBNET_RANGE_PODS" {default="10.110.0.0/17"}
 variable "SUBNET_RANGE_SERVICES" {default="10.120.0.0/22"}
+locals {
+  ZONE= "${var.REGION_DEFAULT}-${var.ZONE_DEFAULT}"
+}
 
 provider "google" {
   project     = var.PROJECT_ID
   region      = var.REGION_DEFAULT
-  zone        = var.ZONE_DEFAULT
+  zone        = local.ZONE
 }
 
 # Networks
@@ -31,7 +34,7 @@ resource "google_compute_network" "custom_vpc_01" {
 }
 
 resource "google_compute_subnetwork" "subnet_infra_01" {
-  name          = "subnet-infra-01"
+  name          = "subnet-${var.PREFIX_APP}-infra-01"
   ip_cidr_range = var.SUBNET_RANGE_INFRA
   region        = var.REGION_DEFAULT
   network       = google_compute_network.custom_vpc_01.id
@@ -40,7 +43,7 @@ resource "google_compute_subnetwork" "subnet_infra_01" {
 }
 
 resource "google_compute_subnetwork" "subnet_gke_01" {
-  name          = "subnet-gke-01"
+  name          = "subnet-${var.PREFIX_APP}-gke-01"
   ip_cidr_range = var.SUBNET_RANGE_GKE
   region        = var.REGION_DEFAULT
   network       = google_compute_network.custom_vpc_01.id
@@ -83,7 +86,7 @@ resource "google_compute_firewall" "fw_allow_internal01" {
 # kubernetes
 resource "google_container_cluster" "gke_cluster1" {
   name     = "gke-cluster-${var.PREFIX_APP}-01"
-  location = var.ZONE_DEFAULT
+  location = local.ZONE
   remove_default_node_pool = true
   initial_node_count       = 1
   network    = google_compute_network.custom_vpc_01.id

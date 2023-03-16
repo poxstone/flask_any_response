@@ -1,0 +1,35 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: flask-any-service-a-virtualservice
+  namespace: default
+spec:
+  hosts:
+  - my.domain1.com
+  gateways:
+  - myapp-gateway
+  http:
+  - name: flask-any-service-a-virtualservice
+    match:
+    - uri:
+        prefix: /
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: flask-any-service-a
+        port:
+          number: 8080
+    timeout: 120s
+    corsPolicy:
+      allowOrigins:
+        - regex: '.*'
+      allowHeaders:
+      - Content-Type
+      - Authorization
+      - recaptcha
+      allowMethods:
+      - POST
+      - GET
+      - OPTIONS
+  

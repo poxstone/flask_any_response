@@ -4,6 +4,7 @@ metadata:
   name: flask-any-service-a-ingress
   namespace: default
   annotations:
+    #nginx.ingress.kubernetes.io/rewrite-target: /$1  ## minikube ingress
 #   kubernetes.io/ingress.allow-http: "false"  # only HTTPS
 #   networking.gke.io/managed-certificates: "my-domain-com-managed-by-google"  # https://cloud.google.com/kubernetes-engine/docs/how-to/ingress-multi-ssl#specifying_certificates_for_your_ingress
     cloud.google.com/backend-config: '{"default": "flask-any-backendconfig-a"}'
@@ -11,7 +12,7 @@ metadata:
 spec:
   #tls:
   #- hosts:
-  #  - my.domain.com
+  #  - my.domain1.com
   #  secretName: secret-ssl-flask-any-service
 
   defaultBackend:
@@ -20,7 +21,7 @@ spec:
       port:
         number: 8080
   rules:
-  - host: my.domain.com
+  - host: my.domain1.com
     http:
       paths:
       - pathType: ImplementationSpecific

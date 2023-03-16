@@ -5,8 +5,9 @@ metadata:
   labels:
     app: flask-any-response-b
   name: flask-any-deployment-b
+  namespace: default
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: flask-any-response-b
@@ -47,8 +48,11 @@ spec:
           value: vp.0.0.1b
         - name: INIT_APP_TIME
           value: "0"
+        - name: LETS_TOKEN
+        - name: SLEEP_TIME
+          value: "0"
         - name: LOGS_PRINT
-          value: 'true'
+          value: "false"
         image: poxstone/flask_any_response
         livenessProbe:
           failureThreshold: 2
@@ -79,7 +83,7 @@ spec:
           timeoutSeconds: 3
         resources:
           limits:
-            cpu: 400m
+            cpu: 500m
             memory: 256Mi
           requests:
             cpu: 250m

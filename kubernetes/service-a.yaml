@@ -31,5 +31,5 @@ spec:
       port: 5678
       targetPort: 5678
   #type: LoadBalancer  # for tcp lb
-  type: ClusterIP  # for ingress
-  #type: NodePort
+  #type: ClusterIP  # for ingress
+  type: NodePort

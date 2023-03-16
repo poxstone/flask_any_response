@@ -1,0 +1,38 @@
+#apiVersion: networking.gke.io/v1beta1
+#kind: FrontendConfig
+#metadata:
+#  name: ssl-redirect
+#  namespace: istio-system
+#spec:
+#  sslPolicy: lb-ssl-policy # Debe estar creado en GCP
+#  redirectToHttps:
+#    enabled: true
+#    responseCodeName: "301"
+#---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gke-ingress
+  namespace: istio-system
+  annotations:
+    #kubernetes.io/ingress.global-static-ip-name: ip-gke
+    #networking.gke.io/managed-certificates: cert-gcp-istio
+    #networking.gke.io/v1beta1.FrontendConfig: ssl-redirect
+    kubernetes.io/ingress.class: "gce"
+spec:
+  defaultBackend:
+    service:
+      name: istio-ingressgateway
+      port:
+        number: 8080
+  rules:
+  - host: "my.domain1.com"
+    http:
+      paths:
+      - path: /*
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: istio-ingressgateway
+            port:
+              number: 8080
