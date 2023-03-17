@@ -33,6 +33,7 @@ SLEEP_TIME = os.getenv('SLEEP_TIME', '0')
 PORT = os.getenv('PORT', '8080')
 LOGS_PRINT = os.getenv('LOGS_PRINT', 'true')
 lets_token = os.getenv('LETS_TOKEN', '')
+global_state = 200
 
 # gcp profiler
 """
@@ -106,12 +107,17 @@ def print_request(request, title="Response"):
         printing(f'{str_request}: - SLEEPING_FROM_ENV({SLEEP_TIME})...')
         sleep(float(SLEEP_TIME))
         pass
+    # get status code
+    try:
+        status_code = int(request.args.get('status'))
+    except:
+        status_code = int(global_state)
     message = '<pre>{}\n env = {}<pre>'.format(response,  ENV)
     message_code = ''
     for line in message.splitlines():
         message_code += f'{str_request}: {line}\n'
     printing(message_code)
-    return message_code, mime_type
+    return message_code, mime_type, status_code
 
 
 def ping(host, count='3'):
@@ -162,8 +168,8 @@ def do_request_method(method, url, headers_data, body_data):
 @app.route('/', methods=FULL_METHODS)
 def l0():
     printing('lv0():')
-    resp, mime_type = print_request(request, title='lv0():')
-    return Response(resp, mimetype=mime_type)
+    resp, mime_type, status_code = print_request(request, title='lv0():')
+    return Response(resp, mimetype=mime_type), status_code
 
 
 @app.route('/testudp/', methods=FULL_METHODS)
@@ -186,7 +192,7 @@ def testudp():
                          socket.SOCK_DGRAM) # UDP
     server_address = (UDP_IP, int(UDP_PORT))
     sock.sendto(MESSAGE, server_address)
-    resp, mime_type = print_request(request, title="testudp():")
+    resp, mime_type, status_code = print_request(request, title="testudp():")
     return '{} ---- {}'.format(message, resp)
 
 
@@ -195,7 +201,7 @@ def doPing(host):
     printing('doPing(host):')
     count = request.args.get('count') if request.args.get('count') else '3'
     res = ping(host=host, count=count)
-    return str(res)
+    return str(res), global_state
 
 @app.route('/testsmtp/<host>/<email>/<pwd>', methods=FULL_METHODS)
 def sendEmail(host, email, pwd):
@@ -207,10 +213,10 @@ def sendEmail(host, email, pwd):
         server.quit()
         printing('command: ' + "loging")
         printing("loging")
-        return str("loging")
+        return str("loging"), global_state
     except Exception as e:
         printing('command: ' + str(e))
-        return str(e)
+        return str(e), global_state
 
 
 @app.route('/bucketlist/<project>', methods=FULL_METHODS)
@@ -222,7 +228,7 @@ def bucketList(project):
     credentials = GoogleCredentials.get_application_default()
     service = build('storage', 'v1', credentials=credentials)
     response = service.buckets().list(project=project).execute()
-    return str(response)
+    return str(response), global_state
 
 
 @app.route('/do/com/', methods=['POST'])
@@ -235,7 +241,7 @@ def doCom():
         sleep(1)
         printing('command: ' + res)
         return f"command: {command['command']} > response: \n {res}"
-    return 'nothing to do'
+    return 'nothing to do', global_state
 
 
 @app.route('/do/script/', methods=['POST'])
@@ -253,7 +259,7 @@ def doScript():
         subprocess.check_output(['date'])
         printing('command: ' + res)
         return f"command: {command['command']} > response: \n {res}"
-    return 'nothing to do'
+    return 'nothing to do', global_state
 
 
 @app.route('/requests/<protocol>/<domain>/<port>/', methods=FULL_METHODS)
@@ -296,7 +302,7 @@ def requests(protocol, domain, port):
     url = f'{protocol}://{domain}:{port}{path}{params_data}'
     
     res = do_request_method(method, url, headers_data, body_data)
-    return str(res)
+    return str(res), global_state
 
 
 @app.route('/concat-requests/<num>/', methods=FULL_METHODS)
@@ -306,15 +312,15 @@ def concat_requests(num):
     hosts = request.args.get('hosts').lower() if request.args.get('hosts') else ''
     printing('concat_requests num={num} - hosts={hosts}:')
     if not hosts:
-        resp, mime_type = print_request(request)
-        return Response(resp, mimetype=mime_type)
+        resp, mime_type, status_code = print_request(request)
+        return Response(resp, mimetype=mime_type), status_code
 
     path = hosts.split(',')[0]
     hosts_query = f'?hosts={",".join(hosts.split(",")[1:])}'
     url = f'{hosts.split(",")[0]}/concat-requests/{int(num)+1}/{hosts_query}'
     
     res = requests.get(url).text
-    return str(res)
+    return str(res), global_state
 
 
 @app.route('/json-requests/<num>/', methods=FULL_METHODS)
@@ -337,7 +343,7 @@ def json_requests(num):
         req = do_request_method(method, url, headers, body)
         res.append(req)
 
-    return str(res)
+    return str(res), global_state
 
 
 # relative dir
@@ -359,14 +365,14 @@ def redirect_absolute(protocol, domain, port):
 @app.route('/redirect/redirected', methods=FULL_METHODS)
 def redirected():
     printing('redirected(): 302')
-    resp, mime_type = print_request(request, title="Redirected")
-    return Response(resp, mimetype=mime_type)
+    resp, mime_type, status_code = print_request(request, title="Redirected")
+    return Response(resp, mimetype=mime_type), status_code
 
 
 # test socket
 @app.route('/web-socket.html')
 def index():
-    return render_template('web-socket.html')
+    return render_template('web-socket.html'), status_code
 
 
 @app.route('/download/<size>')
@@ -398,8 +404,16 @@ def lets_encrypt(hash2):
 def sets_encrypt(hash1):
     global lets_token
     lets_token = hash1.strip()
-    printing(f'sets_encrypt(): {lets_token}')
+    printing(f'set_encrypt(): {lets_token}')
     return lets_token.strip()
+
+
+@app.route('/set/status_code/<num>', methods=FULL_METHODS)
+def sets_status_code(num):
+    global global_state
+    global_state = int(num)
+    printing(f'set_status_code(): {global_state}')
+    return f'set_status_code(): {global_state}', global_state
     
 
 @app.route('/<lv1>', methods=FULL_METHODS)
@@ -408,50 +422,50 @@ def l1(lv1):
         return ""
 
     printing('def l1(lv1):')
-    resp, mime_type = print_request(request)
-    return Response(resp, mimetype=mime_type)
+    resp, mime_type, status_code = print_request(request)
+    return Response(resp, mimetype=mime_type), status_code
 
 
 @app.route('/<lv1>/<lv2>', methods=FULL_METHODS)
 def l2(lv1, lv2):
     printing('def l2(lv1, lv2):')
-    resp, mime_type = print_request(request)
-    return Response(resp, mimetype=mime_type)
+    resp, mime_type, status_code = print_request(request)
+    return Response(resp, mimetype=mime_type), status_code
 
 
 @app.route('/<lv1>/<lv2>/<lv3>', methods=FULL_METHODS)
 def l3(lv1, lv2, lv3):
     printing('def l3(lv1, lv2, lv3):')
-    resp, mime_type = print_request(request)
-    return Response(resp, mimetype=mime_type)
+    resp, mime_type, status_code = print_request(request)
+    return Response(resp, mimetype=mime_type), status_code
 
 
 @app.route('/<lv1>/<lv2>/<lv3>/<lv4>', methods=FULL_METHODS)
 def l4(lv1, lv2, lv3, lv4):
     printing('def l4(lv1, lv2, lv3, lv4):')
-    resp, mime_type = print_request(request)
-    return Response(resp, mimetype=mime_type)
+    resp, mime_type, status_code = print_request(request)
+    return Response(resp, mimetype=mime_type), status_code
 
 
 @app.route('/<lv1>/<lv2>/<lv3>/<lv4>/<lv5>', methods=FULL_METHODS)
 def lv5(lv1, lv2, lv3, lv4, lv5):
     printing('lv5(lv1, lv2, lv3, lv4, lv5):')
-    resp, mime_type = print_request(request)
-    return Response(resp, mimetype=mime_type)
+    resp, mime_type, status_code = print_request(request)
+    return Response(resp, mimetype=mime_type), status_code
 
 
 @app.route('/<lv1>/<lv2>/<lv3>/<lv4>/<lv5>/<lv6>', methods=FULL_METHODS)
 def lv6(lv1, lv2, lv3, lv4, lv5, lv6):
     printing('lv6(lv1, lv2, lv3, lv4, lv5, lv6):')
-    resp, mime_type = print_request(request)
-    return Response(resp, mimetype=mime_type)
+    resp, mime_type, status_code = print_request(request)
+    return Response(resp, mimetype=mime_type), status_code
 
 
 @app.route('/<lv1>/<lv2>/<lv3>/<lv4>/<lv5>/<lv6>', methods=FULL_METHODS)
 def lv7(lv1, lv2, lv3, lv4, lv5, lv6, lv7):
     printing('lv6(lv1, lv2, lv3, lv4, lv5, lv6, lv7):')
-    resp, mime_type = print_request(request)
-    return Response(resp, mimetype=mime_type)
+    resp, mime_type, status_code = print_request(request)
+    return Response(resp, mimetype=mime_type), status_code
 
 
 print(f'INIT_TIME_APP_PY_={str_global}: {str(datetime.datetime.now())}')
