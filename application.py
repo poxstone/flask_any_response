@@ -51,7 +51,7 @@ except (ValueError, NotImplementedError) as exc:
 def printing(string):
     if LOGS_PRINT.lower() == 'true':
         #logging.info(str(string))
-        print(str(string))
+        print(f'{str(string)} - time_back({str_global}):{str(datetime.datetime.now())}')
     return ''
 
 
@@ -131,6 +131,32 @@ def getPost(request):
         except:
             param = {}
     return param
+
+
+def do_request_method(method, url, headers_data, body_data):
+    import requests
+    res = ''
+    try:
+        json_data = json.dumps(body_data)
+    except Exception as e:
+        json_data = '{}'
+    try:
+        if method == 'GET':
+            res = requests.get(url, headers=headers_data).text
+        elif method == 'POST':
+            res = requests.post(url, data=json_data, headers=headers_data).text
+        elif method == 'DELETE':
+            res = requests.delete(url, data=json_data, headers=headers_data).text
+        elif method == 'PUT':
+            res = requests.put(url, data=json_data, headers=headers_data).text
+        elif method == 'PATCH':
+            res = requests.patch(url, data=json_data, headers=headers_data).text
+        else:
+            res = 'not supported method'
+    except Exception as e:
+        res = f'fail for: method:{method}, url:{url}, headers_data:{headers_data}, body_data:{body_data}'
+    
+    return str(res)
 
 
 @app.route('/', methods=FULL_METHODS)
@@ -267,22 +293,9 @@ def requests(protocol, domain, port):
     if request.form:
         body_data = getPost(request)
     
-    request.full_path
     url = f'{protocol}://{domain}:{port}{path}{params_data}'
-
-    res = ''
-    if method == 'GET':
-        res = requests.get(url, headers=headers_data).text
-    elif method == 'POST':
-        res = requests.post(url, data=body_data, headers=headers_data).text
-    elif method == 'DELETE':
-        res = requests.delete(url, data=body_data, headers=headers_data).text
-    elif method == 'PUT':
-        res = requests.put(url, data=body_data, headers=headers_data).text
-    elif method == 'PATCH':
-        res = requests.patch(url, data=body_data, headers=headers_data).text
-    else:
-        res = 'not supported method'
+    
+    res = do_request_method(method, url, headers_data, body_data)
     return str(res)
 
 
@@ -290,8 +303,7 @@ def requests(protocol, domain, port):
 def concat_requests(num):
     printing(f'/concat-requests/{num}/')
     import requests
-    hosts = request.args.get('hosts').lower() if request.args.get('hosts') \
-                                                else ''
+    hosts = request.args.get('hosts').lower() if request.args.get('hosts') else ''
     printing('concat_requests num={num} - hosts={hosts}:')
     if not hosts:
         resp, mime_type = print_request(request)
@@ -302,6 +314,29 @@ def concat_requests(num):
     url = f'{hosts.split(",")[0]}/concat-requests/{int(num)+1}/{hosts_query}'
     
     res = requests.get(url).text
+    return str(res)
+
+
+@app.route('/json-requests/<num>/', methods=FULL_METHODS)
+def json_requests(num):
+    printing(f'json_requests')
+    # get body
+    body_data = {}
+    try:
+        body_data = getPost(request)
+    except:
+        return str(f'No body detected (GET not supported) {request}')
+
+    request_full = body_data['body_data'] if 'body_data' in body_data else []
+    res = []
+    for requested in request_full:
+        method = requested['method'] if 'method' in requested else 'GET'
+        url = requested['url'] if 'url' in requested else f'http://localhost:{PORT}/'
+        headers = requested['headers'] if 'headers' in requested else {}
+        body = requested['body'] if 'body' in requested else {}
+        req = do_request_method(method, url, headers, body)
+        res.append(req)
+
     return str(res)
 
 

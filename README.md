@@ -171,11 +171,17 @@ curl -X GET "${URL}/testudp/?UDP_IP=127.0.0.1&UDP_PORT=5005&MESSAGE=hola";
 # proxy request GET external html request
 curl -X GET "${URL}/requests/https/eltiempo.com/443/?path=/opinion/columnistas/martha-senn&other=none";
 
-# request concat, this is used with similar containers redirection trafict in much services
-curl -X GET "${URL}/concat-requests/1/?hosts=http://localhost:8080/,http://localhost:8080";
-
 # proxy request POST test API (curl -k -X POST https://jsonplaceholder.typicode.com/posts -H "Content-Type: application/json" -d '{"hola":"perro"}')
 curl -X POST "${URL}/requests/https/jsonplaceholder.typicode.com/443/?path=/posts" -H "Content-Type: application/json" -d '{"hola":"perro"}';
+
+# multiple curls
+curl -X POST "${URL}/json-requests/1/" -H "Content-Type: application/json" -d '[{"url":"https://jsonplaceholder.typicode.com/posts", "method":"POST", "body":{"hola": "perro"}, "headers":{"Content-Type": "application/json"}}, {"url":"https://jsonplaceholder.typicode.com/posts", "method":"POST", "body":{}, "headers":{"Content-Type": "application/json"}}]';
+
+# nested curls json
+curl -X POST "${URL}/json-requests/1/" -H "Content-Type: application/json" -d '@./json-requests.json';
+
+# request concat, this is used with similar containers redirection trafict in much services
+curl -X GET "${URL}/concat-requests/1/?hosts=http://localhost:8080/,http://localhost:8080";
 
 # note remove scape slash for browser
 # proxy request POST with GET test API (parameter method=POST body=\{\"hola\":\"mundo\"\})
@@ -189,8 +195,6 @@ curl -X GET "${URL}/requests/https/compute.googleapis.com/443/?path=/compute/v1/
 curl -X POST "${URL}/do/script/" -H "Content-Type: application/json"  -d '{"command":"curl  -H \"Metadata-Flavor: Google\" http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token"}'
 # proxy request POST with GET test API (parameter method=GET https://jsonplaceholder.typicode.com:443/comments?params=postId=1,sort=first)
 curl -X GET "${URL}/requests/https/jsonplaceholder.typicode.com/443/?path=/comments&method=GET&params=postId=1,sort=first";
-# curls internals
-curl -X GET "${URL}/concat-requests/1/?hosts=http://localhost:8080,http://localhost:8080,http://localhost:8080";
 
 # simple ping (for validate)
 curl -X GET "${URL}/ping/8.8.8.8";
