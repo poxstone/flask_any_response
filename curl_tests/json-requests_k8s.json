@@ -1,6 +1,6 @@
 {"body_data":[
     {
-        "url":"http://flask-any-service-b:8080/sub2a?sleep=1", "method":"GET", "headers": {}, "body": {}
+        "async":"true", "url":"http://flask-any-service-b:8080/sub2a?sleep=1", "method":"GET", "headers": {}, "body": {}
     },
     {
         "url":"http://flask-any-service-d:8080/json-requests/2/", "method":"POST", "headers":{"Content-Type": "application/json"}, "body": {

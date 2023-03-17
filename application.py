@@ -7,6 +7,7 @@ import subprocess
 import random
 import string
 import re
+import asyncio
 from time import sleep
 from flask import Flask, request, redirect, url_for, Response, render_template, send_file
 # email
@@ -138,6 +139,9 @@ def getPost(request):
             param = {}
     return param
 
+
+async def do_request_method_async(method, url, headers_data, body_data):
+    return do_request_method(method, url, headers_data, body_data)
 
 def do_request_method(method, url, headers_data, body_data):
     import requests
@@ -327,6 +331,7 @@ def concat_requests(num):
 def json_requests(num):
     printing(f'json_requests')
     # get body
+    req = ''
     body_data = {}
     try:
         body_data = getPost(request)
@@ -340,7 +345,10 @@ def json_requests(num):
         url = requested['url'] if 'url' in requested else f'http://localhost:{PORT}/'
         headers = requested['headers'] if 'headers' in requested else {}
         body = requested['body'] if 'body' in requested else {}
-        req = do_request_method(method, url, headers, body)
+        if 'async' in requested and requested['async'] == 'true':
+            req = str(do_request_method_async(method, url, headers, body))
+        else:
+            req = do_request_method(method, url, headers, body)
         res.append(req)
 
     return str(res), global_state
