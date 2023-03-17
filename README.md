@@ -181,9 +181,11 @@ curl -X POST "${URL}/requests/https/jsonplaceholder.typicode.com/443/?path=/post
 curl -X POST "${URL}/json-requests/1/" -H "Content-Type: application/json" -d '[{"url":"https://jsonplaceholder.typicode.com/posts", "method":"POST", "body":{"hola": "perro"}, "headers":{"Content-Type": "application/json"}}, {"url":"https://jsonplaceholder.typicode.com/posts", "method":"POST", "body":{}, "headers":{"Content-Type": "application/json"}}]';
 
 # nested curls json
-curl -X POST "${URL}/json-requests/1/" -H "Content-Type: application/json" -d '@./json-requests.json';
-# option two kalio
-for i in {0..300};do curl -X GET "${URL}/json-requests/1/" -H "Content-Type: application/json" -d '@./json-requests2.json';done;
+curl -X POST "${URL}/json-requests/1/" -H "Content-Type: application/json" -d '@./curl_tests/json-requests_local.json';
+# option two microservices
+for i in {0..300};do curl -X GET "${URL}/json-requests/1/" -H "Content-Type: application/json" -d '@./curl_tests/json-requests_k8s.json';done;
+# time data
+for i in {0..300};do curl -w "@./curl_tests/curl-format.txt" -o /dev/null -s -X GET "${URL}/json-requests/1/" -H "Content-Type: application/json"  -d '@./curl_tests/json-requests_k8s.json';done;
 
 # request concat, this is used with similar containers redirection trafict in much services
 curl -X GET "${URL}/concat-requests/1/?hosts=http://localhost:8080/,http://localhost:8080";
