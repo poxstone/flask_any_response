@@ -83,6 +83,9 @@ istioctl install;
 istioctl kube-inject -f "../kubernetes/deployment-a.yaml" -o "./deployment-a-withistio.yaml";
 istioctl kube-inject -f "../kubernetes/deployment-b.yaml" -o "./deployment-b-withistio.yaml";
 
+# run kiali
+kubectl port-forward -n istio-system deployment/kiali 20001:20001
+
 # deploy
 kubectl apply -f "./";
 ```
@@ -179,6 +182,8 @@ curl -X POST "${URL}/json-requests/1/" -H "Content-Type: application/json" -d '[
 
 # nested curls json
 curl -X POST "${URL}/json-requests/1/" -H "Content-Type: application/json" -d '@./json-requests.json';
+# option two kalio
+for i in {0..300};do curl -X GET "${URL}/json-requests/1/" -H "Content-Type: application/json" -d '@./json-requests2.json';done;
 
 # request concat, this is used with similar containers redirection trafict in much services
 curl -X GET "${URL}/concat-requests/1/?hosts=http://localhost:8080/,http://localhost:8080";
