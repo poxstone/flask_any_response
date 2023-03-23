@@ -183,7 +183,7 @@ curl -X POST "${URL}/json-requests/1/" -H "Content-Type: application/json" -d '[
 # nested curls json
 curl -X POST "${URL}/json-requests/1/" -H "Content-Type: application/json" -d '@./curl_tests/json-requests_local.json';
 # option two microservices
-for i in {0..300};do curl -X GET "${URL}/json-requests/1/" -H "Content-Type: application/json" -d '@./curl_tests/json-requests_k8s.json';done;
+for i in {0..300};do curl -X POST "${URL}/json-requests/1/" -H "Content-Type: application/json" -d '@./curl_tests/json-requests_k8s.json';done;
 # time data
 for i in {0..300};do curl -w "@./curl_tests/curl-format.txt" -o /dev/null -s -X GET "${URL}/json-requests/1/" -H "Content-Type: application/json"  -d '@./curl_tests/json-requests_k8s.json';done;
 

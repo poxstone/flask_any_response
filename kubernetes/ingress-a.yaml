@@ -19,7 +19,7 @@ spec:
     service:
       name: flask-any-service-a
       port:
-        number: 8080
+        name: http
   rules:
   - host: my.domain1.com
     http:
@@ -29,4 +29,4 @@ spec:
           service:
             name: flask-any-service-a
             port:
-              number: 8080
+              name: http
