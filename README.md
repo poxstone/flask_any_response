@@ -134,7 +134,14 @@ kubectl get svc istio-ingressgateway -n istio-system;
 curl http://${GATEWAY_IP}:80;
 ´´´
 #### Google service Mesh (manual istio-ingress)
-
+> [Migrating from Istio on GKE to Anthos Service Mesh](https://cloud.google.com/istio/docs/istio-on-gke/migrate-to-anthos-service-mesh)
+- **Currently not working**
+- * Require deplyment-a.yaml and service-a.yaml
+´´´bash
+cd istio/istio-ingressgateway;
+kubectl label namespace default istio-injection=enabled;
+kubectl apply -f serviceaccount.yaml -f serviceaccount.yaml -f pdb-v1.yaml -f deployment.yaml -fservice.yaml;
+´´´
 
 
 ## App Engine
