@@ -6,31 +6,12 @@ metadata:
 spec:
   hosts:
   - '*'
-  - my.domain1.com
   gateways:
   - flask-gateway
   http:
   - name: flask-any-service-a-virtualservice
-    match:
-    - uri:
-        prefix: /
-    rewrite:
-      uri: /
     route:
     - destination:
         host: flask-any-service-a
         port:
           number: 8080
-    timeout: 120s
-    corsPolicy:
-      allowOrigins:
-        - regex: '.*'
-      allowHeaders:
-      - Content-Type
-      - Authorization
-      - recaptcha
-      allowMethods:
-      - POST
-      - GET
-      - OPTIONS
-  

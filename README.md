@@ -115,6 +115,25 @@ kubectl get gateways;
 curl -H 'host: my.domain1.com' http://${GATEWAY_IP};
 ´´´
 
+#### Manual istio install
+> [Installing and upgrading gateways](https://cloud.google.com/service-mesh/docs/gateways)
+* Require deplyment-a.yaml and service-a.yaml
+´´´bash
+cd istio/gke;
+istioctl install;
+kubectl get service -n istio-system;  # appearce 2 items only
+kubectl label namespace default istio-injection=enabled;
+# recrate pods of deployments
+istioctl analyze;
+kubectl -n istio-system get controlplanerevision;  # only response -- error: the server doesn't have a resource type "controlplanerevision"
+# install gateways and virtualservice
+kubectl apply -f gateway-a.yaml -f virtualservice-a.yaml;
+# get IP
+kubectl get svc istio-ingressgateway -n istio-system;
+# copy external ip
+curl http://${GATEWAY_IP}:80;
+´´´
+
 ## App Engine
 
 ### appengine standard
