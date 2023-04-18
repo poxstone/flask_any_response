@@ -133,6 +133,9 @@ kubectl get svc istio-ingressgateway -n istio-system;
 # copy external ip
 curl http://${GATEWAY_IP}:80;
 ´´´
+#### Google service Mesh (manual istio-ingress)
+
+
 
 ## App Engine
 
