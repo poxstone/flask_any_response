@@ -107,18 +107,18 @@ Ingress (gce) > istio-ingressgateway (backend)
 #### GKE (Service mesh)
 > [Deploying Gateways](https://cloud.google.com/kubernetes-engine/docs/how-to/deploying-gateways)
 * Require deplyment-a.yaml and service-a.yaml
-´´´bash
+```bash
 cd istio/gke;
 kubeclt apply -f gateway-gke-l7-gxlb.yaml -f httproute-a.yaml;
 kubectl get gateways;
 # copy external ip
 curl -H 'host: my.domain1.com' http://${GATEWAY_IP};
-´´´
+```
 
 #### Manual istio install
 > [Installing and upgrading gateways](https://cloud.google.com/service-mesh/docs/gateways)
 * Require deplyment-a.yaml and service-a.yaml
-´´´bash
+```bash
 cd istio/gke;
 istioctl install;
 kubectl get service -n istio-system;  # appearce 2 items only
@@ -132,16 +132,16 @@ kubectl apply -f gateway-a.yaml -f virtualservice-a.yaml;
 kubectl get svc istio-ingressgateway -n istio-system;
 # copy external ip
 curl http://${GATEWAY_IP}:80;
-´´´
+```
 #### Google service Mesh (manual istio-ingress)
 > [Migrating from Istio on GKE to Anthos Service Mesh](https://cloud.google.com/istio/docs/istio-on-gke/migrate-to-anthos-service-mesh)
 - **Currently not working**
 - * Require deplyment-a.yaml and service-a.yaml
-´´´bash
+```bash
 cd istio/istio-ingressgateway;
 kubectl label namespace default istio-injection=enabled;
 kubectl apply -f serviceaccount.yaml -f serviceaccount.yaml -f pdb-v1.yaml -f deployment.yaml -fservice.yaml;
-´´´
+```
 
 
 ## App Engine
