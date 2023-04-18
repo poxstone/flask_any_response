@@ -102,6 +102,18 @@ Istio kinds:
 
 Ingress (gce) > istio-ingressgateway (backend)
 
+### Gateway (Istio)
+
+#### GKE (Service mesh)
+> [Deploying Gateways](https://cloud.google.com/kubernetes-engine/docs/how-to/deploying-gateways)
+* Require deplyment-a.yaml and service-a.yaml
+´´´bash
+cd istio/gke;
+kubeclt apply -f gateway-gke-l7-gxlb.yaml -f httproute-a.yaml;
+kubectl get gateways;
+# copy external ip
+curl -H 'host: my.domain1.com' http://${GATEWAY_IP};
+´´´
 
 ## App Engine
 

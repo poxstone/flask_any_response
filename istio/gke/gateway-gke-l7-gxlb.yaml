@@ -1,0 +1,16 @@
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  namespace: default
+  name: flask-gateway-external-http
+spec:
+  gatewayClassName: gke-l7-gxlb
+  listeners:
+  - name: http
+    protocol: HTTP
+    port: 80
+
+# require gke istio service mesh
+# gcloud container clusters update ${CLUSTER} --zone ${ZONE} --project {PROJECT_ID} --gateway-api=standard
+# https://cloud.google.com/kubernetes-engine/docs/how-to/deploying-gateways
+# gateway class: https://cloud.google.com/kubernetes-engine/docs/concepts/gateway-api#gatewayclass
