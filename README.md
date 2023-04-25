@@ -98,6 +98,13 @@ Istio kinds:
 - IstioOperator
 - DestinationRule: service comunication
 - ServiceEntry
+- DestinationRule
+- PeerAuthentication
+- Telemetry
+- ProxyConfig
+- WorkloadEntry
+- WorkloadGroup
+- RequestAuthentication
 
 
 Ingress (gce) > istio-ingressgateway (backend)
