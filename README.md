@@ -22,6 +22,14 @@ docker run --rm -it --net host -p 80:80 -p 9090:9090/tcp -p 9191:9191 -p 8080:80
 # production
 docker run -itd --pull=always --restart always --net host -e VERSION_DEP=MAIN -p 9090:9090/tcp -p 80:80 -p 9191:9191 -p 5678:5678 -p 8080:8080 -p 5005:5005/udp -e GOOGLE_CLOUD_PROJECT="${GOOGLE_CLOUD_PROJECT}" poxstone/flask_any_response;
 ```
+- Simple k8s
+```bash
+# Run normal
+kubectl run test-app --image=poxstone/flask_any_response --port=8080 --labels="app=flask,env=dev";
+
+# Run Interactive
+kubectl run -i -t test-tty --image=poxstone/flask_any_response --restart=Never -- sh;
+```
 
 # To GCP by tag
 ```bash
