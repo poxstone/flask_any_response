@@ -50,3 +50,31 @@ spec:
         image: poxstone/flask_any_response
         ports:
         - containerPort: 8080
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-c
+  namespace: default
+  labels:
+    app: service-c
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-c
+  template:
+    metadata:
+      labels:
+        app: service-c
+    spec:
+      containers:
+      - name: service-c
+        env:
+        - name: VERSION_DEP
+          value: 'service-c'
+        image: poxstone/flask_any_response
+        ports:
+        - containerPort: 8080

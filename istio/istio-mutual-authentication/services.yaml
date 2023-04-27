@@ -9,7 +9,8 @@ spec:
   ports:
     - name: http
       protocol: TCP
-      port: 8080
+      port: 80
+      targetPort: 8080
   type: NodePort
 
 ---
@@ -24,5 +25,22 @@ spec:
   ports:
     - name: http
       protocol: TCP
-      port: 8080
+      port: 80
+      targetPort: 8080
+  type: NodePort
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-c
+  namespace: default
+spec:
+  selector:
+    app: service-c
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8080
   type: NodePort

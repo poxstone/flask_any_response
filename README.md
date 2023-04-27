@@ -114,6 +114,7 @@ Istio kinds:
 - WorkloadEntry
 - WorkloadGroup
 - RequestAuthentication
+- AuthorizationPolicy
 
 
 Ingress (gce) > istio-ingressgateway (backend)
