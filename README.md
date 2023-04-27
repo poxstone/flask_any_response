@@ -86,7 +86,8 @@ helm uninstall flaskanyresponse-helm;
 cd ./istio;
 # install istio into cluster
 istioctl install;
-
+# auto inject (optional)
+# 
 # inject istio in deployments
 istioctl kube-inject -f "../kubernetes/deployment-a.yaml" -o "./deployment-a-withistio.yaml";
 istioctl kube-inject -f "../kubernetes/deployment-b.yaml" -o "./deployment-b-withistio.yaml";
