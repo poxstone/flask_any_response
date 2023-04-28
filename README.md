@@ -98,23 +98,30 @@ kubectl port-forward -n istio-system deployment/kiali 20001:20001
 # deploy
 kubectl apply -f "./";
 ```
-Istio kinds:
-- Gateway: Load Balancer (L4)
-- VirtualService: Service ()
-- IstioOperator
-- FrontendConfig
-- EnvoyFilter
-- IstioOperator
-- DestinationRule: service comunication
-- ServiceEntry
-- DestinationRule
-- PeerAuthentication
-- Telemetry
-- ProxyConfig
-- WorkloadEntry
-- WorkloadGroup
-- RequestAuthentication
-- AuthorizationPolicy
+### Istio kinds
+- **Gateway**: Istio Load Balancer (L4)
+  - istio/istio-raw/gateway_virtualServices/
+    - Edit virtualService.yaml to configure gateway out and weigth services
+    - Edit gateway.yaml to bind svc istio LoadBalancer
+  - Copy EXTERNAL-IP from: `kubectl get svc istio-ingressgateway -n istio-system`
+  - Connect to pod: `kubectl get exec -it $(kubectl get pods --no-headers -o custom-columns=":metadata.name" | grep service-a) -n istio-system`
+    - Do curl into POD to istio-ingressgateway `curl EXTERNAL-IP`
+- **VirtualService**: Split traffict to services and output to gateway
+  - istio/istio-raw/gateway_virtualServices/
+  - Like GateWay...
+- **AuthorizationPolicy**: Allow authorize traffict between services, namespaces, ips, servicesAccounts
+- **RequestAuthentication**: Add encriotion to requests
+- **ServiceEntry**: 
+- **IstioOperator**:
+- **FrontendConfig**:
+- **EnvoyFilter**:
+- **DestinationRule**:: service comunication
+- **DestinationRule**:
+- **PeerAuthentication**:
+- **Telemetry**:
+- **ProxyConfig**:
+- **WorkloadEntry**:
+- **WorkloadGroup**:
 
 
 Ingress (gce) > istio-ingressgateway (backend)
