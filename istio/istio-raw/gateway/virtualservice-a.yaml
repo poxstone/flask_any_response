@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: flask-any-service-a-virtualservice
+  name: service-a-virtualservice
   namespace: default
 spec:
   hosts:
@@ -9,9 +9,9 @@ spec:
   gateways:
   - flask-gateway
   http:
-  - name: flask-any-service-a-virtualservice
+  - name: service-a-virtualservice
     route:
     - destination:
-        host: flask-any-service-a
+        host: service-a
         port:
-          number: 8080
+          number: 80

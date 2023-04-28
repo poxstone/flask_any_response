@@ -21,4 +21,3 @@ spec:
         values: ["cluster.local/ns/default/sa/sa-service-a"]
       #- key: "remote.ip"
       #  values: ["10.244.0.15"]
-      

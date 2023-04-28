@@ -11,7 +11,7 @@ spec:
     - "*"
     port:
       name: http
-      number: 8080
+      number: 80
       protocol: HTTP
     #tls:
     #  mode: SIMPLE
