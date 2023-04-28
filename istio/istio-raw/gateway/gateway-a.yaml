@@ -16,3 +16,5 @@ spec:
     #tls:
     #  mode: SIMPLE
     #  credentialName: wildcard-credential
+
+# curl curl istio-ingressgateway.istio-system.svc.cluster.local
