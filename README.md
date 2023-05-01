@@ -112,6 +112,9 @@ kubectl apply -f "./";
 - **AuthorizationPolicy**: Allow authorize traffict between services, namespaces, ips, servicesAccounts
 - **RequestAuthentication**: Add encriotion to requests
 - **ServiceEntry**: 
+  - istio/istio-raw/serviceEntry/
+  - Edit serviceEntry.yaml to change consult endpoints
+  - kiali: `istioctl dashboard kiali`
 - **IstioOperator**:
 - **FrontendConfig**:
 - **EnvoyFilter**:
