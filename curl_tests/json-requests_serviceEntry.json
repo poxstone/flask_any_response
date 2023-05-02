@@ -26,5 +26,8 @@
     },
     {
         "url":"http://service-c:80/sub2b?sleep=0    &status=200", "method":"GET", "headers": {}, "body": {}
+    },
+    {
+        "async":"false", "url":"http://service-e:80/sub2a?sleep=0&status=502", "method":"GET", "headers": {}, "body": {}
     }
 ]}
