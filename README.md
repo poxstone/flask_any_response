@@ -115,6 +115,7 @@ kubectl apply -f "./";
   - istio/istio-raw/serviceEntry/
   - Edit serviceEntry.yaml to change consult endpoints
   - kiali: `istioctl dashboard kiali`
+  - `for i in {0..300};do curl -X POST "${URL}/json-requests/1/" -H "Content-Type: application/json" -d '@./curl_tests/json-requests_serviceEntry.json';done;`
 - **IstioOperator**:
 - **FrontendConfig**:
 - **EnvoyFilter**:
@@ -222,8 +223,13 @@ minikube addons enable ingress-dns;
 minikube addons enable ingress;
 minikube addons enable metrics-server;
 
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/addons/prometheus.yaml;
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/addons/kiali.yaml;
 istioctl install;
 kubectl label namespace default istio-injection=enabled;
+
+minikube dashboard;
+istioctl dashboard kiali;
 ```
 
 

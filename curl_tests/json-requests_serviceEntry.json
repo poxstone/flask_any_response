@@ -1,0 +1,30 @@
+{"body_data":[
+
+    {
+        "async":"true", "url":"http://service-f:80/sub2a?sleep=0", "method":"GET", "headers": {}, "body": {}
+    },
+    {
+        "async":"false", "url":"http://service-d:80/json-requests/2/", "method":"POST", "headers":{"Content-Type": "application/json"}, "body": {
+            "body_data": [{
+                "url":"http://service-e:80/sub3?sleep=0", "method":"POST",
+                "body":{"key": "1"},
+                "headers":{"Content-Type": "application/json"}
+            },
+            {
+                "async":"false", "url":"https://www.google.com/", "method":"GET", "headers": {}, "body": {}
+            },
+            {
+                "url":"http://service-b:80/json-requests/2/", "method":"POST", "headers":{"Content-Type": "application/json"}, "body": {
+                    "body_data": [{
+                        "url":"http://service-f:80/sub3?sleep=0", "method":"POST",
+                        "body":{"key": "1"},
+                        "headers":{"Content-Type": "application/json"}
+                    }]
+                }
+            }]
+        }
+    },
+    {
+        "url":"http://service-c:80/sub2b?sleep=0    &status=200", "method":"GET", "headers": {}, "body": {}
+    }
+]}
