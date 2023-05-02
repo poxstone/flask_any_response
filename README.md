@@ -214,6 +214,18 @@ cd cloudrun;
 gcloud builds submit --config="./cloudbuild.yaml" --region "us-central1" --project "${GOOGLE_CLOUD_PROJECT}";
 ```
 
+## Minikube
+
+```bash
+minikube start --cpus='6' --memory='8192' --nodes='1' --kubernetes-version='1.26.3' --addons=ingress-dns,ingress,dashboard,metrics-server;
+minikube addons enable ingress-dns;
+minikube addons enable ingress;
+minikube addons enable metrics-server;
+
+istioctl install;
+kubectl label namespace default istio-injection=enabled;
+```
+
 
 ## Tests
 > ***GET parameters***:
@@ -221,7 +233,6 @@ gcloud builds submit --config="./cloudbuild.yaml" --region "us-central1" --proje
 > - method: use for change method ex: "?method=POST"
 
 ```bash
-
 export URL="http://localhost:8080";
 ```
 
