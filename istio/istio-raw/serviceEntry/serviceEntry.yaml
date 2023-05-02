@@ -9,9 +9,13 @@ spec:
   - www.google.com
   - api.facebook.com
   - eltiempo.com
+  - api.ipify.org
   location: MESH_EXTERNAL
   ports:
   - number: 443
     name: https
     protocol: TLS
+  - number: 80
+    name: http
+    protocol: HTTP
   resolution: DNS
