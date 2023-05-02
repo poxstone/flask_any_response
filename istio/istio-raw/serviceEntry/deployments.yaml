@@ -19,7 +19,7 @@ spec:
       - name: service-a
         env:
         - name: VERSION_DEP
-          value: 'service-a'
+          value: service-a
         image: poxstone/flask_any_response
         ports:
         - containerPort: 8080
@@ -46,7 +46,7 @@ spec:
       - name: service-b
         env:
         - name: VERSION_DEP
-          value: 'service-b'
+          value: service-b
         image: poxstone/flask_any_response
         ports:
         - containerPort: 8080
@@ -74,7 +74,89 @@ spec:
       - name: service-c
         env:
         - name: VERSION_DEP
-          value: 'service-c'
+          value: service-c
+        image: poxstone/flask_any_response
+        ports:
+        - containerPort: 8080
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-d
+  namespace: default
+  labels:
+    app: service-d
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-d
+  template:
+    metadata:
+      labels:
+        app: service-d
+    spec:
+      containers:
+      - name: service-d
+        env:
+        - name: VERSION_DEP
+          value: service-d
+        image: poxstone/flask_any_response
+        ports:
+        - containerPort: 8080
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-e
+  namespace: default
+  labels:
+    app: service-e
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-e
+  template:
+    metadata:
+      labels:
+        app: service-e
+    spec:
+      containers:
+      - name: service-e
+        env:
+        - name: VERSION_DEP
+          value: service-e
+        image: poxstone/flask_any_response
+        ports:
+        - containerPort: 8080
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-f
+  namespace: default
+  labels:
+    app: service-f
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-f
+  template:
+    metadata:
+      labels:
+        app: service-f
+    spec:
+      containers:
+      - name: service-f
+        env:
+        - name: VERSION_DEP
+          value: service-f
         image: poxstone/flask_any_response
         ports:
         - containerPort: 8080
