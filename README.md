@@ -218,7 +218,11 @@ gcloud builds submit --config="./cloudbuild.yaml" --region "us-central1" --proje
 ## Minikube
 
 ```bash
+#start A
 minikube start --cpus='6' --memory='8192' --nodes='1' --kubernetes-version='1.26.3' --addons=ingress-dns,ingress,dashboard,metrics-server;
+#start B (potional 3 nodes)
+minikube start --cpus='2' --memory='4096' --nodes='3' --disk-size='20GB' --kubernetes-version='1.26.3' --addons=ingress-dns,ingress,dashboard,metrics-server;
+
 minikube addons enable ingress-dns;
 minikube addons enable ingress;
 minikube addons enable metrics-server;
