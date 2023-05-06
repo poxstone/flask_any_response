@@ -18,9 +18,9 @@ python3 application.py;
 docker build -t poxstone/flask_any_response .;
 docker push poxstone/flask_any_response;
 # local
-docker run --rm -it --net host -p 80:80 -p 9090:9090/tcp -p 9191:9191 -p 8080:8080 -p 5005:5005/udp -p 5678:5678 -e GOOGLE_CLOUD_PROJECT="${GOOGLE_CLOUD_PROJECT}" poxstone/flask_any_response;
+docker run --rm -it --net host -p 80:80 -p 9090:9090/tcp -p 9191:9191 -p 8080:8080 -p 5005:5005/udp -p 5678:5678 -p 50051:50051 -e GOOGLE_CLOUD_PROJECT="${GOOGLE_CLOUD_PROJECT}" poxstone/flask_any_response;
 # production
-docker run -itd --pull=always --restart always --net host -e VERSION_DEP=MAIN -p 9090:9090/tcp -p 80:80 -p 9191:9191 -p 5678:5678 -p 8080:8080 -p 5005:5005/udp -e GOOGLE_CLOUD_PROJECT="${GOOGLE_CLOUD_PROJECT}" poxstone/flask_any_response;
+docker run -itd --pull=always --restart always --net host -e VERSION_DEP=MAIN -p 9090:9090/tcp -p 80:80 -p 9191:9191 -p 5678:5678 -p 8080:8080 -p 5005:5005/udp -p 50051:50051 -e GOOGLE_CLOUD_PROJECT="${GOOGLE_CLOUD_PROJECT}" poxstone/flask_any_response;
 ```
 - Simple k8s
 ```bash
@@ -234,6 +234,7 @@ kubectl label namespace default istio-injection=enabled;
 
 minikube dashboard;
 istioctl dashboard kiali;
+istioctl dashboard prometheus;
 ```
 
 
@@ -259,6 +260,9 @@ curl -X GET "${URL}/lv1/lv2?sleep=10";
 
 # udp send
 curl -X GET "${URL}/testudp/?UDP_IP=127.0.0.1&UDP_PORT=5005&MESSAGE=hola";
+
+# grpc test
+curl -X GET "${URL}/grpc-requests/127.0.0.1/50051";
 
 # proxy request GET external html request
 curl -X GET "${URL}/requests/https/eltiempo.com/443/?path=/opinion/columnistas/martha-senn&other=none";

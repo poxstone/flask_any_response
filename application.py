@@ -266,6 +266,27 @@ def doScript():
     return 'nothing to do', global_state
 
 
+@app.route('/grpc-requests/<domain>/<port>/', methods=FULL_METHODS)
+def grpc_requests(domain, port):
+    printing('requests(domain, port):')
+    import requests
+    import grpc
+    import GRPC.hello_grpc as hello_grpc
+
+    method = request.args.get('method').upper() if request.args.get('method') \
+                                                else request.method
+    path = request.args.get('path') if request.args.get('path') else ''
+    path = path if path.startswith('/') else '/{}'.format(path)
+    headers_data = {}
+    params_data = ''
+
+    printing(f'TRY_GRPC to {domain}:{port}')
+    with grpc.insecure_channel(f'{domain}:{port}') as channel:
+        stub = hello_grpc.GreeterStub(channel)
+        response = stub.SayHello(hello_grpc.HelloRequest(name='you'))
+    return "Greeter client received: " + response.message, global_state
+
+
 @app.route('/requests/<protocol>/<domain>/<port>/', methods=FULL_METHODS)
 def requests(protocol, domain, port):
     printing('requests(protocol, domain, port):')

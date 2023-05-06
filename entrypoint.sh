@@ -28,6 +28,7 @@ sleep "${INIT_APP_TIME}";
 echo "CONTAINER_TIME_PY_INIT: $(date)";
 python3 ./UDP/application.py & \
 python3 ./WEBSOCKET/websocket.py & \
+python3 ./GRPC/server.py & \
 # python3 ./GCP_PROFILER/bench.py & \
 gunicorn --workers=$WORKERS --timeout=$TIMEOUT --bind 0.0.0.0:$PORT $GUNICORN_MODULE:$GUNICORN_CALLABLE;
 echo "CONTAINER_TIME_PY_END: $(date)";

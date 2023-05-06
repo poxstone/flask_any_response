@@ -30,6 +30,8 @@ spec:
           value: '9090'
         - name: WEBSOCKET_PORT
           value: '5678'
+        - name: GRPC_PORT
+          value: '50051'
         - name: WORKERS
           value: '3'  # this increase ram required
         - name: TIMEOUT
