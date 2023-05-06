@@ -215,7 +215,7 @@ cd cloudrun;
 gcloud builds submit --config="./cloudbuild.yaml" --region "us-central1" --project "${GOOGLE_CLOUD_PROJECT}";
 ```
 
-## Minikube
+## Minikube and istio
 
 ```bash
 #start A
@@ -228,13 +228,19 @@ minikube addons enable ingress;
 minikube addons enable metrics-server;
 
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/addons/prometheus.yaml;
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/addons/kiali.yaml;
 istioctl install;
-kubectl label namespace default istio-injection=enabled;
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/addons/kiali.yaml;
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.17/samples/addons/grafana.yaml;
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.17/samples/addons/jaeger.yaml;
+# ingress and egress
+istioctl install --set components.egressGateways[0].name=istio-egressgateway --set components.egressGateways[0].enabled=true
 
+kubectl label namespace default istio-injection=enabled;
 minikube dashboard;
 istioctl dashboard kiali;
+istioctl dashboard grafana;
 istioctl dashboard prometheus;
+istioctl dashboard jaeger;
 ```
 
 
