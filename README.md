@@ -232,6 +232,7 @@ istioctl install;
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/addons/kiali.yaml;
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.17/samples/addons/grafana.yaml;
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.17/samples/addons/jaeger.yaml;
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.17/samples/addons/extras/zipkin.yam
 # ingress and egress
 istioctl install --set components.egressGateways[0].name=istio-egressgateway --set components.egressGateways[0].enabled=true
 
@@ -241,6 +242,7 @@ istioctl dashboard kiali;
 istioctl dashboard grafana;
 istioctl dashboard prometheus;
 istioctl dashboard jaeger;
+istioctl dashboard zipkin;
 ```
 
 
