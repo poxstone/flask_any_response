@@ -1,0 +1,10 @@
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: default
+  namespace: default
+spec:
+  mtls:
+    mode: PERMISSIVE  # default allow mTLS and not
+    #mode: STRICT  # only mTLS (external request no mTLS will fail)
+    #mode: DISABLE  # disable mTLS automatical

@@ -25,7 +25,7 @@ docker run -itd --pull=always --restart always --net host -e VERSION_DEP=MAIN -p
 - Simple k8s
 ```bash
 # Run normal
-kubectl run test-app --image=poxstone/flask_any_response --port=8080 --labels="app=flask,env=dev";
+kubectl run test-app --image=poxstone/flask_any_response --port=8080 --labels="app=flask,env=dev" -n default;
 
 # Run Interactive
 kubectl run -i -t test-tty --image=poxstone/flask_any_response --restart=Never -- sh;
@@ -110,18 +110,21 @@ kubectl apply -f "./";
   - istio/istio-raw/gateway_virtualServices/
   - Like GateWay...
 - **AuthorizationPolicy**: Allow authorize traffict between services, namespaces, ips, servicesAccounts
-- **RequestAuthentication**: Add encriotion to requests
+- **RequestAuthentication**: Add encription to requests
 - **ServiceEntry**: 
   - istio/istio-raw/serviceEntry/
   - Edit serviceEntry.yaml to change consult endpoints
   - kiali: `istioctl dashboard kiali`
   - `for i in {0..300};do curl -X POST "${URL}/json-requests/1/" -H "Content-Type: application/json" -d '@./curl_tests/json-requests_serviceEntry.json';done;`
-- **IstioOperator**:
+- **PeerAuthentication**: Implements automatic mtls into namespace deployed
+  - Like ServiceEntry
+  - istio/istio-raw/serviceEntry/peerAuthentication.yaml
+- **IstioOperator**: is self the istio config in istio-system, plugins enabled and anothers
+  - `kubectl edit IstioOperator installed-state -n istio-system`
 - **FrontendConfig**:
 - **EnvoyFilter**:
 - **DestinationRule**:: service comunication
 - **DestinationRule**:
-- **PeerAuthentication**:
 - **Telemetry**:
 - **ProxyConfig**:
 - **WorkloadEntry**:
