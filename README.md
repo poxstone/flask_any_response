@@ -109,7 +109,9 @@ kubectl apply -f "./";
 - **VirtualService**: Split traffict to services and output to gateway
   - istio/istio-raw/gateway_virtualServices/
   - Like GateWay...
-- **AuthorizationPolicy**: Allow authorize traffict between services, namespaces, ips, servicesAccounts
+- **AuthorizationPolicy**: is like Firewall, Allow authorize traffict between services, namespaces, ips, servicesAccounts
+  - istio/istio-raw/authorizationPolicy/
+  - Edit authorizationPolicy.yaml
 - **RequestAuthentication**: Add encription to requests
 - **ServiceEntry**: 
   - istio/istio-raw/serviceEntry/
@@ -118,15 +120,15 @@ kubectl apply -f "./";
   - `for i in {0..300};do curl -X POST "${URL}/json-requests/1/" -H "Content-Type: application/json" -d '@./curl_tests/json-requests_serviceEntry.json';done;`
 - **PeerAuthentication**: Implements automatic mtls into namespace deployed
   - Like ServiceEntry
-  - istio/istio-raw/serviceEntry/peerAuthentication.yaml
+  - Edit istio/istio-raw/serviceEntry/peerAuthentication.yaml
 - **IstioOperator**: is self the istio config in istio-system, plugins enabled and anothers
   - `kubectl edit IstioOperator installed-state -n istio-system`
+- **EnvoyFilter**: Allow modify behavior "Evoy proxy sidecard" of all pods. like rate_limit
+- **ProxyConfig**: Allow config anothers properties of EnvoyPorxy like timeout, protocols, dns...
 - **FrontendConfig**:
-- **EnvoyFilter**:
 - **DestinationRule**:: service comunication
 - **DestinationRule**:
 - **Telemetry**:
-- **ProxyConfig**:
 - **WorkloadEntry**:
 - **WorkloadGroup**:
 
