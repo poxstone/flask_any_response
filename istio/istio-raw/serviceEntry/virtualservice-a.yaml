@@ -1,0 +1,29 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: service-a-virtualservice
+  namespace: default
+spec:
+  hosts:
+  - '*'
+  gateways:
+  - services-gateway
+  http:
+  - name: service-a-virtualservice
+    timeout: 15s
+    route:
+    - destination:
+        host: service-a
+        port:
+          number: 80
+    #  weight: 80
+    #- destination:
+    #    host: service-b
+    #    port:
+    #      number: 80
+    #  weight: 15
+    #- destination:
+    #    host: service-c
+    #    port:
+    #      number: 80
+    #  weight: 5

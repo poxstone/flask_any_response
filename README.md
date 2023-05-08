@@ -224,32 +224,35 @@ gcloud builds submit --config="./cloudbuild.yaml" --region "us-central1" --proje
 
 ```bash
 #start A
-minikube start --cpus='6' --memory='8192' --nodes='1' --kubernetes-version='1.26.3' --addons=ingress-dns,ingress,dashboard,metrics-server;
+minikube start --cpus='6' --memory='8192' --nodes='1' --kubernetes-version='1.26.3' --addons='ingress-dns,ingress,dashboard,metrics-server';
 #start B (potional 3 nodes)
-minikube start --cpus='2' --memory='4096' --nodes='3' --disk-size='20GB' --kubernetes-version='1.26.3' --addons=ingress-dns,ingress,dashboard,metrics-server;
+minikube start --cpus='2' --memory='3072' --nodes='3' --disk-size='8GB' --kubernetes-version='1.26.3' --addons='ingress-dns,ingress,dashboard,metrics-server' --subnet='192.168.49.0/24' --network='minikube' --driver='docker';
 
 minikube addons enable ingress-dns;
 minikube addons enable ingress;
 minikube addons enable metrics-server;
 
+istioctl install --set components.egressGateways[0].name=istio-egressgateway --set components.egressGateways[0].enabled=true;
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/addons/prometheus.yaml;
-istioctl install;
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/addons/kiali.yaml;
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.17/samples/addons/grafana.yaml;
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.17/samples/addons/jaeger.yaml;
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.17/samples/addons/extras/zipkin.yam
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.17/samples/addons/extras/zipkin.yaml;
 # ingress and egress
-istioctl install --set components.egressGateways[0].name=istio-egressgateway --set components.egressGateways[0].enabled=true
 
 kubectl label namespace default istio-injection=enabled;
 minikube dashboard;
 istioctl dashboard kiali;
-istioctl dashboard grafana;
 istioctl dashboard prometheus;
+istioctl dashboard grafana;
 istioctl dashboard jaeger;
 istioctl dashboard zipkin;
-```
+# important for EXTERNAL IPS
+minikube tunnel;
 
+# int previous not works
+# rm -rf ${HOME}/.minikube;
+```
 
 ## Tests
 > ***GET parameters***:
@@ -412,7 +415,7 @@ curl 'http://localhost:5678/' \
 ```bash
 sudo apt install siege;
 # simule 255 concurrents users
-sie
+siez
 ge -c 255 "${URL}";
 ```
 ```bash
