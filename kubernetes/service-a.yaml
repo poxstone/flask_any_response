@@ -12,7 +12,7 @@ spec:
   ports:
     - name: http
       protocol: TCP
-      port: 8080
+      port: 8080  # 443
       targetPort: 8080
     - name: http-proxy
       protocol: TCP
@@ -30,6 +30,10 @@ spec:
       protocol: TCP
       port: 5678
       targetPort: 5678
-  #type: LoadBalancer  # for tcp lb
+    - name: http-grpc
+      protocol: TCP
+      port: 50051
+      targetPort: 50051
+  type: LoadBalancer  # for tcp lb
   #type: ClusterIP  # for ingress, gateway
-  type: NodePort  # gateway
+  #type: NodePort  # gateway

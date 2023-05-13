@@ -19,7 +19,8 @@ spec:
         #cloud.google.com/gke-nodepool: nodepool-apps
         #process: medium
       containers:
-      - env:
+      - name: flask-any-response-a
+        env:
         - name: PORT
           value: '8080'
         - name: UDP_PORT
@@ -56,24 +57,18 @@ spec:
           failureThreshold: 2
           #tcpSocket:
           httpGet:
-            path: /index.html
+            path: /
             port: 8080
             scheme: HTTP
+            #scheme: HTTPS
           #exec:
           #  command:
-          #  - sleep
-          #  - 10
+          #  - "sleep"
+          #  - "3"
           initialDelaySeconds: 10
           periodSeconds: 5
           successThreshold: 1
           timeoutSeconds: 3
-        name: flask-any-response-a
-        ports:
-        - containerPort: 8080
-        - containerPort: 5005
-        - containerPort: 5678
-        - containerPort: 9191
-        - containerPort: 9090
         readinessProbe:
           failureThreshold: 2
           #tcpSocket:
@@ -81,14 +76,24 @@ spec:
             path: /index.html
             port: 8080
             scheme: HTTP
+            #scheme: HTTPS
           #exec:
           #  command:
-          #  - sleep
-          #  - 10
+          #  - "sleep"
+          #  - "10"
           initialDelaySeconds: 10
           periodSeconds: 5
           successThreshold: 1
           timeoutSeconds: 3
+        ports:
+        - containerPort: 80
+        - containerPort: 443
+        - containerPort: 8080
+        - containerPort: 5005
+        - containerPort: 5678
+        - containerPort: 9191
+        - containerPort: 9090
+        - containerPort: 50051
         resources:
           #limits:
           #  cpu: 500m
@@ -96,3 +101,11 @@ spec:
           requests:
             cpu: 250m
             memory: 128Mi
+      #  volumeMounts:
+      #  - mountPath: /app/.certs/
+      #    name: host-mount
+      ## mout for minikube
+      #volumes:
+      #- name: host-mount
+      #  hostPath: 
+      #    path: /mount

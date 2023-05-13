@@ -230,11 +230,12 @@ gcloud builds submit --config="./cloudbuild.yaml" --region "us-central1" --proje
 #start A
 minikube start --cpus='6' --memory='8192' --nodes='1' --kubernetes-version='1.26.3' --addons='ingress-dns,ingress,dashboard,metrics-server';
 #start B (potional 3 nodes)
-minikube start --cpus='2' --memory='3072' --nodes='3' --disk-size='8GB' --kubernetes-version='1.26.3' --addons='ingress-dns,ingress,dashboard,metrics-server' --subnet='192.168.49.0/24' --network='minikube' --driver='docker' --mount="$PWD/mount:/mount";
+minikube start --cpus='2' --memory='3072' --nodes='3' --disk-size='8GB' --kubernetes-version='1.26.3' --addons='ingress-dns,ingress,dashboard,metrics-server' --subnet='192.168.49.0/24' --network='minikube' --driver='docker' --mount-string="$PWD/mount:/mount" --mount;
 
 minikube addons enable ingress-dns;
 minikube addons enable ingress;
 minikube addons enable metrics-server;
+# minikube mount "$PWD/.certs:/certs";
 
 istioctl install --set components.egressGateways[0].name=istio-egressgateway --set components.egressGateways[0].enabled=true;
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/addons/prometheus.yaml;
@@ -481,10 +482,11 @@ sudo chown -R "$(id -u):$(id -g)" ${HOME}/cerbot;
 cd ${HOME}/cerbot/archive/${MY_DOMAIN}/;
 ```
 4. Keys into folder:
-  - **cert1.pem** (cert.pem, tls.crt): PEM encoded X.509 public key, certificate. Into kubernetes secret values are **tls.crt** but in base 64
-  - **chain1.pem** (chain.pem): 
-  - **fullchain1.pem** (fullchain.pem): 
-  - **privkey1.pem** (privkey.pem, tls.key): unencrypted PEM encoded RSA, private key. Into kubernetes secret values are **tls.key** but in base 64
+> X0= Principal domain, X1=ISRG Root X1, X2= DST Root CA X3
+  - **cert1.pem** (cert.pem, tls.crt x0): PEM encoded X.509 public key, certificate. Into kubernetes secret values are **tls.crt** but in base 64 (BEGIN CERTIFICATE X 1 cert)
+  - **chain1.pem** (chain.pem X1, X2): us not cert1.pem  conecta el certificado emitido por la CA con el certificado raíz de la CA, s utiliza en el cliente/browser/navegador cuando este no puede conectar con el CA (BEGIN CERTIFICATE X2 chains)
+  - **fullchain1.pem** (fullchain.pem, tls.crt X0, X1, X2): has X.509 and intermedium cert is better than cert1.pem (BEGIN CERTIFICATE X3 certs)
+  - **privkey1.pem** (privkey.pem, tls.key): unencrypted PEM encoded RSA, private key. Into kubernetes secret values are **tls.key** but in base 64 (BEGIN PRIVATE KEY X1 Private Key backend)
 5. Keys for kubernetes secret (secret-ssl-flask-any-service)
 ```bash
 # tls.crt and tls.key
