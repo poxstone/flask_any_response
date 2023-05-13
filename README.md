@@ -11,6 +11,8 @@ python3 -m pip install -r requirements.txt;
 - Run
 ```bash
 python3 application.py;
+# alternative gunicorn (comment TLS --certfile and --keyfile)
+gunicorn --workers="2" --timeout="120" --bind="0.0.0.0:8080" --certfile=".certs/tls.crt" --keyfile=".certs/tls.key" application:app;
 ```
 
 - Docker
@@ -19,6 +21,8 @@ docker build -t poxstone/flask_any_response .;
 docker push poxstone/flask_any_response;
 # local
 docker run --rm -it --net host -p 80:80 -p 9090:9090/tcp -p 9191:9191 -p 8080:8080 -p 5005:5005/udp -p 5678:5678 -p 50051:50051 -e GOOGLE_CLOUD_PROJECT="${GOOGLE_CLOUD_PROJECT}" poxstone/flask_any_response;
+# run certs
+docker run --rm -it --net host -p 8080:8080 -v "${PWD}/.certs/:/app/.certs/" -e "CERTFILE_CRT=/app/.certs/tls.crt" -e "KEYFILE_TLS=/app/.certs/tls.key" poxstone/flask_any_response;
 # production
 docker run -itd --pull=always --restart always --net host -e VERSION_DEP=MAIN -p 9090:9090/tcp -p 80:80 -p 9191:9191 -p 5678:5678 -p 8080:8080 -p 5005:5005/udp -p 50051:50051 -e GOOGLE_CLOUD_PROJECT="${GOOGLE_CLOUD_PROJECT}" poxstone/flask_any_response;
 ```
@@ -226,7 +230,7 @@ gcloud builds submit --config="./cloudbuild.yaml" --region "us-central1" --proje
 #start A
 minikube start --cpus='6' --memory='8192' --nodes='1' --kubernetes-version='1.26.3' --addons='ingress-dns,ingress,dashboard,metrics-server';
 #start B (potional 3 nodes)
-minikube start --cpus='2' --memory='3072' --nodes='3' --disk-size='8GB' --kubernetes-version='1.26.3' --addons='ingress-dns,ingress,dashboard,metrics-server' --subnet='192.168.49.0/24' --network='minikube' --driver='docker';
+minikube start --cpus='2' --memory='3072' --nodes='3' --disk-size='8GB' --kubernetes-version='1.26.3' --addons='ingress-dns,ingress,dashboard,metrics-server' --subnet='192.168.49.0/24' --network='minikube' --driver='docker' --mount="$PWD/mount:/mount";
 
 minikube addons enable ingress-dns;
 minikube addons enable ingress;
@@ -473,8 +477,8 @@ curl -X GET "http://${MY_DOMAIN}/.well-known/acme-challenge/t0k3nex4mpl3.from_le
 ```
 3. Go back first TTY and 
 ```bash
-sudo chown -R "$(id -u):$(id -g)" ./cerbot;
-cd ./cerbot/archive/${MY_DOMAIN}/;
+sudo chown -R "$(id -u):$(id -g)" ${HOME}/cerbot;
+cd ${HOME}/cerbot/archive/${MY_DOMAIN}/;
 ```
 4. Keys into folder:
   - **cert1.pem** (cert.pem, tls.crt): PEM encoded X.509 public key, certificate. Into kubernetes secret values are **tls.crt** but in base 64

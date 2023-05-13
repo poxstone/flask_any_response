@@ -10,3 +10,5 @@ filedowload*
 credentials*
 *.tfstate*
 websocket.txt
+.certs
+mount/

@@ -30,5 +30,13 @@ python3 ./UDP/application.py & \
 python3 ./WEBSOCKET/websocket.py & \
 python3 ./GRPC/server.py & \
 # python3 ./GCP_PROFILER/bench.py & \
-gunicorn --workers=$WORKERS --timeout=$TIMEOUT --bind 0.0.0.0:$PORT $GUNICORN_MODULE:$GUNICORN_CALLABLE;
+echo "Run gunicorn";
+
+if [[ "${CERTFILE_CRT}" != "" || "${KEYFILE_TLS}" != "" ]];then
+  echo "Run gunicorn With TLS ${CERTFILE_CRT} - ${KEYFILE_TLS}";
+  gunicorn --workers="${WORKERS}" --timeout="${TIMEOUT}" --bind="0.0.0.0:${PORT}" "${GUNICORN_MODULE}:${GUNICORN_CALLABLE}" --certfile="${CERTFILE_CRT}" --keyfile="${KEYFILE_TLS}";
+else
+  echo "Run gunicorn Without TLS";
+  gunicorn --workers="${WORKERS}" --timeout="${TIMEOUT}" --bind="0.0.0.0:${PORT}" "${GUNICORN_MODULE}:${GUNICORN_CALLABLE}";
+fi;
 echo "CONTAINER_TIME_PY_END: $(date)";

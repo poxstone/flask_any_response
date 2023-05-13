@@ -15,3 +15,5 @@ credentials*
 terraform/
 kubernetes/
 websocket.txt
+.certs
+mount/
