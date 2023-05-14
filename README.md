@@ -55,8 +55,6 @@ gcloud builds submit --tag "gcr.io/${GOOGLE_CLOUD_PROJECT}/flask_any_response";
 ```bash
 docker push "poxstone/flask_any_response:latest";
 ```
-## Kubernetes
-
 
 ## Kubernetes
 
@@ -76,6 +74,88 @@ gcloud container clusters get-credentials "gke-cluster-${TF_VAR_PREFIX_APP}-01" 
 cd kubernetes;
 kubectl apply -f ./;
 ```
+
+### k8s ssl cert
+
+- Variables
+```bash
+export service="flask-any-service-a";
+export secret="secret-flask-tls";
+export namespace="default";
+
+export csrName="${service}.${namespace}";
+export tmpdir="$(mktemp -d)";
+echo "${tmpdir}";
+```
+
+- Self-signed
+```bash
+openssl genrsa -out "${tmpdir}/tls.key" 2048;
+openssl req -x509 -new -nodes  -days 365 -key "${tmpdir}/tls.key" -out "${tmpdir}/tls.crt" -subj "/CN=${service}.${namespace}.svc";
+kubectl create secret tls "${secret}" --key "${tmpdir}/tls.key" --cert "${tmpdir}/tls.crt";
+```
+- k8s-signed
+```bash
+cat <<EOF >> ${tmpdir}/csr.conf
+[req]
+req_extensions = v3_req
+distinguished_name = req_distinguished_name
+[req_distinguished_name]
+[ v3_req ]
+basicConstraints = CA:FALSE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = ${service}
+DNS.2 = ${service}.${namespace}
+DNS.3 = ${service}.${namespace}.svc
+EOF
+
+# private key
+openssl genrsa -out "${tmpdir}/tls.key" 2048;
+
+# certified request
+openssl req -new -key "${tmpdir}/tls.key" -subj "/CN=${service}.${namespace}.svc" -out "${tmpdir}/server.csr" -config "${tmpdir}/csr.conf";
+kubectl delete csr "${csrName}";
+
+# create signature request
+cat <<EOF | kubectl create -f -
+apiVersion: certificates.k8s.io/v1
+kind: CertificateSigningRequest
+metadata:
+  name: ${csrName}
+  namespace: ${namespace}
+spec:
+  groups:
+  - system:authenticated
+  request: $(cat ${tmpdir}/server.csr | base64 | tr -d '\n')
+  signerName: kubernetes.io/kube-apiserver-client
+  usages:
+  - digital signature
+  - key encipherment
+  - server auth
+EOF
+
+kubectl describe csr "${csrName}";
+kubectl get csr "${csrName}" -o yaml;
+# approve
+kubectl certificate approve "${csrName}";
+serverCert=$(kubectl get csr ${csrName} -o jsonpath='{.status.certificate}');
+echo $serverCert;
+# signed cert
+echo ${serverCert} | openssl base64 -d -A -out ${tmpdir}/tls.crt;
+```
+- Create k8s secret
+```bash
+# upload as secret
+kubectl create secret generic ${secret} \
+        --from-file=tls.key=${tmpdir}/tls.key \
+        --from-file=tls.crt=${tmpdir}/tls.crt \
+        --dry-run=client -o yaml |
+    kubectl -n ${namespace} apply -f -
+```
+
 
 ## Helm
 ```bash
@@ -230,11 +310,12 @@ gcloud builds submit --config="./cloudbuild.yaml" --region "us-central1" --proje
 #start A
 minikube start --cpus='6' --memory='8192' --nodes='1' --kubernetes-version='1.26.3' --addons='ingress-dns,ingress,dashboard,metrics-server';
 #start B (potional 3 nodes)
-minikube start --cpus='2' --memory='3072' --nodes='3' --disk-size='8GB' --kubernetes-version='1.26.3' --addons='ingress-dns,ingress,dashboard,metrics-server' --subnet='192.168.49.0/24' --network='minikube' --driver='docker' --mount-string="$PWD/mount:/mount" --mount;
+minikube start --cpus='2' --memory='3072' --nodes='3' --disk-size='8GB' --kubernetes-version='1.26.3' --addons='ingress-dns,ingress,dashboard,metrics-server,freshpod' --subnet='192.168.49.0/24' --network='minikube' --driver='docker' --mount-string="$PWD/mount:/mount" --mount;
 
 minikube addons enable ingress-dns;
 minikube addons enable ingress;
 minikube addons enable metrics-server;
+minikube start --embed-certs;
 # minikube mount "$PWD/.certs:/certs";
 
 istioctl install --set components.egressGateways[0].name=istio-egressgateway --set components.egressGateways[0].enabled=true;
@@ -243,8 +324,10 @@ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/ad
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.17/samples/addons/grafana.yaml;
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.17/samples/addons/jaeger.yaml;
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.17/samples/addons/extras/zipkin.yaml;
-# ingress and egress
+# for sing certs
+#kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.11.0/cert-manager.yaml;
 
+# ingress and egress
 kubectl label namespace default istio-injection=enabled;
 minikube dashboard;
 istioctl dashboard kiali;
