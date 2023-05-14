@@ -47,9 +47,9 @@ spec:
         - name: LOGS_PRINT
           value: 'false'
         - name: CERTFILE_CRT
-          value: ''  # absolute or relative path for certs .certs/tls.crt 
+          value: '.certs/tls.crt'  # absolute or relative path for certs .certs/tls.crt 
         - name: KEYFILE_TLS
-          value: ''  # absolute or relative path for certs .certs/tls.key 
+          value: '.certs/tls.key'  # absolute or relative path for certs .certs/tls.key 
         image: poxstone/flask_any_response
         #imagePullPolicy: Always
         livenessProbe:

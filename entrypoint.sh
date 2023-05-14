@@ -32,7 +32,7 @@ python3 ./GRPC/server.py & \
 # python3 ./GCP_PROFILER/bench.py & \
 echo "Run gunicorn";
 
-if [[ "${CERTFILE_CRT}" != "" || "${KEYFILE_TLS}" != "" ]];then
+if [[ "${CERTFILE_CRT}" != "" && "${KEYFILE_TLS}" != "" && -f "${CERTFILE_CRT}" && -f "${KEYFILE_TLS}" ]];then
   echo "Run gunicorn With TLS ${CERTFILE_CRT} - ${KEYFILE_TLS}";
   gunicorn --workers="${WORKERS}" --timeout="${TIMEOUT}" --bind="0.0.0.0:${PORT}" "${GUNICORN_MODULE}:${GUNICORN_CALLABLE}" --certfile="${CERTFILE_CRT}" --keyfile="${KEYFILE_TLS}";
 else

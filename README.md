@@ -493,7 +493,7 @@ cd ${HOME}/cerbot/archive/${MY_DOMAIN}/;
 ln -s ./cert1.pem "tls.crt";
 ln -s ./privkey1.pem "tls.key";
 
-kubectl create secret generic ssl-temp --from-file="./tls.crt" --from-file="./tls.key";
+kubectl create secret generic secret-flask-tls --from-file="./.certs/tls.crt" --from-file="./.certs/tls.key";
 # get keys
 kubectl get secrets ssl-temp -o yaml;
 ```

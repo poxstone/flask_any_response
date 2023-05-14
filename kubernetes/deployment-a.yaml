@@ -15,7 +15,7 @@ spec:
       labels:
         app: flask-any-response-a
     spec:
-      #nodeSelector:
+      nodeSelector:
         #cloud.google.com/gke-nodepool: nodepool-apps
         #process: medium
       containers:
@@ -48,19 +48,18 @@ spec:
         - name: LOGS_PRINT
           value: 'false'
         - name: CERTFILE_CRT
-          value: ''  # absolute or relative path for certs .certs/tls.crt 
+          value: '.certs/tls.crt'  # absolute or relative path for certs .certs/tls.crt 
         - name: KEYFILE_TLS
-          value: ''  # absolute or relative path for certs .certs/tls.key 
+          value: '.certs/tls.key'  # absolute or relative path for certs .certs/tls.key 
         image: poxstone/flask_any_response
         #imagePullPolicy: Always
         livenessProbe:
           failureThreshold: 2
           #tcpSocket:
           httpGet:
-            path: /
+            path: /index.html
             port: 8080
-            scheme: HTTP
-            #scheme: HTTPS
+            scheme: HTTP  # HTTPS TCP
           #exec:
           #  command:
           #  - "sleep"
@@ -75,8 +74,8 @@ spec:
           httpGet:
             path: /index.html
             port: 8080
-            scheme: HTTP
-            #scheme: HTTPS
+            #scheme: HTTP
+            scheme: HTTP  # HTTPS TCP
           #exec:
           #  command:
           #  - "sleep"
@@ -95,17 +94,20 @@ spec:
         - containerPort: 9090
         - containerPort: 50051
         resources:
-          #limits:
+          limits:
           #  cpu: 500m
           #  memory: 256Mi
           requests:
             cpu: 250m
             memory: 128Mi
-      #  volumeMounts:
+        volumeMounts:
       #  - mountPath: /app/.certs/
-      #    name: host-mount
+      #    name: tls-domain
       ## mout for minikube
-      #volumes:
-      #- name: host-mount
+      volumes:
+      #- name: tls-domain  #  minikube mount
       #  hostPath: 
       #    path: /mount
+      #- name: tls-domain  # normal k8s secret
+      #  secret:
+      #    secretName: secret-flask-tls
