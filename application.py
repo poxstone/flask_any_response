@@ -289,10 +289,9 @@ def grpc_requests(domain, port):
         except:
             body_data = body_data
     else:
-        body_data = getPost(request)
-    
-    if request.form:
-        body_data = getPost(request)
+        if request.form:
+            body_data = getPost(request)
+        body_data = getPost(request) if getPost(request) else body_data
         
     path = request.args.get('path') if request.args.get('path') else ''
     path = path if path.startswith('/') else '/{}'.format(path)
