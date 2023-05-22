@@ -271,20 +271,42 @@ def grpc_requests(domain, port):
     printing('requests(domain, port):')
     import requests
     import grpc
-    import GRPC.hello_grpc as hello_grpc
+    #import GRPC.hello_grpc as hello_grpc
+    from GRPC.proto_grpc import userexample_pb2
+    from GRPC.proto_grpc import userexample_pb2_grpc
 
+    body_data = {
+        'user_name': 'John Doe',
+        'age': '42',
+        'email': 'John_doe@mail.com',
+    }
     method = request.args.get('method').upper() if request.args.get('method') \
                                                 else request.method
+    
+    if method in ['POST','PUT','DELETE','PATCH'] and request.args.get('body'):
+        try:
+            body_data = json.loads(request.args.get('body'))
+        except:
+            body_data = body_data
+    else:
+        body_data = getPost(request)
+    
+    if request.form:
+        body_data = getPost(request)
+        
     path = request.args.get('path') if request.args.get('path') else ''
     path = path if path.startswith('/') else '/{}'.format(path)
-    headers_data = {}
-    params_data = ''
 
     printing(f'TRY_GRPC to {domain}:{port}')
-    with grpc.insecure_channel(f'{domain}:{port}') as channel:
-        stub = hello_grpc.GreeterStub(channel)
-        response = stub.SayHello(hello_grpc.HelloRequest(name='you'))
-    return "Greeter client received: " + response.message, global_state
+    channel = grpc.insecure_channel(f'{domain}:{port}')
+    stub = userexample_pb2_grpc.UserExampleServiceStub(channel)
+    # create grpc
+    user = userexample_pb2.User(user_name=body_data['user_name'], age=int(body_data['age']), email=body_data['email'])
+    # Get response grpc
+    response = stub.GetUser(user)
+    printing(f"User getter: {str(response)}")
+
+    return f"Greeter client received: {str(response)}", global_state
 
 
 @app.route('/requests/<protocol>/<domain>/<port>/', methods=FULL_METHODS)

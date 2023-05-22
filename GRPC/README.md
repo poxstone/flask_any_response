@@ -1,18 +1,45 @@
-# GRPC
+# Simple GRPC Python 3
 
+## Chat GPT promt
+ ```text
+Requiero hacer un servicio "userexample" utilizando grpc con python3, dame un ejemplo de como hacerlo y qué librerias debo utilizar. El servicio tener campos de: user_name, age, email.
 
-
-- TTY Install
+Dame un ejemplo para probar el metodo "GetUser" que se encuentra en el archivo de servidor con el tipo de objeto que devería de devolver.
+```
+## Enviroment
+- Enable enviroment and libraries:
 ```bash
-pip3 install grpcio==1.54.0 grpcio-tools==1.54.0 protobuf==4.22.4;
+python3 -m virtualenv venv;
+source venv/bin/activate;
+pip install -r requirements.txt;
 ```
 
-- TTY 1
+- Create service_pb2_grpc.py service_pb2.py from service.proto:
 ```bash
-python3 server.py;
+cd ./proto_grpc/;
+python -m grpc_tools.protoc -I ./ --python_out=. --grpc_python_out=. userexample.proto;
 ```
 
-- TTY 2
+## Test service python
+
+- Server
 ```bash
-python3 client.py;
+python3 main_server.py;
 ```
+
+- Client python
+```bash
+python3 main_client.py;
+```
+
+
+- Client grpcurl
+```bash
+grpcurl -plaintext localhost:50051 describe userexample.UserExampleService;
+
+grpcurl -plaintext -d '{"user_name": "John Doe"}' localhost:50051 userexample.UserExampleService/GetUser
+
+grpcurl -plaintext localhost:50051 userexample.UserExampleService/GetUser
+```
+
+### Test service python
