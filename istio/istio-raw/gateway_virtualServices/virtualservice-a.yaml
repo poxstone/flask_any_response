@@ -30,7 +30,7 @@ spec:
   #      port:
   #        number: 3000
   - name: service-a-virtualservice
-    timeout: 15s 
+    timeout: 30s 
     route:
     - destination:
         host: service-a

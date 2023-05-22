@@ -11,6 +11,10 @@ spec:
       protocol: TCP
       port: 80
       targetPort: 8080
+    - name: grpc
+      port: 50051
+      targetPort: 50051
+      
   type: NodePort
 
 ---
@@ -27,6 +31,9 @@ spec:
       protocol: TCP
       port: 80
       targetPort: 8080
+    - name: grpc
+      port: 50051
+      targetPort: 50051
   type: NodePort
 
 ---
@@ -43,4 +50,7 @@ spec:
       protocol: TCP
       port: 80
       targetPort: 8080
+    - name: grpc
+      port: 50051
+      targetPort: 50051
   type: NodePort

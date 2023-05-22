@@ -14,13 +14,8 @@
                 "async":"false", "url":"http://api.ipify.org/", "method":"GET", "headers": {}, "body": {}
             },
             {
-                "url":"http://service-b:80/json-requests/2/", "method":"POST", "headers":{"Content-Type": "application/json"}, "body": {
-                    "body_data": [{
-                        "url":"http://service-f:80/sub3?sleep=0", "method":"POST",
-                        "body":{"key": "1"},
-                        "headers":{"Content-Type": "application/json"}
-                    }]
-                }
+                "url":"http://service-b:80/grpc-requests/service-f.default.svc/50051/", "method":"POST", "headers":{}, "body": {
+                    "user_name":"Marilyn Monroe", "age": "52", "email": "marilyn_monroe@mail.com"}
             }]
         }
     },

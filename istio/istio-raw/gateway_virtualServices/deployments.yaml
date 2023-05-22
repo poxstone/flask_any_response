@@ -6,7 +6,7 @@ metadata:
   labels:
     app: service-a
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: service-a
@@ -23,6 +23,7 @@ spec:
         image: poxstone/flask_any_response
         ports:
         - containerPort: 8080
+        - containerPort: 50051
 
 ---
 apiVersion: apps/v1
@@ -50,6 +51,7 @@ spec:
         image: poxstone/flask_any_response
         ports:
         - containerPort: 8080
+        - containerPort: 50051
 
 
 ---
@@ -78,3 +80,4 @@ spec:
         image: poxstone/flask_any_response
         ports:
         - containerPort: 8080
+        - containerPort: 50051
