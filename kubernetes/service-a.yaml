@@ -30,7 +30,7 @@ spec:
       protocol: TCP
       port: 5678
       targetPort: 5678
-    - name: http-grpc
+    - name: grpc-http
       protocol: TCP
       port: 50051
       targetPort: 50051

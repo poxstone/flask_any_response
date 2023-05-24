@@ -12,24 +12,28 @@ spec:
   ports:
     - name: http
       protocol: TCP
-      port: 8080
+      port: 8080  # 443
       targetPort: 8080
-    - name: proxyhttp
+    - name: http-proxy
       protocol: TCP
       port: 9191
       targetPort: 9191
-    - name: proxytcp
+    - name: http-tcp-proxy
       protocol: TCP
       port: 9090
       targetPort: 9090
-    - name: udp
+    - name: http-udp
       protocol: UDP
       port: 5005
       targetPort: 5005
-    - name: ws
+    - name: http-ws
       protocol: TCP
       port: 5678
       targetPort: 5678
+    - name: grpc-http
+      protocol: TCP
+      port: 50051
+      targetPort: 50051
   #type: LoadBalancer  # for tcp lb
   #type: ClusterIP  # for ingress
   type: NodePort

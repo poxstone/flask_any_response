@@ -69,11 +69,14 @@ spec:
           timeoutSeconds: 3
         name: flask-any-response-a
         ports:
+        - containerPort: 80
+        - containerPort: 443
         - containerPort: 8080
         - containerPort: 5005
         - containerPort: 5678
         - containerPort: 9191
         - containerPort: 9090
+        - containerPort: 50051
         readinessProbe:
           failureThreshold: 2
           #tcpSocket:
