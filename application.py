@@ -50,14 +50,15 @@ except (ValueError, NotImplementedError) as exc:
     printing(f'ERROR_flaskanyresponse_profiler: {exc}')
 """
 
-def printing(string):
+def printing(string, print_logs='true'):
     if LOGS_PRINT.lower() == 'true':
-        #logging.info(str(string))
-        print(f'{str(string)} - time_back({str_global}):{str(datetime.datetime.now())}')
+        if print_logs == 'true':
+            #logging.info(str(string))
+            print(f'{str(string)} - time_back({str_global}):{str(datetime.datetime.now())}')
     return ''
 
 
-def print_request(request, title="Response"):
+def print_request(request, title="Response", print_logs='true'):
     str_request = f'{str_global}-{get_random_string(int(REQUEST_STR_LENGTH))}'
     internal_ip = 'none'
     free_mem = 'none'
@@ -117,7 +118,7 @@ def print_request(request, title="Response"):
     message_code = ''
     for line in message.splitlines():
         message_code += f'{str_request}: {line}\n'
-    printing(message_code)
+    printing(message_code, print_logs)
     return message_code, mime_type, status_code
 
 
@@ -197,7 +198,7 @@ def testudp():
     server_address = (UDP_IP, int(UDP_PORT))
     sock.sendto(MESSAGE, server_address)
     resp, mime_type, status_code = print_request(request, title="testudp():")
-    return '{} ---- {}'.format(message, resp)
+    return '{} ---- {}'.format(message, resp), status_code
 
 
 @app.route('/ping/<host>/', methods=FULL_METHODS)
@@ -268,7 +269,8 @@ def doScript():
 
 @app.route('/grpc-requests/<domain>/<port>/', methods=FULL_METHODS)
 def grpc_requests(domain, port):
-    printing('requests(domain, port):')
+    printing('grpc_requests(domain, port):')
+    resp, mime_type, status_code = print_request(request, title='grpc_requests(domain, port):', print_logs='false')
     import requests
     import grpc
     #import GRPC.hello_grpc as hello_grpc
@@ -305,7 +307,7 @@ def grpc_requests(domain, port):
     response = stub.GetUser(user)
     printing(f"User getter: {str(response)}")
 
-    return f"Greeter client received: {str(response)}", global_state
+    return f"Greeter client received: {str(response)}", status_code
 
 
 @app.route('/requests/<protocol>/<domain>/<port>/', methods=FULL_METHODS)
