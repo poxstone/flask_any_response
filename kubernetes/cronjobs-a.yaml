@@ -7,7 +7,7 @@ metadata:
 spec:
   schedule: "*/1 * * * *"
   concurrencyPolicy: Allow  # Allow | Forbid | Replace
-  ttlSecondsAfterFinished: 120
+  #ttlSecondsAfterFinished: 120
   jobTemplate:
     spec:
       template:
@@ -18,10 +18,9 @@ spec:
           containers:
           - name: flask-any-cronjob-response-a
             image: poxstone/flask_any_response
-            command: ['sh', '${APP_PATH}/script.sh', '${ENTRYPOINT}']
+            command: ["stress-ng",  "--cpu", "1", "-t", "3m", "--vm-bytes", "128M"]
             env:
-              - name: ENTRYPOINT
-                #value: 'stress-ng --cpu 1 -t 3m --vm-bytes 128M'
-                value: "curl -X POST flask-any-service-a:8080/do/script/ -H 'Content-Type: application/json' -d '{\"command\":\"stress-ng --cpu 1 --vm-bytes 128M -t 30s\"}'"
+            - name: ENTRYPOINT
+              value: 'stress-ng --cpu 1 -t 3m --vm-bytes 128M'
           restartPolicy: OnFailure
       backoffLimit: 4

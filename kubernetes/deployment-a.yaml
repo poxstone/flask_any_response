@@ -97,8 +97,8 @@ spec:
           #  cpu: 500m
           #  memory: 256Mi
           requests:
-            cpu: 250m
-            memory: 128Mi
+            cpu: 200m
+            memory: 96Mi
         volumeMounts:
         #- mountPath: /app/.certs/
         #  name: tls-domain

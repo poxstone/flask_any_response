@@ -15,6 +15,11 @@
                         "url":"http://flask-any-service-f:8080/sub3?sleep=0", "method":"POST",
                         "body":{"key": "1"},
                         "headers":{"Content-Type": "application/json"}
+                    },
+                    {
+                        "url":"http://localhost:8080/grpc-requests/flask-any-service-z.flask-any-namespace-b.svc/50051/", "method":"POST",
+                        "body":{"user_name":"Karl Max", "age": "150", "email": "karl.max@imail.com"},
+                        "headers":{"Content-Type": "application/json"}
                     }]
                 }
             }]

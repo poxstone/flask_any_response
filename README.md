@@ -308,9 +308,9 @@ gcloud builds submit --config="./cloudbuild.yaml" --region "us-central1" --proje
 
 ```bash
 #start A
-minikube start --cpus='6' --memory='8192' --nodes='1' --kubernetes-version='1.26.3' --addons='ingress-dns,ingress,dashboard,metrics-server';
+minikube start "cluster-1" --cpus='6' --memory='8192' --nodes='1' --kubernetes-version='1.26.3' --addons='ingress-dns,ingress,dashboard,metrics-server';
 #start B (potional 3 nodes)
-minikube start --cpus='2' --memory='3072' --nodes='3' --disk-size='8GB' --kubernetes-version='1.26.3' --addons='ingress-dns,ingress,dashboard,metrics-server,freshpod' --subnet='192.168.49.0/24' --network='minikube' --driver='docker' --mount-string="$PWD/mount:/mount" --mount;
+minikube start "cluster-1" --cpus='2' --memory='3072' --nodes='3' --disk-size='8GB' --kubernetes-version='1.26.3' --addons='ingress-dns,ingress,dashboard,metrics-server,freshpod' --subnet='192.168.49.0/24' --network='minikube' --driver='docker' --mount-string="$PWD/mount:/mount" --mount;
 
 minikube addons enable ingress-dns;
 minikube addons enable ingress;

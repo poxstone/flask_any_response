@@ -67,7 +67,7 @@ spec:
           periodSeconds: 5
           successThreshold: 1
           timeoutSeconds: 3
-        name: flask-any-response-a
+        name: flask-any-response-d
         ports:
         - containerPort: 80
         - containerPort: 443
@@ -97,5 +97,5 @@ spec:
           #  cpu: 500m
           #  memory: 256Mi
           requests:
-            cpu: 250m
-            memory: 128Mi
+            cpu: 200m
+            memory: 96Mi
