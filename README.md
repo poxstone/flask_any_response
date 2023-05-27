@@ -85,7 +85,7 @@ export namespace="default";
 
 export csrName="${service}.${namespace}";
 #export tmpdir="$(mktemp -d)";
-export tmpdir=".cert-self";
+export tmpdir=".certs-self";
 mkdir -p ${tmpdir};
 echo "${tmpdir}";
 
