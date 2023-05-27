@@ -14,7 +14,7 @@ spec:
   #- hosts:
   #  - my.domain1.com
   #  - local.poxsilver5.store
-  #  secretName: secret-flask-tls
+  #  secretName: secret-main-domain-tls
 
   defaultBackend:
     service:

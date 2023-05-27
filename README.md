@@ -619,13 +619,13 @@ cd ${HOME}/cerbot/archive/${MY_DOMAIN}/;
 ln -s ./cert1.pem "tls.crt";
 ln -s ./privkey1.pem "tls.key";
 
-kubectl create secret generic secret-flask-tls --from-file="./.certs/tls.crt" --from-file="./.certs/tls.key" --from-file="./.certs/chain.pem";
+kubectl create secret generic secret-main-domain-tls --from-file="./.certs/tls.crt" --from-file="./.certs/tls.key" --from-file="./.certs/chain.pem";
 # get keys
 kubectl get secrets ssl-temp -o yaml;
 ```
-6. Paste base64 values **tls.crt** and **tls.key** into **secret-ssl-a.yaml** and deploy with kubectl
+6. Paste base64 values **tls.crt** and **tls.key** into **secret-main-domain-tls.yaml** and deploy with kubectl
 ```bash
-kubectl applly -f "secret-ssl-a.yaml";
+kubectl apply -f "secret-main-domain-tls.yaml";
 ```
 7. Edit ingress-a.yaml and ensure:
 ```yaml

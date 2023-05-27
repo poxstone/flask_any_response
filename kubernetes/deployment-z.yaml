@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: flask-any-deployment-z
-  namespace: flask-any-namespace-b
+  namespace: default-b
   labels:
     app: flask-any-response-z
 spec:
@@ -111,4 +111,4 @@ spec:
       #    path: /mount
       #- name: tls-domain  # normal k8s secret
       #  secret:
-      #    secretName: secret-flask-tls
+      #    secretName: secret-main-domain-tls

@@ -111,7 +111,7 @@ spec:
       #    path: /mount
       #- name: tls-domain  # normal k8s secret
       #  secret:
-      #    secretName: secret-flask-tls
+      #    secretName: secret-main-domain-tls
       #- name: tls-domain  # normal k8s secret
       #  secret:
       #    secretName: secret-flask-service-a

@@ -3,7 +3,7 @@ kind: Namespace
 metadata:
   labels:
     istio-injection: enabled
-  name: flask-any-namespace-b
+  name: default-b
 spec:
   finalizers:
   - kubernetes
