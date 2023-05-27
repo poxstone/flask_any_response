@@ -11,5 +11,5 @@ credentials*
 *.tfstate*
 websocket.txt
 .certs
-.cert-self
+.certs-self
 mount/
