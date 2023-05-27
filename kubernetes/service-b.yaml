@@ -5,13 +5,14 @@ metadata:
   namespace: default
   #annotations:
   #  beta.cloud.google.com/backend-config: '{"ports": {"8080":"flask-any-backendconfig-a"}}'
+  #  cloud.google.com/neg: '{"ingress": true}'
 spec:
   selector:
     app: flask-any-response-b
   ports:
     - name: http
       protocol: TCP
-      port: 8080  # 443
+      port: 8080  # 8080 443
       targetPort: 8080
     - name: http-proxy
       protocol: TCP
@@ -33,6 +34,6 @@ spec:
       protocol: TCP
       port: 50051
       targetPort: 50051
-  #type: LoadBalancer
-  #type: ClusterIP
-  type: NodePort
+  #type: NodePort  # for tcp lb
+  #type: ClusterIP  # for ingress, gateway
+  type: NodePort  # gateway

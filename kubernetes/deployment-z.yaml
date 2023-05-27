@@ -101,3 +101,14 @@ spec:
           requests:
             cpu: 200m
             memory: 96Mi
+        volumeMounts:
+        #- mountPath: /app/.certs/
+        #  name: tls-domain
+      ## mout for minikube
+      volumes:
+      #- name: tls-domain  #  minikube mount
+      #  hostPath: 
+      #    path: /mount
+      #- name: tls-domain  # normal k8s secret
+      #  secret:
+      #    secretName: secret-flask-tls
