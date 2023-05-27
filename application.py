@@ -7,12 +7,10 @@ import subprocess
 import random
 import string
 import re
-import asyncio
 from time import sleep
 from flask import Flask, request, redirect, url_for, Response, render_template, send_file
 # email
 import smtplib
-import sys
 
 def get_random_string(length):
     # choose from all lowercase letter
@@ -34,6 +32,10 @@ SLEEP_TIME = os.getenv('SLEEP_TIME', '0')
 PORT = os.getenv('PORT', '8080')
 LOGS_PRINT = os.getenv('LOGS_PRINT', 'true')
 lets_token = os.getenv('LETS_TOKEN', '')
+CERTFILE_CRT= os.getenv('CERTFILE_CRT', './.certs/tls.crt')
+KEYFILE_TLS = os.getenv('KEYFILE_TLS', './.certs/tls.key')
+CA_CERT_TLS = os.getenv('CA_CERT_TLS', './.certs/chain.pem')
+
 global_state = 200
 
 # gcp profiler
@@ -271,7 +273,6 @@ def doScript():
 def grpc_requests(domain, port):
     printing('grpc_requests(domain, port):')
     resp, mime_type, status_code = print_request(request, title='grpc_requests(domain, port):', print_logs='false')
-    import requests
     import grpc
     #import GRPC.hello_grpc as hello_grpc
     from GRPC.proto_grpc import userexample_pb2
@@ -299,7 +300,15 @@ def grpc_requests(domain, port):
     path = path if path.startswith('/') else '/{}'.format(path)
 
     printing(f'TRY_GRPC to {domain}:{port}')
+
     channel = grpc.insecure_channel(f'{domain}:{port}')
+    try:
+        credentials = grpc.ssl_channel_credentials(open(CA_CERT_TLS,'rb').read(), open(KEYFILE_TLS,'rb').read(), open(CERTFILE_CRT,'rb').read())
+        channel = grpc.secure_channel(f'{domain}:{port}', credentials)
+    except Exception as e:
+        print(f'SSL_ERROR_ELSE_NO_SSL: {e}')
+        channel = grpc.insecure_channel(f'{domain}:{port}')
+
     stub = userexample_pb2_grpc.UserExampleServiceStub(channel)
     # create grpc
     user = userexample_pb2.User(user_name=body_data['user_name'], age=int(body_data['age']), email=body_data['email'])
