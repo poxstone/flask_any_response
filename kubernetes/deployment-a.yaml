@@ -109,6 +109,9 @@ spec:
       #- name: tls-domain  #  minikube mount
       #  hostPath: 
       #    path: /mount
-      - name: tls-domain  # normal k8s secret
+      #- name: tls-domain  # normal k8s secret
       #  secret:
       #    secretName: secret-flask-tls
+      #- name: tls-domain  # normal k8s secret
+      #  secret:
+      #    secretName: secret-flask-service-a

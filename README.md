@@ -88,7 +88,52 @@ export tmpdir="$(mktemp -d)";
 echo "${tmpdir}";
 ```
 
-- Self-signed
+- Self-signed [foro](https://devopscube.com/create-self-signed-certificates-openssl/)
+```bash
+openssl req -x509 -sha256 -days 356 -nodes -newkey rsa:2048 -subj "/CN=flask-any-service-a.default.svc/C=US/L=San Fransisco" -keyout tls.key -out tls.crt;
+openssl genrsa -out server.key 2048;
+cat > csr.conf <<EOF
+[ req ]
+default_bits = 2048
+prompt = no
+default_md = sha256
+req_extensions = req_ext
+distinguished_name = dn
+
+[ dn ]
+C = US
+ST = California
+L = San Fransisco
+O = MLopsHub
+OU = MlopsHub Dev
+CN = flask-any-service-a.default.svc
+
+[ req_ext ]
+subjectAltName = @alt_names
+
+[ alt_names ]
+DNS.1 = flask-any-service-a.default.svc
+DNS.2 = flask-any-service-a.default.svc.cluster.local
+IP.1 = 10.109.16.167
+IP.2 = 10.109.16.168
+EOF
+
+openssl req -new -key server.key -out server.csr -config csr.conf;
+
+cat > cert.conf <<EOF
+authorityKeyIdentifier=keyid,issuer
+basicConstraints=CA:FALSE
+keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = flask-any-service-a.default.svc
+EOF
+
+openssl x509 -req -in server.csr -CA tls.crt -CAkey tls.key -CAcreateserial -out server.crt -days 365 -sha256 -extfile cert.conf;
+kubectl create secret tls "flask-any-service-a" --key "./tls.key" --cert "./tls.crt" --cert "./tls.crt" --cert "./tls.crt" --cert "./tls.crt";
+```
+
 ```bash
 openssl genrsa -out "${tmpdir}/tls.key" 2048;
 openssl req -x509 -new -nodes  -days 365 -key "${tmpdir}/tls.key" -out "${tmpdir}/tls.crt" -subj "/CN=${service}.${namespace}.svc";
