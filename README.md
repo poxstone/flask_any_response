@@ -93,7 +93,7 @@ echo "${tmpdir}";
 export GRPC_HOST="${service}.${namespace}.svc";
 export CERTFILE_CRT="${tmpdir}/tls.crt";
 export KEYFILE_TLS="${tmpdir}/tls.key";
-export CA_CERT_TLS="${tmpdir}/chain.pem";
+export CHAIN_PEM="${tmpdir}/chain.pem";
 export GRPC_PORT="50051";
 ```
 
@@ -129,7 +129,7 @@ IP.2 = 10.109.16.167
 EOF
 openssl genpkey -algorithm RSA -out ${tmpdir};
 openssl req -new -x509 -days 365 -key ${KEYFILE_TLS} -out ${CERTFILE_CRT} -config ${tmpdir}/csr.conf;
-cat ${CERTFILE_CRT} ${KEYFILE_TLS} > ${CA_CERT_TLS};
+cat ${CERTFILE_CRT} ${KEYFILE_TLS} > ${CHAIN_PEM};
 ```
 
 - k8s-signed
@@ -184,7 +184,7 @@ echo $serverCert;
 # signed cert
 echo ${serverCert} | openssl base64 -d -A -out ${CERTFILE_CRT};
 # chain for client
-cat ${CERTFILE_CRT} ${KEYFILE_TLS} > ${CA_CERT_TLS};
+cat ${CERTFILE_CRT} ${KEYFILE_TLS} > ${CHAIN_PEM};
 ```
 
 - Create k8s secret
@@ -193,7 +193,7 @@ cat ${CERTFILE_CRT} ${KEYFILE_TLS} > ${CA_CERT_TLS};
 kubectl create secret generic ${secret} \
         --from-file=tls.key=${KEYFILE_TLS} \
         --from-file=tls.crt=${CERTFILE_CRT} \
-        --from-file=chain.pem=${CA_CERT_TLS} \
+        --from-file=chain.pem=${CHAIN_PEM} \
         --dry-run=client -o yaml |
     kubectl -n ${namespace} apply -f -
 ```

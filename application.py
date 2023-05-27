@@ -34,7 +34,7 @@ LOGS_PRINT = os.getenv('LOGS_PRINT', 'true')
 lets_token = os.getenv('LETS_TOKEN', '')
 CERTFILE_CRT= os.getenv('CERTFILE_CRT', './.certs/tls.crt')
 KEYFILE_TLS = os.getenv('KEYFILE_TLS', './.certs/tls.key')
-CA_CERT_TLS = os.getenv('CA_CERT_TLS', './.certs/chain.pem')
+CHAIN_PEM = os.getenv('CHAIN_PEM', './.certs/chain.pem')
 
 global_state = 200
 
@@ -303,7 +303,7 @@ def grpc_requests(domain, port):
 
     channel = grpc.insecure_channel(f'{domain}:{port}')
     try:
-        credentials = grpc.ssl_channel_credentials(open(CA_CERT_TLS,'rb').read(), open(KEYFILE_TLS,'rb').read(), open(CERTFILE_CRT,'rb').read())
+        credentials = grpc.ssl_channel_credentials(open(CHAIN_PEM,'rb').read(), open(KEYFILE_TLS,'rb').read(), open(CERTFILE_CRT,'rb').read())
         channel = grpc.secure_channel(f'{domain}:{port}', credentials)
     except Exception as e:
         print(f'SSL_ERROR_ELSE_NO_SSL: {e}')

@@ -48,11 +48,11 @@ spec:
         - name: LOGS_PRINT
           value: 'false'
         - name: CERTFILE_CRT
-          value: '.certs/tls.crt'  # absolute or relative path for certs .certs/tls.crt 
+          value: '.certs-self/tls.crt'  # absolute or relative path for certs .certs/tls.crt 
         - name: KEYFILE_TLS
-          value: '.certs/tls.key'  # absolute or relative path for certs .certs/tls.key 
-        - name: CA_CERT_TLS
-          value: '.certs/chain.pem'  # absolute or relative path for client certs .certs/chain.pem
+          value: '.certs-self/tls.key'  # absolute or relative path for certs .certs/tls.key 
+        - name: CHAIN_PEM
+          value: '.certs-self/chain.pem'  # absolute or relative path for client certs .certs/chain.pem
         image: poxstone/flask_any_response
         #imagePullPolicy: Always
         livenessProbe:
@@ -104,6 +104,8 @@ spec:
         volumeMounts:
         #- mountPath: /app/.certs/
         #  name: tls-domain
+        #- mountPath: /app/.certs-self/
+        #  name: tls-service
       ## mout for minikube
       volumes:
       #- name: tls-domain  #  minikube mount
@@ -112,6 +114,6 @@ spec:
       #- name: tls-domain  # normal k8s secret
       #  secret:
       #    secretName: secret-main-domain-tls
-      #- name: tls-domain  # normal k8s secret
+      #- name: tls-service  # normal k8s secret
       #  secret:
       #    secretName: secret-flask-service-a

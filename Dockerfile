@@ -25,7 +25,7 @@ ENV LETS_TOKEN=''
 # use it for rewrite ENTRYPOINT='stress-ng --cpu 1 -t 1m --vm-bytes 128M'
 ENV CERTFILE_CRT='./.certs/tls.crt'
 ENV KEYFILE_TLS='./.certs/tls.key'
-ENV CA_CERT_TLS='./.certs/chain.pem'
+ENV CHAIN_PEM='./.certs/chain.pem'
 
 # Change entrypoint
 ENV ENTRYPOINT=''
