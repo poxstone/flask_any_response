@@ -16,5 +16,6 @@ terraform/
 kubernetes/
 websocket.txt
 .certs
+.certs*
 .certs-self
 mount/

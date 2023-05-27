@@ -75,70 +75,63 @@ cd kubernetes;
 kubectl apply -f ./;
 ```
 
-### k8s ssl cert
+### k8s and ssl cert
 
 - Variables
 ```bash
 export service="flask-any-service-a";
-export secret="secret-flask-tls";
+export secret="secret-flask-service-a";
 export namespace="default";
 
 export csrName="${service}.${namespace}";
-export tmpdir="$(mktemp -d)";
+#export tmpdir="$(mktemp -d)";
+export tmpdir=".cert-self";
+mkdir -p ${tmpdir};
 echo "${tmpdir}";
+
+# for run python
+export GRPC_HOST="${service}.${namespace}.svc";
+export CERTFILE_CRT="${tmpdir}/tls.crt";
+export KEYFILE_TLS="${tmpdir}/tls.key";
+export CA_CERT_TLS="${tmpdir}/chain.pem";
+export GRPC_PORT="50051";
 ```
 
-- Self-signed [foro](https://devopscube.com/create-self-signed-certificates-openssl/)
+- Self-signed works for grpc
 ```bash
-openssl req -x509 -sha256 -days 356 -nodes -newkey rsa:2048 -subj "/CN=flask-any-service-a.default.svc/C=US/L=San Fransisco" -keyout tls.key -out tls.crt;
-openssl genrsa -out server.key 2048;
-cat > csr.conf <<EOF
-[ req ]
+cat > ${tmpdir}/csr.conf <<EOF
+[req]
 default_bits = 2048
-prompt = no
+distinguished_name = req_distinguished_name
 default_md = sha256
-req_extensions = req_ext
-distinguished_name = dn
+x509_extensions = v3_req
+prompt = no
 
-[ dn ]
+[req_distinguished_name]
 C = US
 ST = California
 L = San Fransisco
-O = MLopsHub
-OU = MlopsHub Dev
-CN = flask-any-service-a.default.svc
+O = FlaskAny
+OU = FlaskAny Dev
+CN = ${service}.${namespace}.svc
 
-[ req_ext ]
-subjectAltName = @alt_names
-
-[ alt_names ]
-DNS.1 = flask-any-service-a.default.svc
-DNS.2 = flask-any-service-a.default.svc.cluster.local
-IP.1 = 10.109.16.167
-IP.2 = 10.109.16.168
-EOF
-
-openssl req -new -key server.key -out server.csr -config csr.conf;
-
-cat > cert.conf <<EOF
-authorityKeyIdentifier=keyid,issuer
-basicConstraints=CA:FALSE
-keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+[v3_req]
+basicConstraints = CA:FALSE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
 subjectAltName = @alt_names
 
 [alt_names]
-DNS.1 = flask-any-service-a.default.svc
+DNS.1 = ${service}.${namespace}.svc
+DNS.2 = ${service}.${namespace}.svc.cluster.local
+DNS.3 = ${service}
+IP.1 = 127.0.0.1
+IP.2 = 10.109.16.167
 EOF
-
-openssl x509 -req -in server.csr -CA tls.crt -CAkey tls.key -CAcreateserial -out server.crt -days 365 -sha256 -extfile cert.conf;
-kubectl create secret tls "flask-any-service-a" --key "./tls.key" --cert "./tls.crt" --cert "./tls.crt" --cert "./tls.crt" --cert "./tls.crt";
+openssl genpkey -algorithm RSA -out ${tmpdir};
+openssl req -new -x509 -days 365 -key ${KEYFILE_TLS} -out ${CERTFILE_CRT} -config ${tmpdir}/csr.conf;
+cat ${CERTFILE_CRT} ${KEYFILE_TLS} > ${CA_CERT_TLS};
 ```
 
-```bash
-openssl genrsa -out "${tmpdir}/tls.key" 2048;
-openssl req -x509 -new -nodes  -days 365 -key "${tmpdir}/tls.key" -out "${tmpdir}/tls.crt" -subj "/CN=${service}.${namespace}.svc";
-kubectl create secret tls "${secret}" --key "${tmpdir}/tls.key" --cert "${tmpdir}/tls.crt";
-```
 - k8s-signed
 ```bash
 cat <<EOF >> ${tmpdir}/csr.conf
@@ -158,10 +151,10 @@ DNS.3 = ${service}.${namespace}.svc
 EOF
 
 # private key
-openssl genrsa -out "${tmpdir}/tls.key" 2048;
+openssl genrsa -out "${KEYFILE_TLS}" 2048;
 
 # certified request
-openssl req -new -key "${tmpdir}/tls.key" -subj "/CN=${service}.${namespace}.svc" -out "${tmpdir}/server.csr" -config "${tmpdir}/csr.conf";
+openssl req -new -key "${KEYFILE_TLS}" -subj "/CN=${service}.${namespace}.svc" -out "${tmpdir}/server.csr" -config "${tmpdir}/csr.conf";
 kubectl delete csr "${csrName}";
 
 # create signature request
@@ -189,14 +182,18 @@ kubectl certificate approve "${csrName}";
 serverCert=$(kubectl get csr ${csrName} -o jsonpath='{.status.certificate}');
 echo $serverCert;
 # signed cert
-echo ${serverCert} | openssl base64 -d -A -out ${tmpdir}/tls.crt;
+echo ${serverCert} | openssl base64 -d -A -out ${CERTFILE_CRT};
+# chain for client
+cat ${CERTFILE_CRT} ${KEYFILE_TLS} > ${CA_CERT_TLS};
 ```
+
 - Create k8s secret
 ```bash
 # upload as secret
 kubectl create secret generic ${secret} \
-        --from-file=tls.key=${tmpdir}/tls.key \
-        --from-file=tls.crt=${tmpdir}/tls.crt \
+        --from-file=tls.key=${KEYFILE_TLS} \
+        --from-file=tls.crt=${CERTFILE_CRT} \
+        --from-file=chain.pem=${CA_CERT_TLS} \
         --dry-run=client -o yaml |
     kubectl -n ${namespace} apply -f -
 ```
