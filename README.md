@@ -568,8 +568,8 @@ cd ${HOME}/cerbot/archive/${MY_DOMAIN}/;
 4. Keys into folder:
 > X0= Principal domain, X1=ISRG Root X1, X2= DST Root CA X3
   - **cert1.pem** (cert.pem, tls.crt x0): PEM encoded X.509 public key, certificate. Into kubernetes secret values are **tls.crt** but in base 64 (BEGIN CERTIFICATE X 1 cert)
-  - **chain1.pem** (chain.pem X1, X2): us not cert1.pem  conecta el certificado emitido por la CA con el certificado raíz de la CA, s utiliza en el cliente/browser/navegador cuando este no puede conectar con el CA (BEGIN CERTIFICATE X2 chains)
-  - **fullchain1.pem** (fullchain.pem, tls.crt X0, X1, X2): has X.509 and intermedium cert is better than cert1.pem (BEGIN CERTIFICATE X3 certs)
+  - **chain1.pem** (chain.pem X1, X2): us not cert1.pem  conecta el certificado emitido por la CA con el certificado raíz de la CA, se utiliza en el cliente/browser/navegador cuando este no puede conectar con el CA (BEGIN CERTIFICATE X2 chains)
+  - **fullchain.pem** (fullchain.pem, tls.crt X0, X1, X2): has X.509 and intermedium cert is better than cert1.pem (BEGIN CERTIFICATE X3 certs)
   - **privkey1.pem** (privkey.pem, tls.key): unencrypted PEM encoded RSA, private key. Into kubernetes secret values are **tls.key** but in base 64 (BEGIN PRIVATE KEY X1 Private Key backend)
 5. Keys for kubernetes secret (secret-ssl-flask-any-service)
 ```bash
@@ -577,7 +577,7 @@ cd ${HOME}/cerbot/archive/${MY_DOMAIN}/;
 ln -s ./cert1.pem "tls.crt";
 ln -s ./privkey1.pem "tls.key";
 
-kubectl create secret generic secret-flask-tls --from-file="./.certs/tls.crt" --from-file="./.certs/tls.key";
+kubectl create secret generic secret-flask-tls --from-file="./.certs/tls.crt" --from-file="./.certs/tls.key" --from-file="./.certs/chain.pem";
 # get keys
 kubectl get secrets ssl-temp -o yaml;
 ```

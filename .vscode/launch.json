@@ -9,14 +9,25 @@
       "type": "python",
       "request": "launch",
       "program": "${workspaceFolder}/application.py",
-      "console": "internalConsole"
+      "console": "internalConsole",
+      "justMyCode": true
     },
     {
-        "name": "udp",
-        "type": "python",
-        "request": "launch",
-        "program": "${workspaceFolder}/UDP/application.py",
-        "console": "internalConsole"
-      }
+      "name": "udp",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/UDP/application.py",
+      "console": "internalConsole",
+      "justMyCode": true
+    },
+    {
+      "name": "Python: Current File",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "console": "internalConsole",
+      "args": ["local.poxsilver5.store","50051","./.certs/tls.crt","./.certs/tls.key","./.certs/chain.pem"],
+      "justMyCode": true
+    }
   ]
 }

@@ -50,6 +50,9 @@ spec:
           value: '.certs/tls.crt'  # absolute or relative path for certs .certs/tls.crt 
         - name: KEYFILE_TLS
           value: '.certs/tls.key'  # absolute or relative path for certs .certs/tls.key 
+        - name: CA_CERT_TLS
+          value: '.certs/chain.pem'  # absolute or relative path for client certs .certs/chain.pem
+
         image: poxstone/flask_any_response
         #imagePullPolicy: Always 
         livenessProbe:
