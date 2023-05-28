@@ -22,7 +22,7 @@ docker push poxstone/flask_any_response;
 # local
 docker run --rm -it --net host -p 80:80 -p 9090:9090/tcp -p 9191:9191 -p 8080:8080 -p 5005:5005/udp -p 5678:5678 -p 50051:50051 -e GOOGLE_CLOUD_PROJECT="${GOOGLE_CLOUD_PROJECT}" poxstone/flask_any_response;
 # run certs
-docker run --rm -it --net host -p 8080:8080 -v "${PWD}/.certs/:/app/.certs/" -e "CERTFILE_CRT=/app/.certs/tls.crt" -e "KEYFILE_TLS=/app/.certs/tls.key" poxstone/flask_any_response;
+docker run --rm -it --net host -p 8080:8080 -v "${PWD}/.certs-self/:/app/.certs/" -e "CERTFILE_CRT=.certs/tls.crt" -e "KEYFILE_TLS=.certs/tls.key" poxstone/flask_any_response;
 # production
 docker run -itd --pull=always --restart always --net host -e VERSION_DEP=MAIN -p 9090:9090/tcp -p 80:80 -p 9191:9191 -p 5678:5678 -p 8080:8080 -p 5005:5005/udp -p 50051:50051 -e GOOGLE_CLOUD_PROJECT="${GOOGLE_CLOUD_PROJECT}" poxstone/flask_any_response;
 ```
@@ -392,6 +392,7 @@ minikube tunnel;
 ```bash
 export URL="http://localhost:8080";
 ```
+> If requet requires a TLS cert selfsign use: curl "${URL}" --cacert .certs-self/chain.pem
 
 ```bash
 # blank print for healthcheck tests set env PATH_IGNORE= "favicon.ico,blank,echo.php,proxy.php"
