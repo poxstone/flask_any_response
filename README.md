@@ -80,7 +80,7 @@ kubectl apply -f ./;
 - Variables
 ```bash
 export service="fla-service-a";
-export secret="secret-flask-service-a";
+export secret="fla-secret-service-a";
 export namespace="default-a";
 
 export csrName="${service}.${namespace}";
@@ -358,6 +358,8 @@ minikube addons enable ingress-dns;
 minikube addons enable ingress;
 minikube addons enable metrics-server;
 minikube start --embed-certs;
+
+kubectl config set-context --current --namespace=default-a;
 # minikube mount "$PWD/.certs:/certs";
 
 istioctl install --set components.egressGateways[0].name=istio-egressgateway --set components.egressGateways[0].enabled=true;

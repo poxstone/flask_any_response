@@ -116,4 +116,4 @@ spec:
       #    secretName: secret-main-domain-tls
       #- name: tls-service  # normal k8s secret
       #  secret:
-      #    secretName: secret-flask-service-a
+      #    secretName: fla-secret-service-a
