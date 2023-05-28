@@ -2,8 +2,8 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: flask-any-cronjob-a-1
-  namespace: default
+  name: fla-cronjob-a-1
+  namespace: default-a
 spec:
   schedule: "0 * * * *"
   concurrencyPolicy: Allow  # Allow | Forbid | Replace
@@ -16,7 +16,7 @@ spec:
           #  cloud.google.com/gke-nodepool: nodepool-apps
           #  process: bigExtraPapa
           containers:
-          - name: flask-any-cronjob-response-a
+          - name: fla-cronjob-response-a
             image: poxstone/flask_any_response
             command: ["stress-ng",  "--cpu", "1", "-t", "3m", "--vm-bytes", "128M"]
             env:

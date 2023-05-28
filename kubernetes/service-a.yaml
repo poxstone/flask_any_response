@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: flask-any-service-a
-  namespace: default
+  name: fla-service-a
+  namespace: default-a
   #annotations:
-  #  beta.cloud.google.com/backend-config: '{"ports": {"8080":"flask-any-backendconfig-a"}}'
+  #  beta.cloud.google.com/backend-config: '{"ports": {"8080":"fla-backendconfig-a"}}'
   #  cloud.google.com/neg: '{"ingress": true}'
 spec:
   selector:
-    app: flask-any-response-a
+    app: fla-response-a
   ports:
     - name: http
       protocol: TCP  # "SCTP", "TCP", "UDP"

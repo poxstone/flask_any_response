@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flask-any-deployment-z
+  name: fla-deployment-z
   namespace: default-b
   labels:
-    app: flask-any-response-z
+    app: fla-response-z
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: flask-any-response-z
+      app: fla-response-z
   template:
     metadata:
       labels:
-        app: flask-any-response-z
+        app: fla-response-z
     spec:
       #nodeSelector:
         #cloud.google.com/gke-nodepool: nodepool-apps
@@ -69,7 +69,7 @@ spec:
           periodSeconds: 5
           successThreshold: 1
           timeoutSeconds: 3
-        name: flask-any-response-z
+        name: fla-response-z
         ports:
         - containerPort: 80
         - containerPort: 443

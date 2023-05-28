@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flask-any-deployment-d
-  namespace: default
+  name: fla-deployment-d
+  namespace: default-a
   labels:
-    app: flask-any-response-d
+    app: fla-response-d
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: flask-any-response-d
+      app: fla-response-d
   template:
     metadata:
       labels:
-        app: flask-any-response-d
+        app: fla-response-d
     spec:
       #nodeSelector:
         #cloud.google.com/gke-nodepool: nodepool-apps
@@ -69,7 +69,7 @@ spec:
           periodSeconds: 5
           successThreshold: 1
           timeoutSeconds: 3
-        name: flask-any-response-d
+        name: fla-response-d
         ports:
         - containerPort: 80
         - containerPort: 443

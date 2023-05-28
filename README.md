@@ -29,7 +29,7 @@ docker run -itd --pull=always --restart always --net host -e VERSION_DEP=MAIN -p
 - Simple k8s
 ```bash
 # Run normal
-kubectl run test-app --image=poxstone/flask_any_response --port=8080 --labels="app=flask,env=dev" -n default;
+kubectl run test-app --image=poxstone/flask_any_response --port=8080 --labels="app=flask,env=dev" -n default-a;
 
 # Run Interactive
 kubectl run -i -t test-tty --image=poxstone/flask_any_response --restart=Never -- sh;
@@ -79,9 +79,9 @@ kubectl apply -f ./;
 
 - Variables
 ```bash
-export service="flask-any-service-a";
+export service="fla-service-a";
 export secret="secret-flask-service-a";
-export namespace="default";
+export namespace="default-a";
 
 export csrName="${service}.${namespace}";
 #export tmpdir="$(mktemp -d)";
@@ -281,7 +281,7 @@ curl -H 'host: my.domain1.com' http://${GATEWAY_IP};
 cd istio/gke;
 istioctl install;
 kubectl get service -n istio-system;  # appearce 2 items only
-kubectl label namespace default istio-injection=enabled;
+kubectl label namespace default-a istio-injection=enabled;
 # recrate pods of deployments
 istioctl analyze;
 kubectl -n istio-system get controlplanerevision;  # only response -- error: the server doesn't have a resource type "controlplanerevision"
@@ -298,7 +298,7 @@ curl http://${GATEWAY_IP}:80;
 - * Require deplyment-a.yaml and service-a.yaml
 ```bash
 cd istio/istio-ingressgateway;
-kubectl label namespace default istio-injection=enabled;
+kubectl label namespace default-a istio-injection=enabled;
 kubectl apply -f serviceaccount.yaml -f serviceaccount.yaml -f pdb-v1.yaml -f deployment.yaml -fservice.yaml;
 ```
 
@@ -328,14 +328,14 @@ gcloud app browse;
 
 ### cloud run - command
 ```bash
-gcloud run deploy flask-any-response-a --image "gcr.io/${GOOGLE_CLOUD_PROJECT}/flask_any_response"
+gcloud run deploy fla-response-a --image "gcr.io/${GOOGLE_CLOUD_PROJECT}/flask_any_response"
 gcloud run deploy 
 ```
 ### cloud run - Yaml
 ```bash
 cd cloudrun;
-gcloud run services replace "service-flask-any-response-a.yaml" --project "${GOOGLE_CLOUD_PROJECT}" --region "us-central1";
-gcloud run services replace "service-flask-any-response-b.yaml" --project "${GOOGLE_CLOUD_PROJECT}" --region "us-central1";
+gcloud run services replace "service-fla-response-a.yaml" --project "${GOOGLE_CLOUD_PROJECT}" --region "us-central1";
+gcloud run services replace "service-fla-response-b.yaml" --project "${GOOGLE_CLOUD_PROJECT}" --region "us-central1";
 ```
 
 ## Cloud build
@@ -370,7 +370,7 @@ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.17/samp
 #kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.11.0/cert-manager.yaml;
 
 # ingress and egress
-kubectl label namespace default istio-injection=enabled;
+kubectl label namespace default-a istio-injection=enabled;
 minikube dashboard;
 istioctl dashboard kiali;
 istioctl dashboard prometheus;
@@ -613,7 +613,7 @@ cd ${HOME}/cerbot/archive/${MY_DOMAIN}/;
   - **chain1.pem** (chain.pem X1, X2): us not cert1.pem  conecta el certificado emitido por la CA con el certificado raíz de la CA, se utiliza en el cliente/browser/navegador cuando este no puede conectar con el CA (BEGIN CERTIFICATE X2 chains)
   - **fullchain.pem** (fullchain.pem, tls.crt X0, X1, X2): has X.509 and intermedium cert is better than cert1.pem (BEGIN CERTIFICATE X3 certs)
   - **privkey1.pem** (privkey.pem, tls.key): unencrypted PEM encoded RSA, private key. Into kubernetes secret values are **tls.key** but in base 64 (BEGIN PRIVATE KEY X1 Private Key backend)
-5. Keys for kubernetes secret (secret-ssl-flask-any-service)
+5. Keys for kubernetes secret (secret-ssl-fla-service)
 ```bash
 # tls.crt and tls.key
 ln -s ./cert1.pem "tls.crt";
@@ -634,12 +634,12 @@ spec:
   tls:
   - hosts:
     - my.domain1.com
-    secretName: secret-ssl-flask-any-service
+    secretName: secret-ssl-fla-service
 ...
 ```
 8. Apply ingress and wait
 ```bash
 kubectl applly -f "ingress-a.yaml";
 # get ingress status
-kubectl describe ingress flask-any-service-a-ingress;
+kubectl describe ingress fla-service-a-ingress;
 ```

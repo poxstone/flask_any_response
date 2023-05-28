@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: service-a
-  namespace: default
+  namespace: default-a
 spec:
   selector:
     app: service-a
@@ -18,7 +18,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: service-b
-  namespace: default
+  namespace: default-a
 spec:
   selector:
     app: service-b
@@ -34,7 +34,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: service-c
-  namespace: default
+  namespace: default-a
 spec:
   selector:
     app: service-c
@@ -50,7 +50,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: service-d
-  namespace: default
+  namespace: default-a
 spec:
   selector:
     app: service-d
@@ -67,7 +67,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: service-e
-  namespace: default
+  namespace: default-a
 spec:
   selector:
     app: service-e
@@ -84,7 +84,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: service-f
-  namespace: default
+  namespace: default-a
 spec:
   selector:
     app: service-f

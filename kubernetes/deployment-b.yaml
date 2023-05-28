@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flask-any-deployment-b
-  namespace: default
+  name: fla-deployment-b
+  namespace: default-a
   labels:
-    app: flask-any-response-b
+    app: fla-response-b
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: flask-any-response-b
+      app: fla-response-b
   template:
     metadata:
       labels:
-        app: flask-any-response-b
+        app: fla-response-b
     spec:
       nodeSelector:
         #cloud.google.com/gke-nodepool: nodepool-apps
         #process: medium
       containers:
-      - name: flask-any-response-b
+      - name: fla-response-b
         env:
         - name: PORT
           value: '8080'

@@ -2,8 +2,8 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: flask-any-job-a-1
-  namespace: default
+  name: fla-job-a-1
+  namespace: default-a
 spec:
   template:
     spec:
@@ -11,7 +11,7 @@ spec:
       #  cloud.google.com/gke-nodepool: nodepool-apps
       #  process: bigExtraPapa
       containers:
-      - name: flask-any-job-response-a
+      - name: fla-job-response-a
         image: poxstone/flask_any_response
         command: ["stress-ng",  "--cpu", "1", "-t", "3m", "--vm-bytes", "128M"]
         env:

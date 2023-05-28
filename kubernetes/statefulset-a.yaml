@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: flask-statefulset-any-a
-  namespace: default
+  namespace: default-a
   labels:
     app: flask-statefulset-any-response-a
 spec:

@@ -17,12 +17,12 @@ steps:
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   id: desplegar contenedor a
   entrypoint: gcloud
-  args: ['run', 'deploy', 'flask-any-response-a', '--image', 'gcr.io/${PROJECT_ID}/flask_any_response', '--region', '$LOCATION']
+  args: ['run', 'deploy', 'fla-response-a', '--image', 'gcr.io/${PROJECT_ID}/flask_any_response', '--region', '$LOCATION']
 
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   id: desplegar contenedor b
   entrypoint: gcloud
-  args: ['run', 'deploy', 'flask-any-response-b', '--image', 'gcr.io/${PROJECT_ID}/flask_any_response', '--region', '$LOCATION']
+  args: ['run', 'deploy', 'fla-response-b', '--image', 'gcr.io/${PROJECT_ID}/flask_any_response', '--region', '$LOCATION']
 
 images:
 - gcr.io/${PROJECT_ID}/flask_any_response

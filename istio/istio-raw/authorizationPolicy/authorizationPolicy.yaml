@@ -2,7 +2,7 @@ apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: deny-services-b
-  namespace: default
+  namespace: default-a
 spec:
   action: DENY
   rules:
@@ -13,7 +13,7 @@ spec:
         #notIpBlocks: ["10.244.0.17"]
     to:
     - operation:
-        hosts: ["service-b.default.svc.cluster.local","service-b"]
+        hosts: ["service-b.default-a.svc.cluster.local","service-b"]
         #ports: ["80"]
     when:
       # https://istio.io/latest/docs/reference/config/security/conditions/

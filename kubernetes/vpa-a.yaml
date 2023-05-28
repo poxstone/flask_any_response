@@ -1,12 +1,12 @@
 apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
-  name: flask-any-deployment-a
-  namespace: default
+  name: fla-deployment-a
+  namespace: default-a
 spec:
   targetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: flask-any-deployment-a
+    name: fla-deployment-a
   updatePolicy:
     updateMode: "Off"  # Auto | Initial | Off

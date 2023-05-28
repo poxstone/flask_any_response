@@ -1,23 +1,23 @@
 {"body_data":[
     {
-        "async":"true", "url":"http://flask-any-service-f:8080/sub2a?sleep=2", "method":"GET", "headers": {}, "body": {}
+        "async":"true", "url":"http://fla-service-f:8080/sub2a?sleep=2", "method":"GET", "headers": {}, "body": {}
     },
     {
-        "url":"http://flask-any-service-d:8080/json-requests/2/", "method":"POST", "headers":{"Content-Type": "application/json"}, "body": {
+        "url":"http://fla-service-d:8080/json-requests/2/", "method":"POST", "headers":{"Content-Type": "application/json"}, "body": {
             "body_data": [{
-                "url":"http://flask-any-service-e:8080/sub3?sleep=0", "method":"POST",
+                "url":"http://fla-service-e:8080/sub3?sleep=0", "method":"POST",
                 "body":{"key": "1"},
                 "headers":{"Content-Type": "application/json"}
             },
             {
-                "url":"http://flask-any-service-b:8080/json-requests/2/", "method":"POST", "headers":{"Content-Type": "application/json"}, "body": {
+                "url":"http://fla-service-b:8080/json-requests/2/", "method":"POST", "headers":{"Content-Type": "application/json"}, "body": {
                     "body_data": [{
-                        "url":"http://flask-any-service-f:8080/sub3?sleep=0", "method":"POST",
+                        "url":"http://fla-service-f:8080/sub3?sleep=0", "method":"POST",
                         "body":{"key": "1"},
                         "headers":{"Content-Type": "application/json"}
                     },
                     {
-                        "url":"http://localhost:8080/grpc-requests/flask-any-service-z.default-b.svc/50051/", "method":"POST",
+                        "url":"http://localhost:8080/grpc-requests/fla-service-z.default-b.svc/50051/", "method":"POST",
                         "body":{"user_name":"Karl Max", "age": "150", "email": "karl.max@imail.com"},
                         "headers":{"Content-Type": "application/json"}
                     }]
@@ -26,6 +26,6 @@
         }
     },
     {
-        "url":"http://flask-any-service-c:8080/sub2b?sleep=1&status=502", "method":"GET", "headers": {}, "body": {}
+        "url":"http://fla-service-c:8080/sub2b?sleep=1&status=502", "method":"GET", "headers": {}, "body": {}
     }
 ]}

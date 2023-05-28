@@ -109,7 +109,7 @@ resource "google_container_node_pool" "nodepool_preemptible_small" {
     tags = []
 
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
-    #service_account = google_service_account.default.email
+    #service_account = google_service_account.default-a.email
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform"
     ]
@@ -131,7 +131,7 @@ resource "google_container_node_pool" "nodepool_preemptible_small2" {
     tags = []
 
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
-    #service_account = google_service_account.default.email
+    #service_account = google_service_account.default-a.email
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform"
     ]

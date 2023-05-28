@@ -14,7 +14,7 @@
                 "async":"false", "url":"http://api.ipify.org/", "method":"GET", "headers": {}, "body": {}
             },
             {
-                "url":"http://service-b:80/grpc-requests/service-f.default.svc/50051/", "method":"POST", "headers":{}, "body": {
+                "url":"http://service-b:80/grpc-requests/service-f.default-a.svc/50051/", "method":"POST", "headers":{}, "body": {
                     "user_name":"Marilyn Monroe", "age": "52", "email": "marilyn_monroe@mail.com"}
             }]
         }

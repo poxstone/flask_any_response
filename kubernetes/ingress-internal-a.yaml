@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: flask-any-service-a-internal-ingress
-  namespace: default
+  name: fla-service-a-internal-ingress
+  namespace: default-a
   annotations:
     networking.gke.io/load-balancer-type: "Internal"
 spec:
@@ -10,7 +10,7 @@ spec:
   #loadBalancerIP: 10.128.0.54
   externalTrafficPolicy: Cluster
   selector:
-    app: flask-any-response-a
+    app: fla-response-a
   ports:
   - name: tcp-port
     protocol: TCP

@@ -1,8 +1,8 @@
 kind: HTTPRoute
 apiVersion: gateway.networking.k8s.io/v1beta1
 metadata:
-  name: flask-any-httproute-a
-  namespace: default
+  name: fla-httproute-a
+  namespace: default-a
 spec:
   parentRefs:
   - kind: Gateway
@@ -12,7 +12,7 @@ spec:
   rules:
   - matches:
     backendRefs:
-    - name: flask-any-service-a
+    - name: fla-service-a
       port: 8080
 
 # curl -H "host: my.domain1.com" 34.111.26.82

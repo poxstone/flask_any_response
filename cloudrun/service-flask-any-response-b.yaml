@@ -1,11 +1,11 @@
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
-  name: flask-any-response-b
+  name: fla-response-b
 spec:
   template:
     metadata:
-      name: flask-any-response-b-00004-hilo
+      name: fla-response-b-00004-hilo
       annotations:
         autoscaling.knative.dev/maxScale: '10'
         run.googleapis.com/cpu-throttling: 'false'

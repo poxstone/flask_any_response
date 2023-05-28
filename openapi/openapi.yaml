@@ -12,7 +12,7 @@ paths:
       description: "get flask api one"
       operationId: "api-one"
       x-google-backend:
-        address: https://flask-any-response-a-qycvpzb2nq-ue.a.run.app
+        address: https://fla-response-a-qycvpzb2nq-ue.a.run.app
       parameters:
       - name: parametro1
         in: query
@@ -30,7 +30,7 @@ paths:
       description: "get flask api script"
       operationId: "api-script"
       x-google-backend:
-        address: https://flask-any-response-a-qycvpzb2nq-ue.a.run.app
+        address: https://fla-response-a-qycvpzb2nq-ue.a.run.app
       parameters:
       - in: body
         name: body
