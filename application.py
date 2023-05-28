@@ -536,3 +536,6 @@ if __name__ == "__main__":
 
 
 print(f"POXSTONE_LOG={str_global}: --- Flask Ended")
+
+# gunicorn --workers="1" --timeout="120" --bind="0.0.0.0:8080" --certfile=".certs-self/tls.crt" --keyfile=".certs-self/tls.key" application:app;
+# curl https://fla-service-a.default-a.svc:8080 --cacert .certs-self/chain.pem

@@ -33,7 +33,7 @@ spec:
         - name: GRPC_PORT
           value: '50051'
         - name: WORKERS
-          value: '3'  # this increase ram required
+          value: '1'  # this increase ram required
         - name: TIMEOUT
           value: '120'
         - name: VERSION_DEP
@@ -99,8 +99,8 @@ spec:
           #  cpu: 500m
           #  memory: 256Mi
           requests:
-            cpu: 200m
-            memory: 96Mi
+            cpu: 96m
+            memory: 64Mi
         volumeMounts:
         #- mountPath: /app/.certs-self/
         #  name: tls-domain

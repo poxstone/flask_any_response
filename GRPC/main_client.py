@@ -10,16 +10,16 @@ GRPC_PORT = argv[2] if len(argv) > 2 else os.getenv('GRPC_PORT', '50051')
 CERTFILE_CRT = argv[3] if len(argv) > 3 else os.getenv('CERTFILE_CRT', './.certs/tls.crt')
 KEYFILE_TLS = argv[4] if len(argv) > 4 else os.getenv('KEYFILE_TLS', './.certs/tls.key')
 CHAIN_PEM = argv[5] if len(argv) > 5 else os.getenv('CHAIN_PEM', './.certs/chain.pem')
-# cert.conf  fla-service-a.default-a.svc.crt  fla-service-a.default-a.svc.key  rootCA.key  server.csr  ssl.sh   tls.key
-# csr.conf   fla-service-a.default-a.svc.csr  rootCA.crt                           server.crt  server.key  tls.crt  tls.srl
+# python3 GRPC/main_client.py fla-service-a.default-a.svc 50051 './.certs-self/tls.crt' './.certs-self/tls.key' './.certs-self/chain.pem'
 
 def run(user_name="John Doe", age=30, email="johndoe@example.com"):
     # set tls
     try:
         credentials = grpc.ssl_channel_credentials(open(CHAIN_PEM,'rb').read(), open(KEYFILE_TLS,'rb').read(), open(CERTFILE_CRT,'rb').read())
         channel = grpc.secure_channel(f'{GRPC_HOST}:{GRPC_PORT}', credentials)
+        print(f'SSL_GRPC_INIT: {CHAIN_PEM} {KEYFILE_TLS} {CERTFILE_CRT}')
     except Exception as e:
-        print(f'SSL_ERROR_ELSE_NO_SSL: {e}')
+        print(f'SSL_GRPC_ERROR_ELSE_NO_SSL: {e} {KEYFILE_TLS}')
         channel = grpc.insecure_channel(f'{GRPC_HOST}:{GRPC_PORT}')
     
     stub = userexample_pb2_grpc.UserExampleServiceStub(channel)

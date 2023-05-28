@@ -3,7 +3,7 @@
 ## Build
 - Server simple
 ```bash
-python3 application.py;
+python3 main_server.py;
 ```
 - Server enviroment
 ```bash
@@ -19,7 +19,7 @@ bash entrypoint.sh;
 ```
 - Client
 ```bash
-python3 receiving.py;
+python3 main_client.py;
 ```
 - Client nmap
 ```bash

@@ -1,3 +1,4 @@
+import os
 import googlecloudprofiler
 
 VERSION_DEP = os.getenv('VERSION_DEP')
@@ -7,7 +8,7 @@ def main():
     # collects and uploads profiles. Best done as early as possible.
     try:
         googlecloudprofiler.start(
-            service='flask_any_response',
+            service='fls_response',
             service_version=VERSION_DEP,
             # verbose is the logging level. 0-error, 1-warning, 2-info,
             # 3-debug. It defaults to 0 (error) if not set.

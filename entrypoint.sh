@@ -26,8 +26,8 @@ cd $APP_PATH;
 # run udp and gunicorn
 sleep "${INIT_APP_TIME}";
 echo "CONTAINER_TIME_PY_INIT: $(date)";
-python3 ./UDP/application.py & \
-python3 ./WEBSOCKET/websocket.py & \
+python3 ./UDP/main_server.py & \
+python3 ./WEBSOCKET/main_server.py & \
 python3 ./GRPC/main_server.py & \
 # python3 ./GCP_PROFILER/bench.py & \
 echo "Run gunicorn";

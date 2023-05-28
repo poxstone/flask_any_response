@@ -1,3 +1,3 @@
 #!/bin/sh
 
-python3 application.py;
+python3 main_server.py;

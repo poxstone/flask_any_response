@@ -24,7 +24,7 @@ spec:
         resources:
           limits:
             cpu: 1000m
-            memory: 96Mi
+            memory: 64Mi
         volumeMounts:
         - name: secret-fe95b315-84ee-43ae-a370-0b2f1f2e56de
           readOnly: true
