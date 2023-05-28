@@ -127,7 +127,7 @@ DNS.3 = ${service}
 IP.1 = 127.0.0.1
 IP.2 = 10.109.16.167
 EOF
-openssl genpkey -algorithm RSA -out ${tmpdir};
+openssl genpkey -algorithm RSA -out ${KEYFILE_TLS};
 openssl req -new -x509 -days 365 -key ${KEYFILE_TLS} -out ${CERTFILE_CRT} -config ${tmpdir}/csr.conf;
 cat ${CERTFILE_CRT} ${KEYFILE_TLS} > ${CHAIN_PEM};
 ```

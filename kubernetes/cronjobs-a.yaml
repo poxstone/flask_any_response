@@ -5,7 +5,7 @@ metadata:
   name: flask-any-cronjob-a-1
   namespace: default
 spec:
-  schedule: "*/1 * * * *"
+  schedule: "0 * * * *"
   concurrencyPolicy: Allow  # Allow | Forbid | Replace
   #ttlSecondsAfterFinished: 120
   jobTemplate:

@@ -102,7 +102,7 @@ spec:
             cpu: 200m
             memory: 96Mi
         volumeMounts:
-        #- mountPath: /app/.certs/
+        #- mountPath: /app/.certs-self/
         #  name: tls-domain
       ## mout for minikube
       volumes:
@@ -111,4 +111,4 @@ spec:
       #    path: /mount
       #- name: tls-domain  # normal k8s secret
       #  secret:
-      #    secretName: secret-main-domain-tls
+      #    secretName: secret-flask-service-a
