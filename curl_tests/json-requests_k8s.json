@@ -1,6 +1,6 @@
 {"body_data":[
     {
-        "async":"true", "url":"http://fla-service-f:8080/sub2a?sleep=2", "method":"GET", "headers": {}, "body": {}
+        "async":"false", "url":"http://fla-service-z.default-b.svc:8080/requests/https/developers.facebook.com/443/?path=/", "method":"GET", "headers": {}, "body": {}
     },
     {
         "url":"http://fla-service-d:8080/json-requests/2/", "method":"POST", "headers":{"Content-Type": "application/json"}, "body": {
@@ -12,7 +12,7 @@
             {
                 "url":"http://fla-service-b:8080/json-requests/2/", "method":"POST", "headers":{"Content-Type": "application/json"}, "body": {
                     "body_data": [{
-                        "url":"http://fla-service-f:8080/sub3?sleep=0", "method":"POST",
+                        "url":"http://fla-service-f:8080/sub3?sleep=0.125", "method":"POST",
                         "body":{"key": "1"},
                         "headers":{"Content-Type": "application/json"}
                     },
@@ -26,6 +26,6 @@
         }
     },
     {
-        "url":"http://fla-service-c:8080/sub2b?sleep=1&status=502", "method":"GET", "headers": {}, "body": {}
+        "url":"http://fla-service-c:8080/sub2b?sleep=0.25&status=502", "method":"GET", "headers": {}, "body": {}
     }
 ]}

@@ -8,6 +8,7 @@ spec:
   - www.googleapis.com
   - www.google.com
   - api.facebook.com
+  - developers.facebook.com
   - eltiempo.com
   - api.ipify.org
   location: MESH_EXTERNAL
