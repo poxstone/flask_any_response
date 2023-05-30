@@ -17,10 +17,9 @@
                         "headers":{"Content-Type": "application/json"}
                     },
                     {
-                        "async":"true", "url":"http://localhost:8080/grpc-requests/fla-service-a.default-a.svc/50051/", "method":"POST",
-                        "body":{"user_name":"Karl Max", "age": "150", "email": "karl.max@imail.com"},
-                        "headers":{"Content-Type": "application/json"}
-                    }]
+                        "async":"true", "url":"http://fla-service-f:8080/requests/https/eltiempo.com/443/", "method":"GET"
+                    }
+                ]
                 }
             }]
         }
