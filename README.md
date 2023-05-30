@@ -411,8 +411,8 @@ curl -X GET "${URL}/lv1/lv2?sleep=10";
 curl -X GET "${URL}/testudp/?UDP_IP=127.0.0.1&UDP_PORT=5005&MESSAGE=hola";
 
 # grpc test
-curl -iLX GET "${URL}/grpc-requests/127.0.0.1/50051";
-curl -iLX POST "${URL}/grpc-requests/127.0.0.1/50051" -H "Content-Type: application/json" -d '{"user_name":"Carl Sagan", "age": "42", "email": "John_doe@mail.com"}';
+curl -iLX GET "${URL}/grpc-requests/127.0.0.1/50051/";
+curl -iLX POST "${URL}/grpc-requests/127.0.0.1/50051/" -H "Content-Type: application/json" -d '{"user_name":"Carl Sagan", "age": "42", "email": "John_doe@mail.com"}';
 
 # proxy request GET external html request
 curl -X GET "${URL}/requests/https/eltiempo.com/443/?path=/opinion/columnistas/martha-senn&other=none";
