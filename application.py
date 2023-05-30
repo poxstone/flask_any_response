@@ -7,6 +7,7 @@ import subprocess
 import random
 import string
 import re
+import asyncio
 from time import sleep
 from flask import Flask, request, redirect, url_for, Response, render_template, send_file
 # email
@@ -399,7 +400,12 @@ def json_requests(num):
         headers = requested['headers'] if 'headers' in requested else {}
         body = requested['body'] if 'body' in requested else {}
         if 'async' in requested and requested['async'] == 'true':
-            req = str(do_request_method_async(method, url, headers, body))
+            #req = str(do_request_method_async(method, url, headers, body))
+            #loop = asyncio.get_event_loop()
+            task = asyncio.run(do_request_method_async(method, url, headers, body))
+            #task = loop.create_task(do_request_method_async(method, url, headers, body))
+            #loop.run_until_complete(task)
+            #loop.close()
         else:
             req = do_request_method(method, url, headers, body)
         res.append(req)
