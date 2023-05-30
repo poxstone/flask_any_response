@@ -7,7 +7,7 @@ metadata:
   #  autoscaling.alpha.kubernetes.io/metrics: '[{"type":"Resource","resource":{"name":"memory","targetAverageUtilization":90}}]'
 spec:
   minReplicas: 2
-  maxReplicas: 80
+  maxReplicas: 10
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment

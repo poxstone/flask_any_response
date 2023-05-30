@@ -1,0 +1,55 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: fla-deployment-c
+  namespace: default-a
+spec:
+  minReplicas: 2
+  maxReplicas: 4
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: fla-deployment-c
+  targetCPUUtilizationPercentage: 60
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: fla-deployment-d
+  namespace: default-a
+spec:
+  minReplicas: 2
+  maxReplicas: 4
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: fla-deployment-d
+  targetCPUUtilizationPercentage: 60
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: fla-deployment-e
+  namespace: default-a
+spec:
+  minReplicas: 2
+  maxReplicas: 4
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: fla-deployment-e
+  targetCPUUtilizationPercentage: 60
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: fla-deployment-f
+  namespace: default-a
+spec:
+  minReplicas: 2
+  maxReplicas: 4
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: fla-deployment-f
+  targetCPUUtilizationPercentage: 60

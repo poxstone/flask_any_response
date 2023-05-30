@@ -1,15 +1,15 @@
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: fla-deployment-b
-  namespace: default-a
+  name: fla-deployment-z
+  namespace: default-b
   #annotations:
   #  autoscaling.alpha.kubernetes.io/metrics: '[{"type":"Resource","resource":{"name":"memory","targetAverageUtilization":90}}]'
 spec:
   minReplicas: 2
-  maxReplicas: 6
+  maxReplicas: 4
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: fla-deployment-b
+    name: fla-deployment-z
   targetCPUUtilizationPercentage: 60
