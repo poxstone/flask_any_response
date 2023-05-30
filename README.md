@@ -426,7 +426,7 @@ curl -X POST "${URL}/json-requests/1/" -H "Content-Type: application/json" -d '[
 # nested curls json
 for i in {0..3000};do sleep 5;curl -X POST "${URL}/json-requests/1/" -H "Content-Type: application/json" -d '@./curl_tests/json-requests_k8s.json';done;
 # time data
-for i in {0..3000};do sleep 5;curl -w "@./curl_tests/curl-format.txt" -o /dev/null -s -X GET "${URL}/json-requests/1/" -H "Content-Type: application/json" -d '@./curl_tests/json-requests_k8s.json';done;
+for i in {0..3000};do sleep 2;curl -w "@./curl_tests/curl-format.txt" -o /dev/null -s -X POST "${URL}/json-requests/1/" -H "Content-Type: application/json" -d '@./curl_tests/json-requests_k8s.json';done;
 
 # request concat, this is used with similar containers redirection trafict in much services
 curl -X GET "${URL}/concat-requests/1/?hosts=http://localhost:8080/,http://localhost:8080";

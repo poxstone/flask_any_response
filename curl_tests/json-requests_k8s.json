@@ -17,7 +17,7 @@
                         "headers":{"Content-Type": "application/json"}
                     },
                     {
-                        "async":"true", "url":"http://fla-service-f:8080/requests/https/eltiempo.com/443/", "method":"GET"
+                        "async":"false", "url":"http://fla-service-f:8080/requests/https/www.google.com/443/", "method":"GET"
                     }
                 ]
                 }
