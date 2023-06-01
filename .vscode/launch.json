@@ -8,7 +8,7 @@
       "name": "main",
       "type": "python",
       "request": "launch",
-      "program": "${workspaceFolder}/application.py",
+      "program": "${workspaceFolder}/main.py",
       "console": "internalConsole",
       "justMyCode": true
     },
@@ -16,7 +16,7 @@
       "name": "udp",
       "type": "python",
       "request": "launch",
-      "program": "${workspaceFolder}/UDP/application.py",
+      "program": "${workspaceFolder}/UDP/main.py",
       "console": "internalConsole",
       "justMyCode": true
     },

@@ -10,9 +10,9 @@ python3 -m pip install -r requirements.txt;
 ```
 - Run
 ```bash
-python3 application.py;
+python3 main.py;
 # alternative gunicorn (comment TLS --certfile and --keyfile)
-gunicorn --workers="2" --timeout="120" --bind="0.0.0.0:8080" --certfile=".certs/tls.crt" --keyfile=".certs/tls.key" application:app;
+gunicorn --workers="2" --timeout="120" --bind="0.0.0.0:8080" --certfile=".certs/tls.crt" --keyfile=".certs/tls.key" main:app;
 ```
 
 - Docker
