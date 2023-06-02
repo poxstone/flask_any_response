@@ -51,7 +51,7 @@
           </elementProp>
           <elementProp name="SLEEP" elementType="Argument">
             <stringProp name="Argument.name">SLEEP</stringProp>
-            <stringProp name="Argument.value">3</stringProp>
+            <stringProp name="Argument.value">2</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -147,7 +147,7 @@
           <hashTree/>
         </hashTree>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread - curl.sh " enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread - multi-curl" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -167,11 +167,84 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;body_data&quot;:[&#xd;
+    {&#xd;
+        &quot;async&quot;:&quot;true&quot;, &quot;url&quot;:&quot;http://fla-service-f:8080/sub2a?sleep=0.125&quot;, &quot;method&quot;:&quot;GET&quot;, &quot;headers&quot;: {}, &quot;body&quot;: {}&#xd;
+    },&#xd;
+    {&#xd;
+        &quot;async&quot;:&quot;false&quot;, &quot;url&quot;:&quot;http://fla-service-d:8080/json-requests/2&quot;, &quot;method&quot;:&quot;POST&quot;, &quot;headers&quot;:{&quot;Content-Type&quot;: &quot;application/json&quot;}, &quot;body&quot;: {&#xd;
+            &quot;body_data&quot;: [{&#xd;
+                &quot;url&quot;:&quot;http://fla-service-e:8080/sub3?sleep=0&quot;, &quot;method&quot;:&quot;POST&quot;,&#xd;
+                &quot;body&quot;:{&quot;key&quot;: &quot;1&quot;},&#xd;
+                &quot;headers&quot;:{&quot;Content-Type&quot;: &quot;application/json&quot;}&#xd;
+            },&#xd;
+            {&#xd;
+                &quot;async&quot;:&quot;true&quot;, &quot;url&quot;:&quot;http://fla-service-b:8080/json-requests/2&quot;, &quot;method&quot;:&quot;POST&quot;, &quot;headers&quot;:{&quot;Content-Type&quot;: &quot;application/json&quot;}, &quot;body&quot;: {&#xd;
+                    &quot;body_data&quot;: [{&#xd;
+                        &quot;async&quot;:&quot;true&quot;, &quot;url&quot;:&quot;http://fla-service-f:8080/sub3?sleep=0.25&quot;, &quot;method&quot;:&quot;POST&quot;,&#xd;
+                        &quot;body&quot;:{&quot;key&quot;: &quot;1&quot;},&#xd;
+                        &quot;headers&quot;:{&quot;Content-Type&quot;: &quot;application/json&quot;}&#xd;
+                    },&#xd;
+                    {&#xd;
+                        &quot;async&quot;:&quot;false&quot;, &quot;url&quot;:&quot;http://fla-service-f:8080/requests/https/www.google.com/443&quot;, &quot;method&quot;:&quot;GET&quot;&#xd;
+                    },&#xd;
+                    {&#xd;
+                        &quot;async&quot;:&quot;false&quot;, &quot;url&quot;:&quot;http://fla-service-f:8080/grpc-requests/fla-service-z.default-b.svc/50051&quot;, &quot;method&quot;:&quot;GET&quot;&#xd;
+                    }&#xd;
+                ]&#xd;
+                }&#xd;
+            }]&#xd;
+        }&#xd;
+    },&#xd;
+    {&#xd;
+        &quot;async&quot;:&quot;false&quot;, &quot;url&quot;:&quot;http://fla-service-c:8080/sub2b?sleep=0.25&amp;status=502&quot;, &quot;method&quot;:&quot;GET&quot;, &quot;headers&quot;: {}, &quot;body&quot;: {}&#xd;
+    }&#xd;
+]}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/json-requests/1</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread - curl.sh " enabled="false">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">${__P(loop,300)}</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">${__P(users,7)}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${__P(rampup,1)}</stringProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.duration">60</stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request / - post" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 <stringProp name="Argument.value">{&quot;command&quot;:&quot;echo Token&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
           </elementProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <stringProp name="HTTPSampler.domain"></stringProp>
           <stringProp name="HTTPSampler.port"></stringProp>
           <stringProp name="HTTPSampler.protocol"></stringProp>
@@ -199,7 +272,7 @@
           <hashTree/>
         </hashTree>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread - Sleep " enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread - Sleep " enabled="false">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>

@@ -14,3 +14,5 @@ websocket.txt
 .certs*
 .certs-self
 mount/
+jmeter.log
+.fuse_hidden*
