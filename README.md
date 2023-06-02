@@ -455,20 +455,20 @@ curl -X GET "${URL}/my_file.css";
 curl -X GET "${URL}/download/1M" --output "bigfile.bin";
 
 # some bash commands by exec
-curl -X POST "${URL}/do/com/" -H "Content-Type: application/json" -d '{"command":["ping","-c","2","8.8.8.8"]}';
-curl -X POST "${URL}/do/com/" -H "Content-Type: application/json" -d '{"command":["nmap","localhost"]}';
-curl -X POST "${URL}/do/com/" -H "Content-Type: application/json" -d '{"command":["dig","google.com"]}';
-curl -X POST "${URL}/do/com/" -H "Content-Type: application/json" -d '{"command":["mysql", "-u", "root", "-h", "34.74.45.17", "-pMyPass", "-D", "cloudkey", "-e", "select * from users"]}';
+curl -X POST "${URL}/do/com" -H "Content-Type: application/json" -d '{"command":["ping","-c","2","8.8.8.8"]}';
+curl -X POST "${URL}/do/com" -H "Content-Type: application/json" -d '{"command":["nmap","localhost"]}';
+curl -X POST "${URL}/do/com" -H "Content-Type: application/json" -d '{"command":["dig","google.com"]}';
+curl -X POST "${URL}/do/com" -H "Content-Type: application/json" -d '{"command":["mysql", "-u", "root", "-h", "34.74.45.17", "-pMyPass", "-D", "cloudkey", "-e", "select * from users"]}';
 # redis response PONG if is well 
-curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"command":"redis-cli -h 10.18.241.3 -p 6379 PING"}';
+curl -X POST "${URL}/do/script" -H "Content-Type: application/json" -d '{"command":"redis-cli -h 10.18.241.3 -p 6379 PING"}';
 # redis get command
-curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"command":"echo \"KEYS *\" | redis-cli -h 10.18.224.3 -p 6379"}';
+curl -X POST "${URL}/do/script" -H "Content-Type: application/json" -d '{"command":"echo \"KEYS *\" | redis-cli -h 10.18.224.3 -p 6379"}';
 # sql server connect
-curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"command":"sqlcmd -S 34.133.118.251 -U sqlserver -P MyPASS -b -Q \"SELECT Name from sys.databases;\""}';
+curl -X POST "${URL}/do/script" -H "Content-Type: application/json" -d '{"command":"sqlcmd -S 34.133.118.251 -U sqlserver -P MyPASS -b -Q \"SELECT Name from sys.databases;\""}';
 # some bash commands by bash script (more support)
-curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"command":"date > date.txt; ls;cat date.txt"}';
+curl -X POST "${URL}/do/script" -H "Content-Type: application/json" -d '{"command":"date > date.txt; ls;cat date.txt"}';
 # set DS hosts (don't works)
-curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"command":"echo \"my.domain1.com 192.168.49.2\" >> /etc/hosts"}';
+curl -X POST "${URL}/do/script" -H "Content-Type: application/json" -d '{"command":"echo \"my.domain1.com 192.168.49.2\" >> /etc/hosts"}';
 
 # test redirction 302 simple relative
 curl -X GET -kLI "${URL}/redirect-relative";
@@ -480,21 +480,21 @@ curl -X GET -kLI "${URL}/redirect-absolute/https/eltiempo.com/443?path=/opinion/
 curl -X GET "${URL}/testsmtp/smtp.gmail.com:587/user@comain.com/MyPasswd";
 
 # tests stress --time (cloud run not works)
-curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"command":"stress-ng --cpu 1 --vm-bytes 128M"}';
-curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"command":"stress-ng -c 1 -i 1 -m 1 --vm-bytes 128M -t 10s"}';
+curl -X POST "${URL}/do/script" -H "Content-Type: application/json" -d '{"command":"stress-ng --cpu 1 --vm-bytes 128M"}';
+curl -X POST "${URL}/do/script" -H "Content-Type: application/json" -d '{"command":"stress-ng -c 1 -i 1 -m 1 --vm-bytes 128M -t 10s"}';
 
 # cloud run metadata curl get token
-curl -X POST "${URL}/do/script/" -H "Content-Type: application/json"  -d '{"command":"curl  -H \"Metadata-Flavor: Google\" http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token"}'
+curl -X POST "${URL}/do/script" -H "Content-Type: application/json"  -d '{"command":"curl  -H \"Metadata-Flavor: Google\" http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token"}'
 
 # basic authentication
-curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"command":"curl -u 'usuario1:contrasenia1'"}';
+curl -X POST "${URL}/do/script" -H "Content-Type: application/json" -d '{"command":"curl -u 'usuario1:contrasenia1'"}';
 
 # use authorization with curl
 -H "Authorization: Bearer ya29.a..."
 -H "Authorization: Basic bG9naW4..."
 
 # function
-function sc { curl -X POST -kiL "${2}/do/script/" -H "Content-Type: application/json" -d "{\"command\":\"${1}\"}"; };
+function sc { curl -X POST -kiL "${2}/do/script" -H "Content-Type: application/json" -d "{\"command\":\"${1}\"}"; };
 # ping ipv6
 sc "curl -6 'http://[2600:1901:0:38c4::]:80'" "${URL}";
 sc "curl '$URLlb "${URL1}";
