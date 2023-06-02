@@ -1,4 +1,9 @@
-import os
+# allow import from previous path
+import os, sys
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+sys.path.append(parent_dir)
+
 import grpc
 from sys import argv
 from concurrent import futures
@@ -7,11 +12,12 @@ import time
 from proto_grpc import userexample_pb2
 from proto_grpc import userexample_pb2_grpc
 
-CERTFILE_CRT = argv[1] if len(argv) > 1 else os.getenv('CERTFILE_CRT', './.certs/tls.crt')
-KEYFILE_TLS = argv[2] if len(argv) > 2 else os.getenv('KEYFILE_TLS', './.certs/tls.key')
-GRPC_PORT = argv[3] if len(argv) > 3 else os.getenv('GRPC_PORT', '50051')
-WORKERS = os.getenv('WORKERS', '1')
+from application.config import CERTFILE_CRT, KEYFILE_TLS, GRPC_PORT, WORKERS
 
+
+CERTFILE_CRT = argv[1] if len(argv) > 1 else CERTFILE_CRT
+KEYFILE_TLS = argv[2] if len(argv) > 2 else KEYFILE_TLS
+GRPC_PORT = argv[3] if len(argv) > 3 else GRPC_PORT
 # python3 GRPC/main_server.py './.certs-self/tls.crt' './.certs-self/tls.key' 50051
 
 

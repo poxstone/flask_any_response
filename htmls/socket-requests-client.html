@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html><head><title>WebSocket test</title></head><body>
+<script>
+window.addEventListener("DOMContentLoaded", () => {
+  const messages = document.createElement("pre");
+  messages.innerHTML += `EXAMPLE GET: http://127.0.0.1:8080/socket-requests/wss/127.0.0.1/5678/client-2.html\n`;
+  document.body.appendChild(messages);
+  const fullPath = location.pathname.split('/');
+  const protocol = fullPath[2]; //  'https:' ? 'wss' : 'ws';
+  const host = fullPath[3]; // 'localhost';
+  const port  = fullPath[4]; //'5678';
+  const path  = fullPath[5]; //'client-1.html';
+  var websocket_location = `${protocol}://${host}:${port}/${path}`;
+  
+  console.log('socket to connect:', websocket_location);
+  const websocket = new WebSocket(websocket_location);
+  websocket.onmessage = ({ data }) => {
+    messages.innerHTML += `${data}\n`;
+  };
+});
+</script>
+</body></html>

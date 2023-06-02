@@ -1,16 +1,25 @@
-import os
+# allow import from previous path
+import os, sys
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+sys.path.append(parent_dir)
+
 import grpc
 from sys import argv
 
 from proto_grpc import userexample_pb2
 from proto_grpc import userexample_pb2_grpc
 
-GRPC_HOST = argv[1] if len(argv) > 1 else os.getenv('GRPC_HOST', '127.0.0.1')  # local.poxsilver5.store
-GRPC_PORT = argv[2] if len(argv) > 2 else os.getenv('GRPC_PORT', '50051')
-CERTFILE_CRT = argv[3] if len(argv) > 3 else os.getenv('CERTFILE_CRT', './.certs/tls.crt')
-KEYFILE_TLS = argv[4] if len(argv) > 4 else os.getenv('KEYFILE_TLS', './.certs/tls.key')
-CHAIN_PEM = argv[5] if len(argv) > 5 else os.getenv('CHAIN_PEM', './.certs/chain.pem')
+from application.config import CERTFILE_CRT, KEYFILE_TLS, CHAIN_PEM, GRPC_PORT, GRPC_HOST
+
+
+GRPC_HOST = argv[1] if len(argv) > 1 else GRPC_HOST
+GRPC_PORT = argv[2] if len(argv) > 2 else GRPC_PORT
+CERTFILE_CRT = argv[3] if len(argv) > 3 else CERTFILE_CRT
+KEYFILE_TLS = argv[4] if len(argv) > 4 else KEYFILE_TLS
+CHAIN_PEM = argv[5] if len(argv) > 5 else CHAIN_PEM
 # python3 GRPC/main_client.py fla-service-a.default-a.svc 50051 './.certs-self/tls.crt' './.certs-self/tls.key' './.certs-self/chain.pem'
+
 
 def run(user_name="John Doe", age=30, email="johndoe@example.com"):
     # set tls

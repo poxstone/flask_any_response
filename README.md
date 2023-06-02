@@ -243,7 +243,7 @@ kubectl apply -f "./";
   - istio/istio-raw/serviceEntry/
   - Edit serviceEntry.yaml to change consult endpoints
   - kiali: `istioctl dashboard kiali`
-  - `for i in {0..3000};do curl -X POST "${URL}/json-requests/1/" -H "Content-Type: application/json" -d '@./curl_tests/json-requests_serviceEntry.json';done;`
+  - `for i in {0..3000};do curl -X POST "${URL}/json-requests/1" -H "Content-Type: application/json" -d '@./curl_tests/json-requests_serviceEntry.json';done;`
 - **PeerAuthentication**: Implements automatic mtls into namespace deployed
   - Like ServiceEntry
   - Edit istio/istio-raw/serviceEntry/peerAuthentication.yaml
@@ -408,41 +408,41 @@ curl -X POST "${URL}/lv1/lv2";
 curl -X GET "${URL}/lv1/lv2?sleep=10";
 
 # udp send
-curl -X GET "${URL}/testudp/?UDP_IP=127.0.0.1&UDP_PORT=5005&MESSAGE=hola";
+curl -X GET "${URL}/udp-requests/localhost/5005?MESSAGE=hola";
 
 # grpc test
-curl -iLX GET "${URL}/grpc-requests/127.0.0.1/50051/";
-curl -iLX POST "${URL}/grpc-requests/127.0.0.1/50051/" -H "Content-Type: application/json" -d '{"user_name":"Carl Sagan", "age": "42", "email": "John_doe@mail.com"}';
+curl -iLX GET "${URL}/grpc-requests/127.0.0.1/50051";
+curl -iLX POST "${URL}/grpc-requests/127.0.0.1/50051" -H "Content-Type: application/json" -d '{"user_name":"Carl Sagan", "age": "42", "email": "John_doe@mail.com"}';
 
 # proxy request GET external html request
-curl -X GET "${URL}/requests/https/eltiempo.com/443/?path=/opinion/columnistas/martha-senn&other=none";
+curl -X GET "${URL}/requests/https/eltiempo.com/443?path=/opinion/columnistas/martha-senn&other=none";
 
 # proxy request POST test API (curl -k -X POST https://jsonplaceholder.typicode.com/posts -H "Content-Type: application/json" -d '{"hola":"perro"}')
-curl -X POST "${URL}/requests/https/jsonplaceholder.typicode.com/443/?path=/posts" -H "Content-Type: application/json" -d '{"hola":"perro"}';
+curl -X POST "${URL}/requests/https/jsonplaceholder.typicode.com/443?path=/posts" -H "Content-Type: application/json" -d '{"hola":"perro"}';
 
 # multiple curls
-curl -X POST "${URL}/json-requests/1/" -H "Content-Type: application/json" -d '[{"url":"https://jsonplaceholder.typicode.com/posts", "method":"POST", "body":{"hola": "perro"}, "headers":{"Content-Type": "application/json"}}, {"url":"https://jsonplaceholder.typicode.com/posts", "method":"POST", "body":{}, "headers":{"Content-Type": "application/json"}}]';
+curl -X POST "${URL}/json-requests/1" -H "Content-Type: application/json" -d '[{"url":"https://jsonplaceholder.typicode.com/posts", "method":"POST", "body":{"hola": "perro"}, "headers":{"Content-Type": "application/json"}}, {"url":"https://jsonplaceholder.typicode.com/posts", "method":"POST", "body":{}, "headers":{"Content-Type": "application/json"}}]';
 
 # nested curls json
-for i in {0..3000};do sleep 5;curl -X POST "${URL}/json-requests/1/" -H "Content-Type: application/json" -d '@./curl_tests/json-requests_k8s.json';done;
+for i in {0..3000};do sleep 5;curl -X POST "${URL}/json-requests/1" -H "Content-Type: application/json" -d '@./curl_tests/json-requests_k8s.json';done;
 # time data
 for i in {0..3000};do sleep 2;curl -w "@./curl_tests/curl-format.txt" -o /dev/null -s -X POST "${URL}/json-requests/1/" -H "Content-Type: application/json" -d '@./curl_tests/json-requests_k8s.json';done;
 
 # request concat, this is used with similar containers redirection trafict in much services
-curl -X GET "${URL}/concat-requests/1/?hosts=http://localhost:8080/,http://localhost:8080";
+curl -X GET "${URL}/concat-requests/1?hosts=http://localhost:8080/,http://localhost:8080";
 
 # note remove scape slash for browser
 # proxy request POST with GET test API (parameter method=POST body=\{\"hola\":\"mundo\"\})
-curl -X GET "${URL}/requests/https/jsonplaceholder.typicode.com/443/?path=/posts&method=POST&body=\{\"hola\":\"mundo\"\}&headers=\{\"Content-Type\":\"application/json\"\}";
+curl -X GET "${URL}/requests/https/jsonplaceholder.typicode.com/443?path=/posts&method=POST&body=\{\"hola\":\"mundo\"\}&headers=\{\"Content-Type\":\"application/json\"\}";
 # get token
-curl -X GET "${URL}/requests/http/metadata.google.internal/80/?path=/computeMetadata/v1/instance/service-accounts/default/token&method=GET&headers=\{\"Content-Type\":\"application/json\",\"Metadata-Flavor\":\"Google\"\}";
-# get vm lists: /requests/https/compute.googleapis.com/443/?path=/compute/v1/projects/my-gcp-project/zones/us-east1-b/instances&method=GET&headers={"Content-Type":"application/json","Authorization":"Bearer ya29.c...."}
-curl -X GET "${URL}/requests/https/compute.googleapis.com/443/?path=/compute/v1/projects/${GOOGLE_CLOUD_PROJECT}/zones/us-east1-b/instances&method=GET&headers=\{\"Content-Type\":\"application/json\",\"Authorization\":\"Bearer%20ya29.c...\"\}";
+curl -X GET "${URL}/requests/http/metadata.google.internal/80?path=/computeMetadata/v1/instance/service-accounts/default/token&method=GET&headers=\{\"Content-Type\":\"application/json\",\"Metadata-Flavor\":\"Google\"\}";
+# get vm lists: /requests/https/compute.googleapis.com/443?path=/compute/v1/projects/my-gcp-project/zones/us-east1-b/instances&method=GET&headers={"Content-Type":"application/json","Authorization":"Bearer ya29.c...."}
+curl -X GET "${URL}/requests/https/compute.googleapis.com/443?path=/compute/v1/projects/${GOOGLE_CLOUD_PROJECT}/zones/us-east1-b/instances&method=GET&headers=\{\"Content-Type\":\"application/json\",\"Authorization\":\"Bearer%20ya29.c...\"\}";
 
 
 curl -X POST "${URL}/do/script/" -H "Content-Type: application/json"  -d '{"command":"curl  -H \"Metadata-Flavor: Google\" http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token"}'
 # proxy request POST with GET test API (parameter method=GET https://jsonplaceholder.typicode.com:443/comments?params=postId=1,sort=first)
-curl -X GET "${URL}/requests/https/jsonplaceholder.typicode.com/443/?path=/comments&method=GET&params=postId=1,sort=first";
+curl -X GET "${URL}/requests/https/jsonplaceholder.typicode.com/443?path=/comments&method=GET&params=postId=1,sort=first";
 
 # simple ping (for validate)
 curl -X GET "${URL}/ping/8.8.8.8";
@@ -471,10 +471,10 @@ curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"comma
 curl -X POST "${URL}/do/script/" -H "Content-Type: application/json" -d '{"command":"echo \"my.domain1.com 192.168.49.2\" >> /etc/hosts"}';
 
 # test redirction 302 simple relative
-curl -X GET -kLI "${URL}/redirect/relative";
+curl -X GET -kLI "${URL}/redirect-relative";
 
 # test redirction 302 custom absolute
-curl -X GET -kLI "${URL}/redirect/absolute/https/eltiempo.com/443?path=/opinion/columnistas/martha-senn";
+curl -X GET -kLI "${URL}/redirect-absolute/https/eltiempo.com/443?path=/opinion/columnistas/martha-senn";
 
 # test smtp
 curl -X GET "${URL}/testsmtp/smtp.gmail.com:587/user@comain.com/MyPasswd";
@@ -500,8 +500,12 @@ sc "curl -6 'http://[2600:1901:0:38c4::]:80'" "${URL}";
 sc "curl '$URLlb "${URL1}";
 ```
 
-## Websocket
-- Browser: http://localhost:8080/web-socket.html?port=5678&host=localhost
+## Websocket (ws wss http https)
+- Browser: http://127.0.0.1:8080/socket-requests/ws/localhost/5678/client-2.html
+  - protocol: ws wss ( http - https for another tests) 
+  - host: domain or ip
+  - port: port expose server 5678
+  - path: client-1.html (chancge number or anything)
 - nodejs: 
   - `npm install -g wscat`
   - `wscat -c "ws://localhost:5678"`
@@ -510,12 +514,12 @@ sc "curl '$URLlb "${URL1}";
 curl --include 
      --no-buffer 
      --header "Connection: Upgrade" \
-     --header "Upgrade: websocket" 
-     --header "Host: localhost:5678" 
-     --header "Origin: http://localhost:5678" 
-     --header "Sec-WebSocket-Key: SGVsbG8sIHdvcmxkIQ==" 
-     --header "Sec-WebSocket-Version: 13" 
-     "http://localhost:5678/"
+     --header "Upgrade: websocket" \
+     --header "Host: localhost:5678" \
+     --header "Origin: http://localhost:5678" \
+     --header "Sec-WebSocket-Key: SGVsbG8sIHdvcmxkIQ==" \
+     --header "Sec-WebSocket-Version: 13" \
+     "http://localhost:5678/socket-requests/ws/localhost/5678/client-2.html"
 
 curl 'http://localhost:5678/' \
   -H "Connection: Upgrade" \
@@ -574,7 +578,7 @@ var req_cont =  {
   "method": "GET",
 };
 // great request
-var req_path = `${location.origin}/do/script/`;
+var req_path = `${location.origin}/do/script`;
 var req_cont =  {
   "headers": {"cache-control":"max-age=10000", "Content-Type":"application/json"},
   "method": "POST",

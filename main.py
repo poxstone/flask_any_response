@@ -6,14 +6,14 @@ import datetime
 import subprocess
 import asyncio
 from time import sleep
-from application.config import ENV, FULL_METHODS, PATH_IGNORE, REQUEST_STR_LENGTH, SLEEP_TIME, PORT, LOGS_PRINT, lets_token, CERTFILE_CRT, KEYFILE_TLS, CHAIN_PEM, STR_GLOBAL, GLOBAL_STATE
+from application.config import FULL_METHODS, PATH_IGNORE, REQUEST_STR_LENGTH, PORT, lets_token, CERTFILE_CRT, KEYFILE_TLS, CHAIN_PEM, STR_GLOBAL, GLOBAL_STATE, UDP_MESSAGE
 from application.utils import get_random_string, printing, print_request, ping ,getPost ,do_request_method_async ,do_request_method
 from flask import Flask, request, redirect, url_for, Response, render_template, send_file
 # email
 import smtplib
 
 
-print(f'INSTANCEID={STR_GLOBAL}')
+printing(f'INSTANCEID={STR_GLOBAL}')
 logging.basicConfig(level=logging.DEBUG)
 application = app = Flask(__name__, template_folder=os.path.abspath('htmls'))
 
@@ -39,31 +39,7 @@ def l0():
     return Response(resp, mimetype=mime_type), status_code
 
 
-@app.route('/testudp/', methods=FULL_METHODS)
-def testudp():
-    printing('testudp():')
-    req_val = request.values
-    try:
-        UDP_IP = req_val.get('UDP_IP')
-        UDP_PORT = req_val.get('UDP_PORT')
-        MESSAGE = bytes(req_val.get('MESSAGE'), 'utf-8')
-    except Exception as e:
-        UDP_IP = ENV["UDP_IP"] if "UDP_IP" in ENV else "127.0.0.1"
-        UDP_PORT = ENV['UDP_PORT'] if 'UDP_PORT' in ENV else 5005
-        MESSAGE = b"Hello, World!"
-    
-    message = '<pre>UDP_IP = {}\n UDP_PORT = {}\n MESSAGE = {}<pre>'\
-                .format(UDP_IP,  UDP_PORT, str(MESSAGE))
-    printing(message)
-    sock = socket.socket(socket.AF_INET, # Internet
-                         socket.SOCK_DGRAM) # UDP
-    server_address = (UDP_IP, int(UDP_PORT))
-    sock.sendto(MESSAGE, server_address)
-    resp, mime_type, status_code = print_request(request, title="testudp():")
-    return '{} ---- {}'.format(message, resp), status_code
-
-
-@app.route('/ping/<host>/', methods=FULL_METHODS)
+@app.route('/ping/<host>', methods=FULL_METHODS)
 def doPing(host):
     printing('doPing(host):')
     count = request.args.get('count') if request.args.get('count') else '3'
@@ -98,7 +74,7 @@ def bucketList(project):
     return str(response), GLOBAL_STATE
 
 
-@app.route('/do/com/', methods=['POST'])
+@app.route('/do/com', methods=['POST'])
 def doCom():
     printing('doCom():')
     command = getPost(request)
@@ -111,7 +87,7 @@ def doCom():
     return 'nothing to do', GLOBAL_STATE
 
 
-@app.route('/do/script/', methods=['POST'])
+@app.route('/do/script', methods=['POST'])
 def doScript():
     printing('doScript():')
     command = getPost(request)
@@ -129,57 +105,7 @@ def doScript():
     return 'nothing to do', GLOBAL_STATE
 
 
-@app.route('/grpc-requests/<domain>/<port>/', methods=FULL_METHODS)
-def grpc_requests(domain, port):
-    printing('grpc_requests(domain, port):')
-    resp, mime_type, status_code = print_request(request, title='grpc_requests(domain, port):', print_logs='false')
-    import grpc
-    #import GRPC.hello_grpc as hello_grpc
-    from GRPC.proto_grpc import userexample_pb2
-    from GRPC.proto_grpc import userexample_pb2_grpc
-
-    body_data = {
-        'user_name': 'John Doe',
-        'age': '42',
-        'email': 'John_doe@mail.com',
-    }
-    method = request.args.get('method').upper() if request.args.get('method') \
-                                                else request.method
-    
-    if method in ['POST','PUT','DELETE','PATCH'] and request.args.get('body'):
-        try:
-            body_data = json.loads(request.args.get('body'))
-        except:
-            body_data = body_data
-    else:
-        if request.form:
-            body_data = getPost(request)
-        body_data = getPost(request) if getPost(request) else body_data
-        
-    path = request.args.get('path') if request.args.get('path') else ''
-    path = path if path.startswith('/') else '/{}'.format(path)
-
-    printing(f'TRY_GRPC to {domain}:{port}')
-
-    channel = grpc.insecure_channel(f'{domain}:{port}')
-    try:
-        credentials = grpc.ssl_channel_credentials(open(CHAIN_PEM,'rb').read(), open(KEYFILE_TLS,'rb').read(), open(CERTFILE_CRT,'rb').read())
-        channel = grpc.secure_channel(f'{domain}:{port}', credentials)
-    except Exception as e:
-        print(f'SSL_ERROR_ELSE_NO_SSL: {e}')
-        channel = grpc.insecure_channel(f'{domain}:{port}')
-
-    stub = userexample_pb2_grpc.UserExampleServiceStub(channel)
-    # create grpc
-    user = userexample_pb2.User(user_name=body_data['user_name'], age=int(body_data['age']), email=body_data['email'])
-    # Get response grpc
-    response = stub.GetUser(user)
-    printing(f"User getter: {str(response)}")
-
-    return f"Greeter client received: {str(response)}", status_code
-
-
-@app.route('/requests/<protocol>/<domain>/<port>/', methods=FULL_METHODS)
+@app.route('/requests/<protocol>/<domain>/<port>', methods=FULL_METHODS)
 def requests(protocol, domain, port):
     printing('requests(protocol, domain, port):')
     import requests
@@ -222,7 +148,77 @@ def requests(protocol, domain, port):
     return str(res), GLOBAL_STATE
 
 
-@app.route('/concat-requests/<num>/', methods=FULL_METHODS)
+@app.route('/udp-requests/<domain>/<port>', methods=FULL_METHODS)
+def testudp(domain, port):
+    printing('testudp():')
+    req_val = request.values
+
+    UDP_IP = domain
+    UDP_PORT = port
+    MESSAGE = bytes(req_val.get('MESSAGE'), 'utf-8') if req_val.get('MESSAGE') else bytes(UDP_MESSAGE, 'utf-8')
+
+    message = '<pre>UDP_IP = {}\n UDP_PORT = {}\n MESSAGE = {}<pre>'\
+                .format(UDP_IP,  UDP_PORT, str(MESSAGE))
+    printing(message)
+    sock = socket.socket(socket.AF_INET, # Internet
+                         socket.SOCK_DGRAM) # UDP
+    server_address = (UDP_IP, int(UDP_PORT))
+    sock.sendto(MESSAGE, server_address)
+    resp, mime_type, status_code = print_request(request, title="testudp():")
+    return '{} ---- {}'.format(message, resp), status_code
+
+
+@app.route('/grpc-requests/<domain>/<port>', methods=FULL_METHODS)
+def grpc_requests(domain, port):
+    printing('grpc_requests(domain, port):')
+    resp, mime_type, status_code = print_request(request, title='grpc_requests(domain, port):', print_logs='false')
+    import grpc
+    #import GRPC.hello_grpc as hello_grpc
+    from GRPC.proto_grpc import userexample_pb2
+    from GRPC.proto_grpc import userexample_pb2_grpc
+
+    body_data = {
+        'user_name': 'John Doe',
+        'age': '42',
+        'email': 'John_doe@mail.com',
+    }
+    method = request.args.get('method').upper() if request.args.get('method') \
+                                                else request.method
+    
+    if method in ['POST','PUT','DELETE','PATCH'] and request.args.get('body'):
+        try:
+            body_data = json.loads(request.args.get('body'))
+        except:
+            body_data = body_data
+    else:
+        if request.form:
+            body_data = getPost(request)
+        body_data = getPost(request) if getPost(request) else body_data
+        
+    path = request.args.get('path') if request.args.get('path') else ''
+    path = path if path.startswith('/') else '/{}'.format(path)
+
+    printing(f'TRY_GRPC to {domain}:{port}')
+
+    channel = grpc.insecure_channel(f'{domain}:{port}')
+    try:
+        credentials = grpc.ssl_channel_credentials(open(CHAIN_PEM,'rb').read(), open(KEYFILE_TLS,'rb').read(), open(CERTFILE_CRT,'rb').read())
+        channel = grpc.secure_channel(f'{domain}:{port}', credentials)
+    except Exception as e:
+        printing(f'SSL_ERROR_ELSE_NO_SSL: {e}')
+        channel = grpc.insecure_channel(f'{domain}:{port}')
+
+    stub = userexample_pb2_grpc.UserExampleServiceStub(channel)
+    # create grpc
+    user = userexample_pb2.User(user_name=body_data['user_name'], age=int(body_data['age']), email=body_data['email'])
+    # Get response grpc
+    response = stub.GetUser(user)
+    printing(f"User getter: {str(response)}")
+
+    return f"Greeter client received: {str(response)}", status_code
+
+
+@app.route('/concat-requests/<num>', methods=FULL_METHODS)
 def concat_requests(num):
     printing(f'/concat-requests/{num}/')
     import requests
@@ -240,7 +236,7 @@ def concat_requests(num):
     return str(res), GLOBAL_STATE
 
 
-@app.route('/json-requests/<num>/', methods=FULL_METHODS)
+@app.route('/json-requests/<num>', methods=FULL_METHODS)
 def json_requests(num):
     printing(f'json_requests')
     # get body
@@ -268,18 +264,24 @@ def json_requests(num):
         else:
             req = do_request_method(method, url, headers, body)
         res.append(req)
-
     return str(res), GLOBAL_STATE
 
 
+# test socket
+@app.route('/socket-requests/<protocol>/<domain>/<port>/<path>')
+def socket_request(protocol, domain, port, path):
+    resp, mime_type, status_code = print_request(request, title="Redirected")
+    return render_template('socket-requests-client.html'), status_code
+
+
 # relative dir
-@app.route('/redirect/relative', methods=FULL_METHODS)
+@app.route('/redirect-relative', methods=FULL_METHODS)
 def redirect_relative():
     printing('redirect_relative():')
     return redirect(url_for('redirected'))
 
 
-@app.route('/redirect/absolute/<protocol>/<domain>/<port>', methods=FULL_METHODS)
+@app.route('/redirect-absolute/<protocol>/<domain>/<port>', methods=FULL_METHODS)
 def redirect_absolute(protocol, domain, port):
     printing('redirect_absolute(protocol, domain, port):')
     path = request.args.get('path') if request.args.get('path') else ''
@@ -288,17 +290,11 @@ def redirect_absolute(protocol, domain, port):
     return redirect(location)
 
 
-@app.route('/redirect/redirected', methods=FULL_METHODS)
+@app.route('/redirect-redirected', methods=FULL_METHODS)
 def redirected():
     printing('redirected(): 302')
     resp, mime_type, status_code = print_request(request, title="Redirected")
     return Response(resp, mimetype=mime_type), status_code
-
-
-# test socket
-@app.route('/web-socket.html')
-def index():
-    return render_template('web-socket.html'), status_code
 
 
 @app.route('/download/<size>')
@@ -394,13 +390,13 @@ def lv7(lv1, lv2, lv3, lv4, lv5, lv6, lv7):
     return Response(resp, mimetype=mime_type), status_code
 
 
-print(f'INIT_TIME_APP_PY_={STR_GLOBAL}: {str(datetime.datetime.now())}')
+printing(f'INIT_TIME_APP_PY_={STR_GLOBAL}: {str(datetime.datetime.now())}')
 
 if __name__ == "__main__":
     app.run(debug=False, host="0.0.0.0", port=PORT)
 
 
-print(f"POXSTONE_LOG={STR_GLOBAL}: --- Flask Ended")
+printing(f"POXSTONE_LOG={STR_GLOBAL}: --- Flask Ended")
 
 # gunicorn --workers="1" --timeout="120" --bind="0.0.0.0:8080" --certfile=".certs-self/tls.crt" --keyfile=".certs-self/tls.key" main:app;
 # curl https://fla-service-a.default-a.svc:8080 --cacert .certs-self/chain.pem
