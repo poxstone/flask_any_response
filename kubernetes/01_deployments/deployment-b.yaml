@@ -56,7 +56,7 @@ spec:
         image: poxstone/flask_any_response
         #imagePullPolicy: Always
         livenessProbe:
-          failureThreshold: 2
+          failureThreshold: 30
           #tcpSocket:
           httpGet:
             path: /index.html
@@ -66,12 +66,12 @@ spec:
           #  command:
           #  - "sleep"
           #  - "3"
-          initialDelaySeconds: 10
-          periodSeconds: 5
+          initialDelaySeconds: 60
+          periodSeconds: 15
           successThreshold: 1
-          timeoutSeconds: 3
+          timeoutSeconds: 60
         readinessProbe:
-          failureThreshold: 2
+          failureThreshold: 30
           #tcpSocket:
           httpGet:
             path: /index.html
@@ -81,10 +81,10 @@ spec:
           #  command:
           #  - "sleep"
           #  - "10"
-          initialDelaySeconds: 10
-          periodSeconds: 5
+          initialDelaySeconds: 60
+          periodSeconds: 15
           successThreshold: 1
-          timeoutSeconds: 3
+          timeoutSeconds: 60
         ports:
         - containerPort: 80
         - containerPort: 443
@@ -99,8 +99,8 @@ spec:
           #  cpu: 500m
           #  memory: 256Mi
           requests:
-            cpu: 96m
-            memory: 64Mi
+            cpu: 20m
+            memory: 118Mi
         volumeMounts:
         #- mountPath: /app/.certs/
         #  name: tls-domain

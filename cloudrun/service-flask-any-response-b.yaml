@@ -11,7 +11,7 @@ spec:
         run.googleapis.com/cpu-throttling: 'false'
     spec:
       containerConcurrency: 5
-      timeoutSeconds: 300
+      timeoutSeconds: 6000
       #serviceAccountName: gke-oscar@mygcp-delivery-infra-service.iam.gserviceaccount.com
       containers:
       - image: gcr.io/mygcp-delivery-infra-service/flask_any_response:latest

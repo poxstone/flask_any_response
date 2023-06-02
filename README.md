@@ -648,3 +648,12 @@ kubectl applly -f "ingress-a.yaml";
 # get ingress status
 kubectl describe ingress fla-service-a-ingress;
 ```
+| config                    | cpu-init | cpu-min | cpu-max | ram-init | ram-min | ram-max | request-sim | request-max |
+| ------------------------- | -------- | ------- | ------- | -------- | ------- | ------- | ----------- | ----------- |
+| 1replica, 1worker         | 51m      | 4m      | ---     | ---      | 74Mi    | ---     | 1           | ---         |
+| 1replica, 2worker         | 51m      | 16m     | 3045m   | ---      | 90Mi    | 106Mi   | 2           | ---         |
+| 1replica, 10worker        | 103m     | 4m      | ---     | ---      | 218Mi   | ---     | 10          | ---         |
+| 1replica, 1worker,  istio | ---      | 12m     | ---     | ---      | 118Mi   | ---     | 1           | ---         |
+| 1replica, 2worker,  istio | 70m      | 8m      | 3045m   | 132Mi    | 134Mi   | 153Mi   | 2           | 259rpms     |
+| 1replica, 10worker, istio | 102m     | 8m      | ---     | ---      | 260Mi   | ---     | 10          | ---         |
+

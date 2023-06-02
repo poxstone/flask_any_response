@@ -62,10 +62,10 @@ spec:
           #  command:
           #  - sleep
           #  - 10
-          initialDelaySeconds: 10
-          periodSeconds: 5
+          initialDelaySeconds: 60
+          periodSeconds: 15
           successThreshold: 1
-          timeoutSeconds: 3
+          timeoutSeconds: 60
         name: flask-statefulset-any-response-a
         ports:
         - containerPort: 8080
@@ -78,5 +78,5 @@ spec:
             cpu: 500m
             memory: 256Mi
           requests:
-            cpu: 96m
-            memory: 64Mi
+            cpu: 20m
+            memory: 118Mi

@@ -34,7 +34,7 @@ spec:
         - name: GRPC_PORT
           value: '50051'
         - name: WORKERS
-          value: '1'  # this increase ram required
+          value: '2'  # this increase ram required
         - name: TIMEOUT
           value: '120'
         - name: VERSION_DEP
@@ -56,7 +56,7 @@ spec:
         image: poxstone/flask_any_response
         #imagePullPolicy: Always
         livenessProbe:
-          failureThreshold: 2
+          failureThreshold: 30
           #tcpSocket:
           httpGet:
             path: /index.html
@@ -66,12 +66,12 @@ spec:
           #  command:
           #  - "sleep"
           #  - "3"
-          initialDelaySeconds: 10
-          periodSeconds: 5
+          initialDelaySeconds: 20
+          periodSeconds: 15
           successThreshold: 1
-          timeoutSeconds: 3
+          timeoutSeconds: 60
         readinessProbe:
-          failureThreshold: 2
+          failureThreshold: 30
           #tcpSocket:
           httpGet:
             path: /index.html
@@ -81,10 +81,10 @@ spec:
           #  command:
           #  - "sleep"
           #  - "10"
-          initialDelaySeconds: 10
-          periodSeconds: 5
+          initialDelaySeconds: 20
+          periodSeconds: 15
           successThreshold: 1
-          timeoutSeconds: 3
+          timeoutSeconds: 60
         ports:
         - containerPort: 80
         - containerPort: 443
@@ -96,11 +96,11 @@ spec:
         - containerPort: 50051
         resources:
           limits:
-          #  cpu: 500m
-          #  memory: 256Mi
+            cpu: 500m
+            memory: 256Mi
           requests:
-            cpu: 96m
-            memory: 64Mi
+            cpu: 50m
+            memory: 132Mi
         volumeMounts:
         #- mountPath: /app/.certs/
         #  name: tls-domain

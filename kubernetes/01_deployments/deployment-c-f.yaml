@@ -55,7 +55,7 @@ spec:
         image: poxstone/flask_any_response
         #imagePullPolicy: Always
         livenessProbe:
-          failureThreshold: 2
+          failureThreshold: 30
           #tcpSocket:
           httpGet:
             path: /index.html
@@ -65,10 +65,10 @@ spec:
           #  command:
           #  - sleep
           #  - 10
-          initialDelaySeconds: 10
-          periodSeconds: 5
+          initialDelaySeconds: 60
+          periodSeconds: 15
           successThreshold: 1
-          timeoutSeconds: 3
+          timeoutSeconds: 60
         name: fla-response-c
         ports:
         - containerPort: 80
@@ -80,7 +80,7 @@ spec:
         - containerPort: 9090
         - containerPort: 50051
         readinessProbe:
-          failureThreshold: 2
+          failureThreshold: 30
           #tcpSocket:
           httpGet:
             path: /index.html
@@ -90,17 +90,17 @@ spec:
           #  command:
           #  - sleep
           #  - 10
-          initialDelaySeconds: 10
-          periodSeconds: 5
+          initialDelaySeconds: 60
+          periodSeconds: 15
           successThreshold: 1
-          timeoutSeconds: 3
+          timeoutSeconds: 60
         resources:
           #limits:
           #  cpu: 500m
           #  memory: 256Mi
           requests:
-            cpu: 96m
-            memory: 64Mi
+            cpu: 20m
+            memory: 118Mi
 
 ---
 apiVersion: apps/v1
@@ -160,7 +160,7 @@ spec:
         image: poxstone/flask_any_response
         #imagePullPolicy: Always
         livenessProbe:
-          failureThreshold: 2
+          failureThreshold: 30
           #tcpSocket:
           httpGet:
             path: /index.html
@@ -170,10 +170,10 @@ spec:
           #  command:
           #  - sleep
           #  - 10
-          initialDelaySeconds: 10
-          periodSeconds: 5
+          initialDelaySeconds: 60
+          periodSeconds: 15
           successThreshold: 1
-          timeoutSeconds: 3
+          timeoutSeconds: 60
         name: fla-response-d
         ports:
         - containerPort: 80
@@ -185,7 +185,7 @@ spec:
         - containerPort: 9090
         - containerPort: 50051
         readinessProbe:
-          failureThreshold: 2
+          failureThreshold: 30
           #tcpSocket:
           httpGet:
             path: /index.html
@@ -195,17 +195,17 @@ spec:
           #  command:
           #  - sleep
           #  - 10
-          initialDelaySeconds: 10
-          periodSeconds: 5
+          initialDelaySeconds: 60
+          periodSeconds: 15
           successThreshold: 1
-          timeoutSeconds: 3
+          timeoutSeconds: 60
         resources:
           #limits:
           #  cpu: 500m
           #  memory: 256Mi
           requests:
-            cpu: 96m
-            memory: 64Mi
+            cpu: 20m
+            memory: 118Mi
 
 ---
 apiVersion: apps/v1
@@ -265,7 +265,7 @@ spec:
         image: poxstone/flask_any_response
         #imagePullPolicy: Always
         livenessProbe:
-          failureThreshold: 2
+          failureThreshold: 30
           #tcpSocket:
           httpGet:
             path: /index.html
@@ -275,10 +275,10 @@ spec:
           #  command:
           #  - sleep
           #  - 10
-          initialDelaySeconds: 10
-          periodSeconds: 5
+          initialDelaySeconds: 60
+          periodSeconds: 15
           successThreshold: 1
-          timeoutSeconds: 3
+          timeoutSeconds: 60
         name: fla-response-d
         ports:
         - containerPort: 80
@@ -290,7 +290,7 @@ spec:
         - containerPort: 9090
         - containerPort: 50051
         readinessProbe:
-          failureThreshold: 2
+          failureThreshold: 30
           #tcpSocket:
           httpGet:
             path: /index.html
@@ -300,17 +300,17 @@ spec:
           #  command:
           #  - sleep
           #  - 10
-          initialDelaySeconds: 10
-          periodSeconds: 5
+          initialDelaySeconds: 60
+          periodSeconds: 15
           successThreshold: 1
-          timeoutSeconds: 3
+          timeoutSeconds: 60
         resources:
           #limits:
           #  cpu: 500m
           #  memory: 256Mi
           requests:
-            cpu: 96m
-            memory: 64Mi
+            cpu: 20m
+            memory: 118Mi
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -369,7 +369,7 @@ spec:
         image: poxstone/flask_any_response
         #imagePullPolicy: Always
         livenessProbe:
-          failureThreshold: 2
+          failureThreshold: 30
           #tcpSocket:
           httpGet:
             path: /index.html
@@ -379,10 +379,10 @@ spec:
           #  command:
           #  - sleep
           #  - 10
-          initialDelaySeconds: 10
-          periodSeconds: 5
+          initialDelaySeconds: 60
+          periodSeconds: 15
           successThreshold: 1
-          timeoutSeconds: 3
+          timeoutSeconds: 60
         name: fla-response-e
         ports:
         - containerPort: 80
@@ -394,7 +394,7 @@ spec:
         - containerPort: 9090
         - containerPort: 50051
         readinessProbe:
-          failureThreshold: 2
+          failureThreshold: 30
           #tcpSocket:
           httpGet:
             path: /index.html
@@ -404,17 +404,17 @@ spec:
           #  command:
           #  - sleep
           #  - 10
-          initialDelaySeconds: 10
-          periodSeconds: 5
+          initialDelaySeconds: 60
+          periodSeconds: 15
           successThreshold: 1
-          timeoutSeconds: 3
+          timeoutSeconds: 60
         resources:
           #limits:
           #  cpu: 500m
           #  memory: 256Mi
           requests:
-            cpu: 96m
-            memory: 64Mi
+            cpu: 20m
+            memory: 118Mi
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -473,7 +473,7 @@ spec:
         image: poxstone/flask_any_response
         #imagePullPolicy: Always
         livenessProbe:
-          failureThreshold: 2
+          failureThreshold: 30
           #tcpSocket:
           httpGet:
             path: /index.html
@@ -483,10 +483,10 @@ spec:
           #  command:
           #  - sleep
           #  - 10
-          initialDelaySeconds: 10
-          periodSeconds: 5
+          initialDelaySeconds: 60
+          periodSeconds: 15
           successThreshold: 1
-          timeoutSeconds: 3
+          timeoutSeconds: 60
         name: fla-response-f
         ports:
         - containerPort: 80
@@ -498,7 +498,7 @@ spec:
         - containerPort: 9090
         - containerPort: 50051
         readinessProbe:
-          failureThreshold: 2
+          failureThreshold: 30
           #tcpSocket:
           httpGet:
             path: /index.html
@@ -508,14 +508,14 @@ spec:
           #  command:
           #  - sleep
           #  - 10
-          initialDelaySeconds: 10
-          periodSeconds: 5
+          initialDelaySeconds: 60
+          periodSeconds: 15
           successThreshold: 1
-          timeoutSeconds: 3
+          timeoutSeconds: 60
         resources:
           #limits:
           #  cpu: 500m
           #  memory: 256Mi
           requests:
-            cpu: 96m
-            memory: 64Mi
+            cpu: 20m
+            memory: 118Mi
