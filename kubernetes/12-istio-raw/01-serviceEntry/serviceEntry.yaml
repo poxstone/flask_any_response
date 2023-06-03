@@ -1,12 +1,38 @@
 apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
-  name: external-svc-https
+  name: fla-serviceentry-a
+  namespace: default-a
 spec:
   hosts:
   - api.dropboxapi.com
   - www.googleapis.com
-  - www.google.com
+  - google.com
+  - api.facebook.com
+  - developers.facebook.com
+  - eltiempo.com
+  - api.ipify.org
+  location: MESH_EXTERNAL
+  ports:
+  - number: 443
+    name: https
+    protocol: TLS
+  - number: 80
+    name: http
+    protocol: HTTP
+  resolution: DNS
+
+---
+apiVersion: networking.istio.io/v1beta1
+kind: ServiceEntry
+metadata:
+  name: fla-serviceentry-z
+  namespace: default-z
+spec:
+  hosts:
+  - api.dropboxapi.com
+  - www.googleapis.com
+  - google.com
   - api.facebook.com
   - developers.facebook.com
   - eltiempo.com

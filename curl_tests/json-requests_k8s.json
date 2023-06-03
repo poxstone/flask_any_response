@@ -1,26 +1,26 @@
 {"body_data":[
     {
-        "async":"true", "url":"http://fla-service-f:8080/sub2a?sleep=0.125", "method":"GET", "headers": {}, "body": {}
+        "async":"true", "url":"http://fla-service-b.default-a.svc:8080/sub2a?sleep=0.125", "method":"GET", "headers": {}, "body": {}
     },
     {
-        "async":"false", "url":"http://fla-service-d:8080/json-requests/2", "method":"POST", "headers":{"Content-Type": "application/json"}, "body": {
+        "async":"false", "url":"http://fla-service-c.default-c.svc:8080/json-requests/2", "method":"POST", "headers":{"Content-Type": "application/json"}, "body": {
             "body_data": [{
-                "url":"http://fla-service-e:8080/sub3?sleep=0", "method":"POST",
+                "url":"http://fla-service-e.default-c.svc:8080/sub3?sleep=0", "method":"POST",
                 "body":{"key": "1"},
                 "headers":{"Content-Type": "application/json"}
             },
             {
-                "async":"true", "url":"http://fla-service-b:8080/json-requests/2", "method":"POST", "headers":{"Content-Type": "application/json"}, "body": {
+                "async":"true", "url":"http://fla-service-f.default-c.svc:8080/json-requests/2", "method":"POST", "headers":{"Content-Type": "application/json"}, "body": {
                     "body_data": [{
-                        "async":"true", "url":"http://fla-service-f:8080/sub3?sleep=0.25", "method":"POST",
+                        "async":"true", "url":"http://fla-service-z.default-z.svc:8080/sub3?sleep=0.25", "method":"POST",
                         "body":{"key": "1"},
                         "headers":{"Content-Type": "application/json"}
                     },
                     {
-                        "async":"false", "url":"http://fla-service-f:8080/requests/https/www.google.com/443", "method":"GET"
+                        "async":"false", "url":"https:eltiempo.com:443", "method":"GET"
                     },
                     {
-                        "async":"false", "url":"http://fla-service-f:8080/grpc-requests/fla-service-z.default-z.svc/50051", "method":"GET"
+                        "async":"false", "url":"http://fla-service-b.default-a.svc:8080/grpc-requests/fla-service-z.default-z.svc/50051", "method":"GET"
                     }
                 ]
                 }
@@ -28,6 +28,9 @@
         }
     },
     {
-        "async":"false", "url":"http://fla-service-c:8080/sub2b?sleep=0.25&status=502", "method":"GET", "headers": {}, "body": {}
+        "async":"false", "url":"http://fla-service-c.default-c.svc:8080/sub2b?sleep=0.25&status=502", "method":"GET", "headers": {}, "body": {}
+    },
+    {
+        "async":"false", "url":"http://fla-service-z.default-z.svc:8080/requests/https/eltiempo.com/443", "method":"GET"
     }
 ]}
