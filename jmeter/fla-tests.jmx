@@ -169,27 +169,27 @@
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 <stringProp name="Argument.value">{&quot;body_data&quot;:[&#xd;
     {&#xd;
-        &quot;async&quot;:&quot;true&quot;, &quot;url&quot;:&quot;http://fla-service-f:8080/sub2a?sleep=0.125&quot;, &quot;method&quot;:&quot;GET&quot;, &quot;headers&quot;: {}, &quot;body&quot;: {}&#xd;
+        &quot;async&quot;:&quot;true&quot;, &quot;url&quot;:&quot;http://fla-service-b.default-a.svc:8080/sub2a?sleep=0.125&quot;, &quot;method&quot;:&quot;GET&quot;, &quot;headers&quot;: {}, &quot;body&quot;: {}&#xd;
     },&#xd;
     {&#xd;
-        &quot;async&quot;:&quot;false&quot;, &quot;url&quot;:&quot;http://fla-service-d:8080/json-requests/2&quot;, &quot;method&quot;:&quot;POST&quot;, &quot;headers&quot;:{&quot;Content-Type&quot;: &quot;application/json&quot;}, &quot;body&quot;: {&#xd;
+        &quot;async&quot;:&quot;false&quot;, &quot;url&quot;:&quot;http://fla-service-c.default-c.svc:8080/json-requests/2&quot;, &quot;method&quot;:&quot;POST&quot;, &quot;headers&quot;:{&quot;Content-Type&quot;: &quot;application/json&quot;}, &quot;body&quot;: {&#xd;
             &quot;body_data&quot;: [{&#xd;
-                &quot;url&quot;:&quot;http://fla-service-e:8080/sub3?sleep=0&quot;, &quot;method&quot;:&quot;POST&quot;,&#xd;
+                &quot;url&quot;:&quot;http://fla-service-e.default-c.svc:8080/sub3?sleep=0&quot;, &quot;method&quot;:&quot;POST&quot;,&#xd;
                 &quot;body&quot;:{&quot;key&quot;: &quot;1&quot;},&#xd;
                 &quot;headers&quot;:{&quot;Content-Type&quot;: &quot;application/json&quot;}&#xd;
             },&#xd;
             {&#xd;
-                &quot;async&quot;:&quot;true&quot;, &quot;url&quot;:&quot;http://fla-service-b:8080/json-requests/2&quot;, &quot;method&quot;:&quot;POST&quot;, &quot;headers&quot;:{&quot;Content-Type&quot;: &quot;application/json&quot;}, &quot;body&quot;: {&#xd;
+                &quot;async&quot;:&quot;true&quot;, &quot;url&quot;:&quot;http://fla-service-f.default-c.svc:8080/json-requests/2&quot;, &quot;method&quot;:&quot;POST&quot;, &quot;headers&quot;:{&quot;Content-Type&quot;: &quot;application/json&quot;}, &quot;body&quot;: {&#xd;
                     &quot;body_data&quot;: [{&#xd;
-                        &quot;async&quot;:&quot;true&quot;, &quot;url&quot;:&quot;http://fla-service-f:8080/sub3?sleep=0.25&quot;, &quot;method&quot;:&quot;POST&quot;,&#xd;
+                        &quot;async&quot;:&quot;true&quot;, &quot;url&quot;:&quot;http://fla-service-z.default-z.svc:8080/sub3?sleep=0.25&quot;, &quot;method&quot;:&quot;POST&quot;,&#xd;
                         &quot;body&quot;:{&quot;key&quot;: &quot;1&quot;},&#xd;
                         &quot;headers&quot;:{&quot;Content-Type&quot;: &quot;application/json&quot;}&#xd;
                     },&#xd;
                     {&#xd;
-                        &quot;async&quot;:&quot;false&quot;, &quot;url&quot;:&quot;http://fla-service-f:8080/requests/https/www.google.com/443&quot;, &quot;method&quot;:&quot;GET&quot;&#xd;
+                        &quot;async&quot;:&quot;false&quot;, &quot;url&quot;:&quot;https:eltiempo.com:443&quot;, &quot;method&quot;:&quot;GET&quot;&#xd;
                     },&#xd;
                     {&#xd;
-                        &quot;async&quot;:&quot;false&quot;, &quot;url&quot;:&quot;http://fla-service-f:8080/grpc-requests/fla-service-z.default-z.svc/50051&quot;, &quot;method&quot;:&quot;GET&quot;&#xd;
+                        &quot;async&quot;:&quot;false&quot;, &quot;url&quot;:&quot;http://fla-service-b.default-a.svc:8080/grpc-requests/fla-service-z.default-z.svc/50051&quot;, &quot;method&quot;:&quot;GET&quot;&#xd;
                     }&#xd;
                 ]&#xd;
                 }&#xd;
@@ -197,7 +197,10 @@
         }&#xd;
     },&#xd;
     {&#xd;
-        &quot;async&quot;:&quot;false&quot;, &quot;url&quot;:&quot;http://fla-service-c:8080/sub2b?sleep=0.25&amp;status=502&quot;, &quot;method&quot;:&quot;GET&quot;, &quot;headers&quot;: {}, &quot;body&quot;: {}&#xd;
+        &quot;async&quot;:&quot;false&quot;, &quot;url&quot;:&quot;http://fla-service-c.default-c.svc:8080/sub2b?sleep=0.25&amp;status=502&quot;, &quot;method&quot;:&quot;GET&quot;, &quot;headers&quot;: {}, &quot;body&quot;: {}&#xd;
+    },&#xd;
+    {&#xd;
+        &quot;async&quot;:&quot;false&quot;, &quot;url&quot;:&quot;http://fla-service-z.default-z.svc:8080/requests/https/eltiempo.com/443&quot;, &quot;method&quot;:&quot;GET&quot;&#xd;
     }&#xd;
 ]}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
