@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fla-deployment-z
-  namespace: default-b
+  namespace: default-z
   labels:
     app: fla-response-z
 spec:

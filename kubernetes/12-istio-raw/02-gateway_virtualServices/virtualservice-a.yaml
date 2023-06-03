@@ -6,8 +6,9 @@ metadata:
 spec:
   hosts:
   - '*'
+  #- "ingress-istio.minikube.com"
   gateways:
-  - flask-gateway
+  - fla-gateway-a
   http:
   #- match:
   #  - uri:
@@ -29,7 +30,7 @@ spec:
   #      host: grafana
   #      port:
   #        number: 3000
-  - name: service-a-virtualservice
+  - name: fla-virtualservice-a-01
     timeout: 30s 
     route:
     - destination:

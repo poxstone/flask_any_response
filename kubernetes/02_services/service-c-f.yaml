@@ -8,7 +8,7 @@ metadata:
   #  cloud.google.com/neg: '{"ingress": true}'
 spec:
   selector:
-    app: fla-response-c
+    app: fla-pod-c
   ports:
     - name: http
       protocol: TCP
@@ -49,7 +49,7 @@ metadata:
   #  cloud.google.com/neg: '{"ingress": true}'
 spec:
   selector:
-    app: fla-response-d
+    app: fla-pod-d
   ports:
     - name: http
       protocol: TCP
@@ -90,7 +90,7 @@ metadata:
   #  cloud.google.com/neg: '{"ingress": true}'
 spec:
   selector:
-    app: fla-response-e
+    app: fla-pod-e
   ports:
     - name: http
       protocol: TCP
@@ -131,7 +131,7 @@ metadata:
   #  cloud.google.com/neg: '{"ingress": true}'
 spec:
   selector:
-    app: fla-response-f
+    app: fla-pod-f
   ports:
     - name: http
       protocol: TCP

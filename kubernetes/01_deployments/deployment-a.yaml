@@ -4,22 +4,30 @@ metadata:
   name: fla-deployment-a
   namespace: default-a
   labels:
-    app: fla-response-a
+    app: fla-app-a
+    deploy: fla-deployment-a
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: fla-response-a
+      app: fla-app-a
+      pod: fla-pod-a
+      version: fla-v1
   template:
     metadata:
       labels:
-        app: fla-response-a
+        app: fla-app-a
+        pod: fla-pod-a
+        version: fla-v1
     spec:
+      serviceAccountName: fla-serviceaccount-a
       nodeSelector:
         #cloud.google.com/gke-nodepool: nodepool-apps
         #process: medium
       containers:
-      - name: fla-response-a
+      - name: fla-container
+        image: poxstone/flask_any_response
+        #imagePullPolicy: Always
         env:
         - name: PORT
           value: '8080'
@@ -53,24 +61,20 @@ spec:
           value: '.certs-self/tls.key'  # absolute or relative path for certs .certs/tls.key 
         - name: CHAIN_PEM
           value: '.certs-self/chain.pem'  # absolute or relative path for client certs .certs/chain.pem
-        image: poxstone/flask_any_response
-        #imagePullPolicy: Always
-        livenessProbe:
-          failureThreshold: 30
-          #tcpSocket:
-          httpGet:
-            path: /index.html
-            port: 8080
-            scheme: HTTP  # HTTPS TCP
-          #exec:
-          #  command:
-          #  - "sleep"
-          #  - "3"
-          initialDelaySeconds: 20
-          periodSeconds: 15
-          successThreshold: 1
-          timeoutSeconds: 60
+        ports:
+        - containerPort: 80
+        - containerPort: 443
+        - containerPort: 8080
+        - containerPort: 5005
+        - containerPort: 5678
+        - containerPort: 9191
+        - containerPort: 9090
+        - containerPort: 50051
         readinessProbe:
+          initialDelaySeconds: 30
+          periodSeconds: 15
+          timeoutSeconds: 60
+          successThreshold: 1
           failureThreshold: 30
           #tcpSocket:
           httpGet:
@@ -81,19 +85,21 @@ spec:
           #  command:
           #  - "sleep"
           #  - "10"
-          initialDelaySeconds: 20
+        livenessProbe:
+          initialDelaySeconds: 45
           periodSeconds: 15
-          successThreshold: 1
           timeoutSeconds: 60
-        ports:
-        - containerPort: 80
-        - containerPort: 443
-        - containerPort: 8080
-        - containerPort: 5005
-        - containerPort: 5678
-        - containerPort: 9191
-        - containerPort: 9090
-        - containerPort: 50051
+          successThreshold: 1
+          failureThreshold: 30
+          #tcpSocket:
+          httpGet:
+            path: /index.html
+            port: 8080
+            scheme: HTTP  # HTTPS TCP
+          #exec:
+          #  command:
+          #  - "sleep"
+          #  - "3"
         resources:
           limits:
             cpu: 500m

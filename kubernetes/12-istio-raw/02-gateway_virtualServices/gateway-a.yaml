@@ -1,18 +1,18 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: flask-gateway
+  name: fla-gateway-a  # select gateway namespace
   namespace: default-a
 spec:
   selector:
-    istio: ingressgateway
+    istio: ingressgateway  # default istio istio-ingressgateway.istio-system.svc
   servers:
   - hosts:
     - "*"
     #- "ingress-istio.minikube.com"
     port:
-      name: http
-      number: 8080
+      name: http-web # not is a service port name
+      number: 80
       protocol: HTTP  # HTTP, HTTPS
     tls:
       #mode: SIMPLE

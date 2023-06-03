@@ -20,7 +20,7 @@
                         "async":"false", "url":"http://fla-service-f:8080/requests/https/www.google.com/443", "method":"GET"
                     },
                     {
-                        "async":"false", "url":"http://fla-service-f:8080/grpc-requests/fla-service-z.default-b.svc/50051", "method":"GET"
+                        "async":"false", "url":"http://fla-service-f:8080/grpc-requests/fla-service-z.default-z.svc/50051", "method":"GET"
                     }
                 ]
                 }

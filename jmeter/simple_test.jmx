@@ -189,7 +189,7 @@
                         &quot;async&quot;:&quot;false&quot;, &quot;url&quot;:&quot;http://fla-service-f:8080/requests/https/www.google.com/443&quot;, &quot;method&quot;:&quot;GET&quot;&#xd;
                     },&#xd;
                     {&#xd;
-                        &quot;async&quot;:&quot;false&quot;, &quot;url&quot;:&quot;http://fla-service-f:8080/grpc-requests/fla-service-z.default-b.svc/50051&quot;, &quot;method&quot;:&quot;GET&quot;&#xd;
+                        &quot;async&quot;:&quot;false&quot;, &quot;url&quot;:&quot;http://fla-service-f:8080/grpc-requests/fla-service-z.default-z.svc/50051&quot;, &quot;method&quot;:&quot;GET&quot;&#xd;
                     }&#xd;
                 ]&#xd;
                 }&#xd;

@@ -3,22 +3,29 @@ kind: Service
 metadata:
   name: fla-service-a
   namespace: default-a
+  labels:
+    app: fla-app-a
   #annotations:
   #  beta.cloud.google.com/backend-config: '{"ports": {"8080":"fla-backendconfig-a"}}'
   #  cloud.google.com/neg: '{"ingress": true}'
 spec:
   selector:
-    app: fla-response-a
+    pod: fla-pod-a
+    version: fla-v1
   ports:
-    - name: http
+    - name: http-web
       protocol: TCP  # "SCTP", "TCP", "UDP"
       port: 8080  # 8080 443
       targetPort: 8080
+    - name: http-nginx
+      protocol: TCP
+      port: 80
+      targetPort: 80
     - name: http-proxy
       protocol: TCP
       port: 9191
       targetPort: 9191
-    - name: http-tcp-proxy
+    - name: http-proxy-tcp
       protocol: TCP
       port: 9090
       targetPort: 9090
