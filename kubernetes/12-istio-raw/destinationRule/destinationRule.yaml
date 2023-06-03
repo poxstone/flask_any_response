@@ -1,0 +1,11 @@
+# https://istio.io/latest/docs/reference/config/networking/destination-rule/#LoadBalancerSettings
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: fla-destinationrule-a
+spec:
+  host: fla-service-a.default-a.svc.cluster.local
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN #  ROUND_ROBIN LEAST_REQUEST
+
