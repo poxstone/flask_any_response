@@ -9,12 +9,13 @@ spec:
   servers:
   - hosts:
     - "*"
+    #- "ingress-istio.minikube.com"
     port:
       name: http
-      number: 80
-      protocol: HTTP
-    #tls:
-    #  mode: SIMPLE
-    #  credentialName: wildcard-credential
+      number: 8080
+      protocol: HTTP  # HTTP, HTTPS
+    tls:
+      #mode: SIMPLE
+      #credentialName: default-a/fla-secret-service-a-tls  # todo fix
 
 # curl istio-ingressgateway.istio-system.svc.cluster.local

@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  name: service-a-virtualservice
+  name: fla-virtualservice-a
   namespace: default-a
 spec:
   hosts:
@@ -33,17 +33,17 @@ spec:
     timeout: 30s 
     route:
     - destination:
-        host: service-a
+        host: fla-service-a
         port:
-          number: 80
-      weight: 80
-    - destination:
-        host: service-b
-        port:
-          number: 80
-      weight: 15
-    - destination:
-        host: service-c
-        port:
-          number: 80
-      weight: 5
+          number: 8080
+    #  weight: 80  # 100 80 50
+    #- destination:
+    #    host: fla-service-b
+    #    port:
+    #      number: 80
+    #  weight: 15
+    #- destination:
+    #    host: fla-service-c
+    #    port:
+    #      number: 80
+    #  weight: 5

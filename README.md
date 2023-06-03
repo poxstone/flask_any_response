@@ -124,8 +124,11 @@ subjectAltName = @alt_names
 DNS.1 = ${service}.${namespace}.svc
 DNS.2 = ${service}.${namespace}.svc.cluster.local
 DNS.3 = ${service}
+DNS.4 = ingress-istio.minikube.com
+DNS.4 = *.minikube.com
 IP.1 = 127.0.0.1
 IP.2 = 10.109.16.167
+IP.2 = 192.168.49.2
 EOF
 openssl genpkey -algorithm RSA -out ${KEYFILE_TLS};
 openssl req -new -x509 -days 365 -key ${KEYFILE_TLS} -out ${CERTFILE_CRT} -config ${tmpdir}/csr.conf;
@@ -196,6 +199,13 @@ kubectl create secret generic ${secret} \
         --from-file=chain.pem=${CHAIN_PEM} \
         --dry-run=client -o yaml |
     kubectl -n ${namespace} apply -f -
+
+# optional
+kubectl create secret tls ${secret}-tls \
+        --key=${KEYFILE_TLS} \
+        --cert=${CERTFILE_CRT}
+
+--cert=path/to/certificate.pem --key=path/to/private_key.pem
 ```
 
 
