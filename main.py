@@ -35,7 +35,7 @@ except (ValueError, NotImplementedError) as exc:
 @app.route('/', methods=FULL_METHODS)
 def l0():
     printing('lv0():')
-    resp, mime_type, status_code = print_request(request, title='lv0():')
+    resp, mime_type, status_code, message_code = print_request(request, title='lv0():')
     return Response(resp, mimetype=mime_type), status_code
 
 
@@ -164,14 +164,14 @@ def testudp(domain, port):
                          socket.SOCK_DGRAM) # UDP
     server_address = (UDP_IP, int(UDP_PORT))
     sock.sendto(MESSAGE, server_address)
-    resp, mime_type, status_code = print_request(request, title="testudp():")
+    resp, mime_type, status_code, message_code = print_request(request, title="testudp():")
     return '{} ---- {}'.format(message, resp), status_code
 
 
 @app.route('/grpc-requests/<domain>/<port>', methods=FULL_METHODS)
 def grpc_requests(domain, port):
     printing('grpc_requests(domain, port):')
-    resp, mime_type, status_code = print_request(request, title='grpc_requests(domain, port):', print_logs='false')
+    resp, mime_type, status_code, message_code = print_request(request, title='grpc_requests(domain, port):', print_logs='false')
     import grpc
     #import GRPC.hello_grpc as hello_grpc
     from GRPC.proto_grpc import userexample_pb2
@@ -225,7 +225,7 @@ def concat_requests(num):
     hosts = request.args.get('hosts').lower() if request.args.get('hosts') else ''
     printing('concat_requests num={num} - hosts={hosts}:')
     if not hosts:
-        resp, mime_type, status_code = print_request(request)
+        resp, mime_type, status_code, message_code = print_request(request)
         return Response(resp, mimetype=mime_type), status_code
 
     path = hosts.split(',')[0]
@@ -270,7 +270,7 @@ def json_requests(num):
 # test socket
 @app.route('/socket-requests/<protocol>/<domain>/<port>/<path>')
 def socket_request(protocol, domain, port, path):
-    resp, mime_type, status_code = print_request(request, title="Redirected")
+    resp, mime_type, status_code, message_code = print_request(request, title="Redirected")
     return render_template('socket-requests-client.html'), status_code
 
 
@@ -293,7 +293,7 @@ def redirect_absolute(protocol, domain, port):
 @app.route('/redirect-redirected', methods=FULL_METHODS)
 def redirected():
     printing('redirected(): 302')
-    resp, mime_type, status_code = print_request(request, title="Redirected")
+    resp, mime_type, status_code, message_code = print_request(request, title="Redirected")
     return Response(resp, mimetype=mime_type), status_code
 
 
@@ -344,49 +344,49 @@ def l1(lv1):
         return ""
 
     printing('def l1(lv1):')
-    resp, mime_type, status_code = print_request(request)
+    resp, mime_type, status_code, message_code = print_request(request)
     return Response(resp, mimetype=mime_type), status_code
 
 
 @app.route('/<lv1>/<lv2>', methods=FULL_METHODS)
 def l2(lv1, lv2):
     printing('def l2(lv1, lv2):')
-    resp, mime_type, status_code = print_request(request)
+    resp, mime_type, status_code, message_code = print_request(request)
     return Response(resp, mimetype=mime_type), status_code
 
 
 @app.route('/<lv1>/<lv2>/<lv3>', methods=FULL_METHODS)
 def l3(lv1, lv2, lv3):
     printing('def l3(lv1, lv2, lv3):')
-    resp, mime_type, status_code = print_request(request)
+    resp, mime_type, status_code, message_code = print_request(request)
     return Response(resp, mimetype=mime_type), status_code
 
 
 @app.route('/<lv1>/<lv2>/<lv3>/<lv4>', methods=FULL_METHODS)
 def l4(lv1, lv2, lv3, lv4):
     printing('def l4(lv1, lv2, lv3, lv4):')
-    resp, mime_type, status_code = print_request(request)
+    resp, mime_type, status_code, message_code = print_request(request)
     return Response(resp, mimetype=mime_type), status_code
 
 
 @app.route('/<lv1>/<lv2>/<lv3>/<lv4>/<lv5>', methods=FULL_METHODS)
 def lv5(lv1, lv2, lv3, lv4, lv5):
     printing('lv5(lv1, lv2, lv3, lv4, lv5):')
-    resp, mime_type, status_code = print_request(request)
+    resp, mime_type, status_code, message_code = print_request(request)
     return Response(resp, mimetype=mime_type), status_code
 
 
 @app.route('/<lv1>/<lv2>/<lv3>/<lv4>/<lv5>/<lv6>', methods=FULL_METHODS)
 def lv6(lv1, lv2, lv3, lv4, lv5, lv6):
     printing('lv6(lv1, lv2, lv3, lv4, lv5, lv6):')
-    resp, mime_type, status_code = print_request(request)
+    resp, mime_type, status_code, message_code = print_request(request)
     return Response(resp, mimetype=mime_type), status_code
 
 
 @app.route('/<lv1>/<lv2>/<lv3>/<lv4>/<lv5>/<lv6>', methods=FULL_METHODS)
 def lv7(lv1, lv2, lv3, lv4, lv5, lv6, lv7):
     printing('lv6(lv1, lv2, lv3, lv4, lv5, lv6, lv7):')
-    resp, mime_type, status_code = print_request(request)
+    resp, mime_type, status_code, message_code = print_request(request)
     return Response(resp, mimetype=mime_type), status_code
 
 

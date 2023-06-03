@@ -1,7 +1,7 @@
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
-  name: deny-services-b
+  name: fla-authorizationpolicy-a
   namespace: default-a
 spec:
   action: DENY
@@ -9,7 +9,7 @@ spec:
   - from:
     - source:
         #principals: ["sa-service-a"]  # not works
-        namespaces: ["default"]
+        namespaces: ["default-z"]
         #notIpBlocks: ["10.244.0.17"]
     to:
     - operation:

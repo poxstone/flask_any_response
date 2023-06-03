@@ -390,6 +390,7 @@ minikube tunnel;
 ```
 
 ## Tests
+- get parameters: sleep=10&status=502&view=simple&logs=false
 > ***GET parameters***:
 > - path: use for send aditional path ex: "?path=/administrative/portal"
 > - method: use for change method ex: "?method=POST"

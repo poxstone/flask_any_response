@@ -25,8 +25,8 @@ UDP_IP = os.getenv('UDP_IP', '127.0.0.1')
 UDP_IP_ALLOW = os.getenv('UDP_IP_ALLOW', '0.0.0.0')
 UDP_PORT = os.getenv('UDP_PORT', '5005')
 UDP_MESSAGE = os.getenv('UDP_MESSAGE', 'Hello UDP World')
+VIEW_PRINT = os.getenv('VIEW_PRINT', 'full')  # full simple none
 
 PATH_IGNORE = os.getenv('PATH_IGNORE', "favicon.ico,blank,echo.php,proxy.php")
 FULL_METHODS = ['POST', 'GET', 'HEAD', 'PUT', 'DELETE']
 REQUEST_STR_LENGTH = os.getenv('REQUEST_STR_LENGTH', '5')  # for randoms strings default (downloads name an requests)
-
