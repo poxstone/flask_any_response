@@ -4,7 +4,7 @@ metadata:
   name: fla-service-a
   namespace: default-a
   labels:
-    app: fla-app-a
+    app: fla-app-a  # required for group app
   #annotations:
   #  beta.cloud.google.com/backend-config: '{"ports": {"8080":"fla-backendconfig-a"}}'
   #  cloud.google.com/neg: '{"ingress": true}'

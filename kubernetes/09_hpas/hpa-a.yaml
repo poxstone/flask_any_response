@@ -1,13 +1,13 @@
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: fla-deployment-a
+  name: fla-hpa-a
   namespace: default-a
   #annotations:
   #  autoscaling.alpha.kubernetes.io/metrics: '[{"type":"Resource","resource":{"name":"memory","targetAverageUtilization":90}}]'
 spec:
   minReplicas: 2
-  maxReplicas: 10
+  maxReplicas: 8
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment

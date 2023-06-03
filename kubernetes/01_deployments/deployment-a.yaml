@@ -4,19 +4,19 @@ metadata:
   name: fla-deployment-a
   namespace: default-a
   labels:
-    app: fla-app-a
+    app: fla-app-a  # may not required for group app
     deploy: fla-deployment-a
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: fla-app-a
+      app: fla-app-a  # required for group app
       pod: fla-pod-a
       version: fla-v1
   template:
     metadata:
       labels:
-        app: fla-app-a
+        app: fla-app-a  # required for group app
         pod: fla-pod-a
         version: fla-v1
     spec:
@@ -51,8 +51,6 @@ spec:
           value: '0'
         - name: SLEEP_TIME
           value: '0'
-        - name: LETS_TOKEN
-          value: ''
         - name: LOGS_PRINT
           value: 'false'
         - name: CERTFILE_CRT
@@ -112,7 +110,6 @@ spec:
         #  name: tls-domain
         #- mountPath: /app/.certs-self/
         #  name: tls-service
-      ## mout for minikube
       volumes:
       #- name: tls-domain  #  minikube mount
       #  hostPath: 

@@ -3,6 +3,8 @@ kind: VirtualService
 metadata:
   name: fla-virtualservice-a
   namespace: default-a
+  labels:
+    app: fla-app-a  # may not required for group app
 spec:
   hosts:
   - '*'

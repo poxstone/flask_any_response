@@ -3,6 +3,8 @@ kind: Gateway
 metadata:
   name: fla-gateway-a  # select gateway namespace
   namespace: default-a
+  labels:
+    app: fla-app-a  # may not required for group app
 spec:
   selector:
     istio: ingressgateway  # default istio istio-ingressgateway.istio-system.svc
