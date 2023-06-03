@@ -2,24 +2,33 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fla-deployment-c
-  namespace: default-a
+  namespace: default-c
   labels:
-    app: fla-response-c
+    app: fla-app-c  # may not required for group app
+    deploy: fla-deployment-c
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: fla-response-c
+      app: fla-app-c  # required for group app
+      pod: fla-pod-c
+      version: fla-v1
   template:
     metadata:
       labels:
-        app: fla-response-c
+        app: fla-app-c  # required for group app
+        pod: fla-pod-c
+        version: fla-v1
     spec:
-      #nodeSelector:
+      serviceAccountName: fla-serviceaccount-c
+      nodeSelector:
         #cloud.google.com/gke-nodepool: nodepool-apps
         #process: medium
       containers:
-      - env:
+      - name: fla-container
+        image: poxstone/flask_any_response
+        #imagePullPolicy: Always
+        env:
         - name: PORT
           value: '8080'
         - name: UDP_PORT
@@ -33,7 +42,7 @@ spec:
         - name: GRPC_PORT
           value: '50051'
         - name: WORKERS
-          value: '1'  # this increase ram required
+          value: '2'  # this increase ram required
         - name: TIMEOUT
           value: '120'
         - name: VERSION_DEP
@@ -42,34 +51,14 @@ spec:
           value: '0'
         - name: SLEEP_TIME
           value: '0'
-        - name: LETS_TOKEN
-          value: ''
         - name: LOGS_PRINT
           value: 'false'
         - name: CERTFILE_CRT
-          value: '.certs/tls.crt'  # absolute or relative path for certs .certs/tls.crt 
+          value: '.certs-self/tls.crt'  # absolute or relative path for certs .certs/tls.crt 
         - name: KEYFILE_TLS
-          value: '.certs/tls.key'  # absolute or relative path for certs .certs/tls.key 
+          value: '.certs-self/tls.key'  # absolute or relative path for certs .certs/tls.key 
         - name: CHAIN_PEM
-          value: '.certs/chain.pem'  # absolute or relative path for client certs .certs/chain.pem
-        image: poxstone/flask_any_response
-        #imagePullPolicy: Always
-        livenessProbe:
-          failureThreshold: 30
-          #tcpSocket:
-          httpGet:
-            path: /index.html
-            port: 8080
-            scheme: HTTP
-          #exec:
-          #  command:
-          #  - sleep
-          #  - 10
-          initialDelaySeconds: 60
-          periodSeconds: 15
-          successThreshold: 1
-          timeoutSeconds: 60
-        name: fla-response-c
+          value: '.certs-self/chain.pem'  # absolute or relative path for client certs .certs/chain.pem
         ports:
         - containerPort: 80
         - containerPort: 443
@@ -80,51 +69,90 @@ spec:
         - containerPort: 9090
         - containerPort: 50051
         readinessProbe:
+          initialDelaySeconds: 45
+          periodSeconds: 15
+          timeoutSeconds: 60
+          successThreshold: 1
           failureThreshold: 30
           #tcpSocket:
           httpGet:
             path: /index.html
             port: 8080
-            scheme: HTTP
+            scheme: HTTP  # HTTPS TCP
           #exec:
           #  command:
-          #  - sleep
-          #  - 10
-          initialDelaySeconds: 60
+          #  - "sleep"
+          #  - "10"
+        livenessProbe:
+          initialDelaySeconds: 50
           periodSeconds: 15
-          successThreshold: 1
           timeoutSeconds: 60
+          successThreshold: 1
+          failureThreshold: 30
+          #tcpSocket:
+          httpGet:
+            path: /index.html
+            port: 8080
+            scheme: HTTP  # HTTPS TCP
+          #exec:
+          #  command:
+          #  - "sleep"
+          #  - "3"
         resources:
-          #limits:
-          #  cpu: 500m
-          #  memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 256Mi
           requests:
-            cpu: 20m
-            memory: 118Mi
+            cpu: 50m
+            memory: 132Mi
+        volumeMounts:
+        #- mountPath: /app/.certs/
+        #  name: tls-domain
+        #- mountPath: /app/.certs-self/
+        #  name: tls-service
+      volumes:
+      #- name: tls-domain  #  minikube mount
+      #  hostPath: 
+      #    path: /mount
+      #- name: tls-domain  # normal k8s secret
+      #  secret:
+      #    secretName: secret-main-domain-tls
+      #- name: tls-service  # normal k8s secret
+      #  secret:
+      #    secretName: fla-secret-service-a
 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fla-deployment-d
-  namespace: default-a
+  namespace: default-c
   labels:
-    app: fla-response-d
+    app: fla-app-d  # may not required for group app
+    deploy: fla-deployment-d
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: fla-response-d
+      app: fla-app-d  # required for group app
+      pod: fla-pod-d
+      version: fla-v1
   template:
     metadata:
       labels:
-        app: fla-response-d
+        app: fla-app-d  # required for group app
+        pod: fla-pod-d
+        version: fla-v1
     spec:
-      #nodeSelector:
+      serviceAccountName: fla-serviceaccount-d
+      nodeSelector:
         #cloud.google.com/gke-nodepool: nodepool-apps
         #process: medium
       containers:
-      - env:
+      - name: fla-container
+        image: poxstone/flask_any_response
+        #imagePullPolicy: Always
+        env:
         - name: PORT
           value: '8080'
         - name: UDP_PORT
@@ -138,7 +166,7 @@ spec:
         - name: GRPC_PORT
           value: '50051'
         - name: WORKERS
-          value: '1'  # this increase ram required
+          value: '2'  # this increase ram required
         - name: TIMEOUT
           value: '120'
         - name: VERSION_DEP
@@ -147,34 +175,14 @@ spec:
           value: '0'
         - name: SLEEP_TIME
           value: '0'
-        - name: LETS_TOKEN
-          value: ''
         - name: LOGS_PRINT
           value: 'false'
         - name: CERTFILE_CRT
-          value: '.certs/tls.crt'  # absolute or relative path for certs .certs/tls.crt 
+          value: '.certs-self/tls.crt'  # absolute or relative path for certs .certs/tls.crt 
         - name: KEYFILE_TLS
-          value: '.certs/tls.key'  # absolute or relative path for certs .certs/tls.key 
+          value: '.certs-self/tls.key'  # absolute or relative path for certs .certs/tls.key 
         - name: CHAIN_PEM
-          value: '.certs/chain.pem'  # absolute or relative path for client certs .certs/chain.pem
-        image: poxstone/flask_any_response
-        #imagePullPolicy: Always
-        livenessProbe:
-          failureThreshold: 30
-          #tcpSocket:
-          httpGet:
-            path: /index.html
-            port: 8080
-            scheme: HTTP
-          #exec:
-          #  command:
-          #  - sleep
-          #  - 10
-          initialDelaySeconds: 60
-          periodSeconds: 15
-          successThreshold: 1
-          timeoutSeconds: 60
-        name: fla-response-d
+          value: '.certs-self/chain.pem'  # absolute or relative path for client certs .certs/chain.pem
         ports:
         - containerPort: 80
         - containerPort: 443
@@ -185,155 +193,90 @@ spec:
         - containerPort: 9090
         - containerPort: 50051
         readinessProbe:
+          initialDelaySeconds: 45
+          periodSeconds: 15
+          timeoutSeconds: 60
+          successThreshold: 1
           failureThreshold: 30
           #tcpSocket:
           httpGet:
             path: /index.html
             port: 8080
-            scheme: HTTP
+            scheme: HTTP  # HTTPS TCP
           #exec:
           #  command:
-          #  - sleep
-          #  - 10
-          initialDelaySeconds: 60
+          #  - "sleep"
+          #  - "10"
+        livenessProbe:
+          initialDelaySeconds: 50
           periodSeconds: 15
-          successThreshold: 1
           timeoutSeconds: 60
+          successThreshold: 1
+          failureThreshold: 30
+          #tcpSocket:
+          httpGet:
+            path: /index.html
+            port: 8080
+            scheme: HTTP  # HTTPS TCP
+          #exec:
+          #  command:
+          #  - "sleep"
+          #  - "3"
         resources:
-          #limits:
-          #  cpu: 500m
-          #  memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 256Mi
           requests:
-            cpu: 20m
-            memory: 118Mi
+            cpu: 50m
+            memory: 132Mi
+        volumeMounts:
+        #- mountPath: /app/.certs/
+        #  name: tls-domain
+        #- mountPath: /app/.certs-self/
+        #  name: tls-service
+      volumes:
+      #- name: tls-domain  #  minikube mount
+      #  hostPath: 
+      #    path: /mount
+      #- name: tls-domain  # normal k8s secret
+      #  secret:
+      #    secretName: secret-main-domain-tls
+      #- name: tls-service  # normal k8s secret
+      #  secret:
+      #    secretName: fla-secret-service-a
 
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: fla-deployment-d
-  namespace: default-a
-  labels:
-    app: fla-response-d
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: fla-response-d
-  template:
-    metadata:
-      labels:
-        app: fla-response-d
-    spec:
-      #nodeSelector:
-        #cloud.google.com/gke-nodepool: nodepool-apps
-        #process: medium
-      containers:
-      - env:
-        - name: PORT
-          value: '8080'
-        - name: UDP_PORT
-          value: '5005'
-        - name: PROXY_HTTP_PORT
-          value: '9191'
-        - name: PROXY_TCP_PORT
-          value: '9090'
-        - name: WEBSOCKET_PORT
-          value: '5678'
-        - name: GRPC_PORT
-          value: '50051'
-        - name: WORKERS
-          value: '1'  # this increase ram required
-        - name: TIMEOUT
-          value: '120'
-        - name: VERSION_DEP
-          value: 'vp.0.0.1a'
-        - name: INIT_APP_TIME
-          value: '0'
-        - name: SLEEP_TIME
-          value: '0'
-        - name: LETS_TOKEN
-          value: ''
-        - name: LOGS_PRINT
-          value: 'false'
-        - name: CERTFILE_CRT
-          value: '.certs/tls.crt'  # absolute or relative path for certs .certs/tls.crt 
-        - name: KEYFILE_TLS
-          value: '.certs/tls.key'  # absolute or relative path for certs .certs/tls.key 
-        - name: CHAIN_PEM
-          value: '.certs/chain.pem'  # absolute or relative path for client certs .certs/chain.pem
-        image: poxstone/flask_any_response
-        #imagePullPolicy: Always
-        livenessProbe:
-          failureThreshold: 30
-          #tcpSocket:
-          httpGet:
-            path: /index.html
-            port: 8080
-            scheme: HTTP
-          #exec:
-          #  command:
-          #  - sleep
-          #  - 10
-          initialDelaySeconds: 60
-          periodSeconds: 15
-          successThreshold: 1
-          timeoutSeconds: 60
-        name: fla-response-d
-        ports:
-        - containerPort: 80
-        - containerPort: 443
-        - containerPort: 8080
-        - containerPort: 5005
-        - containerPort: 5678
-        - containerPort: 9191
-        - containerPort: 9090
-        - containerPort: 50051
-        readinessProbe:
-          failureThreshold: 30
-          #tcpSocket:
-          httpGet:
-            path: /index.html
-            port: 8080
-            scheme: HTTP
-          #exec:
-          #  command:
-          #  - sleep
-          #  - 10
-          initialDelaySeconds: 60
-          periodSeconds: 15
-          successThreshold: 1
-          timeoutSeconds: 60
-        resources:
-          #limits:
-          #  cpu: 500m
-          #  memory: 256Mi
-          requests:
-            cpu: 20m
-            memory: 118Mi
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fla-deployment-e
-  namespace: default-a
+  namespace: default-c
   labels:
-    app: fla-response-e
+    app: fla-app-e  # may not required for group app
+    deploy: fla-deployment-e
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: fla-response-e
+      app: fla-app-e  # required for group app
+      pod: fla-pod-e
+      version: fla-v1
   template:
     metadata:
       labels:
-        app: fla-response-e
+        app: fla-app-e  # required for group app
+        pod: fla-pod-e
+        version: fla-v1
     spec:
-      #nodeSelector:
+      serviceAccountName: fla-serviceaccount-e
+      nodeSelector:
         #cloud.google.com/gke-nodepool: nodepool-apps
         #process: medium
       containers:
-      - env:
+      - name: fla-container
+        image: poxstone/flask_any_response
+        #imagePullPolicy: Always
+        env:
         - name: PORT
           value: '8080'
         - name: UDP_PORT
@@ -347,7 +290,7 @@ spec:
         - name: GRPC_PORT
           value: '50051'
         - name: WORKERS
-          value: '1'  # this increase ram required
+          value: '2'  # this increase ram required
         - name: TIMEOUT
           value: '120'
         - name: VERSION_DEP
@@ -356,34 +299,14 @@ spec:
           value: '0'
         - name: SLEEP_TIME
           value: '0'
-        - name: LETS_TOKEN
-          value: ''
         - name: LOGS_PRINT
           value: 'false'
         - name: CERTFILE_CRT
-          value: '.certs/tls.crt'  # absolute or relative path for certs .certs/tls.crt 
+          value: '.certs-self/tls.crt'  # absolute or relative path for certs .certs/tls.crt 
         - name: KEYFILE_TLS
-          value: '.certs/tls.key'  # absolute or relative path for certs .certs/tls.key 
+          value: '.certs-self/tls.key'  # absolute or relative path for certs .certs/tls.key 
         - name: CHAIN_PEM
-          value: '.certs/chain.pem'  # absolute or relative path for client certs .certs/chain.pem
-        image: poxstone/flask_any_response
-        #imagePullPolicy: Always
-        livenessProbe:
-          failureThreshold: 30
-          #tcpSocket:
-          httpGet:
-            path: /index.html
-            port: 8080
-            scheme: HTTP
-          #exec:
-          #  command:
-          #  - sleep
-          #  - 10
-          initialDelaySeconds: 60
-          periodSeconds: 15
-          successThreshold: 1
-          timeoutSeconds: 60
-        name: fla-response-e
+          value: '.certs-self/chain.pem'  # absolute or relative path for client certs .certs/chain.pem
         ports:
         - containerPort: 80
         - containerPort: 443
@@ -394,50 +317,91 @@ spec:
         - containerPort: 9090
         - containerPort: 50051
         readinessProbe:
+          initialDelaySeconds: 45
+          periodSeconds: 15
+          timeoutSeconds: 60
+          successThreshold: 1
           failureThreshold: 30
           #tcpSocket:
           httpGet:
             path: /index.html
             port: 8080
-            scheme: HTTP
+            scheme: HTTP  # HTTPS TCP
           #exec:
           #  command:
-          #  - sleep
-          #  - 10
-          initialDelaySeconds: 60
+          #  - "sleep"
+          #  - "10"
+        livenessProbe:
+          initialDelaySeconds: 50
           periodSeconds: 15
-          successThreshold: 1
           timeoutSeconds: 60
+          successThreshold: 1
+          failureThreshold: 30
+          #tcpSocket:
+          httpGet:
+            path: /index.html
+            port: 8080
+            scheme: HTTP  # HTTPS TCP
+          #exec:
+          #  command:
+          #  - "sleep"
+          #  - "3"
         resources:
-          #limits:
-          #  cpu: 500m
-          #  memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 256Mi
           requests:
-            cpu: 20m
-            memory: 118Mi
+            cpu: 50m
+            memory: 132Mi
+        volumeMounts:
+        #- mountPath: /app/.certs/
+        #  name: tls-domain
+        #- mountPath: /app/.certs-self/
+        #  name: tls-service
+      volumes:
+      #- name: tls-domain  #  minikube mount
+      #  hostPath: 
+      #    path: /mount
+      #- name: tls-domain  # normal k8s secret
+      #  secret:
+      #    secretName: secret-main-domain-tls
+      #- name: tls-service  # normal k8s secret
+      #  secret:
+      #    secretName: fla-secret-service-a
+
+
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fla-deployment-f
-  namespace: default-a
+  namespace: default-c
   labels:
-    app: fla-response-f
+    app: fla-app-f  # may not required for group app
+    deploy: fla-deployment-f
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: fla-response-f
+      app: fla-app-f  # required for group app
+      pod: fla-pod-f
+      version: fla-v1
   template:
     metadata:
       labels:
-        app: fla-response-f
+        app: fla-app-f  # required for group app
+        pod: fla-pod-f
+        version: fla-v1
     spec:
-      #nodeSelector:
+      serviceAccountName: fla-serviceaccount-f
+      nodeSelector:
         #cloud.google.com/gke-nodepool: nodepool-apps
         #process: medium
       containers:
-      - env:
+      - name: fla-container
+        image: poxstone/flask_any_response
+        #imagePullPolicy: Always
+        env:
         - name: PORT
           value: '8080'
         - name: UDP_PORT
@@ -451,7 +415,7 @@ spec:
         - name: GRPC_PORT
           value: '50051'
         - name: WORKERS
-          value: '1'  # this increase ram required
+          value: '2'  # this increase ram required
         - name: TIMEOUT
           value: '120'
         - name: VERSION_DEP
@@ -460,34 +424,14 @@ spec:
           value: '0'
         - name: SLEEP_TIME
           value: '0'
-        - name: LETS_TOKEN
-          value: ''
         - name: LOGS_PRINT
           value: 'false'
         - name: CERTFILE_CRT
-          value: '.certs/tls.crt'  # absolute or relative path for certs .certs/tls.crt 
+          value: '.certs-self/tls.crt'  # absolute or relative path for certs .certs/tls.crt 
         - name: KEYFILE_TLS
-          value: '.certs/tls.key'  # absolute or relative path for certs .certs/tls.key 
+          value: '.certs-self/tls.key'  # absolute or relative path for certs .certs/tls.key 
         - name: CHAIN_PEM
-          value: '.certs/chain.pem'  # absolute or relative path for client certs .certs/chain.pem
-        image: poxstone/flask_any_response
-        #imagePullPolicy: Always
-        livenessProbe:
-          failureThreshold: 30
-          #tcpSocket:
-          httpGet:
-            path: /index.html
-            port: 8080
-            scheme: HTTP
-          #exec:
-          #  command:
-          #  - sleep
-          #  - 10
-          initialDelaySeconds: 60
-          periodSeconds: 15
-          successThreshold: 1
-          timeoutSeconds: 60
-        name: fla-response-f
+          value: '.certs-self/chain.pem'  # absolute or relative path for client certs .certs/chain.pem
         ports:
         - containerPort: 80
         - containerPort: 443
@@ -498,24 +442,54 @@ spec:
         - containerPort: 9090
         - containerPort: 50051
         readinessProbe:
+          initialDelaySeconds: 45
+          periodSeconds: 15
+          timeoutSeconds: 60
+          successThreshold: 1
           failureThreshold: 30
           #tcpSocket:
           httpGet:
             path: /index.html
             port: 8080
-            scheme: HTTP
+            scheme: HTTP  # HTTPS TCP
           #exec:
           #  command:
-          #  - sleep
-          #  - 10
-          initialDelaySeconds: 60
+          #  - "sleep"
+          #  - "10"
+        livenessProbe:
+          initialDelaySeconds: 50
           periodSeconds: 15
-          successThreshold: 1
           timeoutSeconds: 60
+          successThreshold: 1
+          failureThreshold: 30
+          #tcpSocket:
+          httpGet:
+            path: /index.html
+            port: 8080
+            scheme: HTTP  # HTTPS TCP
+          #exec:
+          #  command:
+          #  - "sleep"
+          #  - "3"
         resources:
-          #limits:
-          #  cpu: 500m
-          #  memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 256Mi
           requests:
-            cpu: 20m
-            memory: 118Mi
+            cpu: 50m
+            memory: 132Mi
+        volumeMounts:
+        #- mountPath: /app/.certs/
+        #  name: tls-domain
+        #- mountPath: /app/.certs-self/
+        #  name: tls-service
+      volumes:
+      #- name: tls-domain  #  minikube mount
+      #  hostPath: 
+      #    path: /mount
+      #- name: tls-domain  # normal k8s secret
+      #  secret:
+      #    secretName: secret-main-domain-tls
+      #- name: tls-service  # normal k8s secret
+      #  secret:
+      #    secretName: fla-secret-service-a

@@ -69,7 +69,7 @@ spec:
         - containerPort: 9090
         - containerPort: 50051
         readinessProbe:
-          initialDelaySeconds: 30
+          initialDelaySeconds: 45
           periodSeconds: 15
           timeoutSeconds: 60
           successThreshold: 1
@@ -84,7 +84,7 @@ spec:
           #  - "sleep"
           #  - "10"
         livenessProbe:
-          initialDelaySeconds: 45
+          initialDelaySeconds: 50
           periodSeconds: 15
           timeoutSeconds: 60
           successThreshold: 1
