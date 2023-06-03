@@ -27,7 +27,7 @@ spec:
       containers:
       - name: fla-container
         image: poxstone/flask_any_response
-        #imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent  # IfNotPresent Always Never
         env:
         - name: PORT
           value: '8080'
@@ -151,7 +151,7 @@ spec:
       containers:
       - name: fla-container
         image: poxstone/flask_any_response
-        #imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent  # IfNotPresent Always Never
         env:
         - name: PORT
           value: '8080'
@@ -275,7 +275,7 @@ spec:
       containers:
       - name: fla-container
         image: poxstone/flask_any_response
-        #imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent  # IfNotPresent Always Never
         env:
         - name: PORT
           value: '8080'
@@ -400,7 +400,7 @@ spec:
       containers:
       - name: fla-container
         image: poxstone/flask_any_response
-        #imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent  # IfNotPresent Always Never
         env:
         - name: PORT
           value: '8080'

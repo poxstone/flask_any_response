@@ -360,6 +360,7 @@ minikube start "cluster-1" --cpus='2' --memory='3072' --nodes='3' --disk-size='8
 minikube addons enable ingress-dns;
 minikube addons enable ingress;
 minikube addons enable metrics-server;
+minikube addons enable registry;
 minikube start --embed-certs;
 
 kubectl config set-context --current --namespace=default-a;

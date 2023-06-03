@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: flask-statefulset-any-a
+  name: fls-statefulset-a
   namespace: default-a
   labels:
-    app: flask-statefulset-any-response-a
+    app: fls-app-a
 spec:
   replicas: 3
-  serviceName: flask-statefulset-any-response-a
+  serviceName: fls-statefulset-response-a
   minReadySeconds: 30
   selector:
     matchLabels:
-      app: flask-statefulset-any-response-a
+      app: fls-app-a
   template:
     metadata:
       labels:
-        app: flask-statefulset-any-response-a
+        app: fls-app-a
     spec:
       #nodeSelector:
       #  cloud.google.com/gke-nodepool: nodepool-apps
@@ -50,7 +50,7 @@ spec:
         - name: LOGS_PRINT
           value: 'true'
         image: poxstone/flask_any_response
-        #imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent  # IfNotPresent Always Never
         livenessProbe:
           failureThreshold: 2
           #tcpSocket:
@@ -66,7 +66,7 @@ spec:
           periodSeconds: 15
           successThreshold: 1
           timeoutSeconds: 60
-        name: flask-statefulset-any-response-a
+        name: fls-statefulset-response-a
         ports:
         - containerPort: 8080
         - containerPort: 5005
