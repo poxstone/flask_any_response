@@ -1,24 +1,25 @@
-# https://istio.io/latest/docs/reference/config/security/conditions/
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: fla-authorizationpolicy-a
   namespace: fla-na-a
 spec:
-  action: DENY  # DENY (403) ALLOW (200) CUSTOM  (with when)  
+  action: DENY
   rules:
   - from:
+    #- source:
+    #    principals: ["cluster.local/ns/fla-na-z/sa/fla-serviceaccount-z"]
     - source:
-        #principals: ["cluster.local/ns/fla-na-z/sa/fla-serviceaccount-z"]
         namespaces: ["fla-na-z"]
-        #notIpBlocks: ["10.244.2.20/32"]  # not works
     to:
     - operation:
-        hosts: ["fla-service-a.fla-na-a.svc.cluster.local"]
-        #ports: ["8080"]
-        #methods: ["GET"]
+        hosts: ["fla-service-a.fla-na-a.svc.cluster.local", "fla-service-a.fla-na-a.svc", "fla-service-a"]
+        ports: ["8080"]
+    #    methods: ["GET"]
+    #    paths: ["/*"]
+    #- operation:
+    #    methods: ["POST"]
+    #    paths: ["/data"]
     #when:
-    #  - key: request.headers[user-agent]
-    #    values: ["curl/7.88.1"]
-    #  #- key: "remote.ip"
-    #  #  values: ["10.244.0.15"]
+    #- key: request.auth.claims[iss]
+    #  values: ["https://accounts.google.com"]
