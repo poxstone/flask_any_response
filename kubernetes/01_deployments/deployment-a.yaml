@@ -100,7 +100,7 @@ spec:
           #  - "3"
         resources:
           limits:
-            cpu: 100m  # 1worker=25-375 2w=27-388
+            cpu: 100m  # 140 for test1worker=25-375 2w=27-388
             memory: 180Mi
           requests:
             cpu: 50m

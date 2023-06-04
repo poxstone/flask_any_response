@@ -484,8 +484,9 @@ curl -X GET -kLI "${URL}/redirect-absolute/https/eltiempo.com/443?path=/opinion/
 # test smtp
 curl -X GET "${URL}/testsmtp/smtp.gmail.com:587/user@comain.com/MyPasswd";
 
-# tests stress --time (cloud run not works)
-curl -X POST "${URL}/do/script" -H "Content-Type: application/json" -d '{"command":"stress-ng -c 1 -i 1 -m 1 --vm-bytes 128M -t 30s"}';
+# tests stress --time (cloud run not works) -c (cpu) -t (duration) -i (workers) -l (cpu % 10=70-100m/90s)
+# wait 1min before continue
+curl -X POST "${URL}/do/script" -H "Content-Type: application/json" -d '{"command":"stress-ng -c 1 -l 10 -i 1 --vm-bytes 64M -t 90s"}';
 # without time
 curl -X POST "${URL}/do/script" -H "Content-Type: application/json" -d '{"command":"stress-ng --cpu 1 --vm-bytes 128M"}';
 
