@@ -1,10 +1,22 @@
-apiVersion: autoscaling/v1
+# https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
+# 2X windows: 
+# while "true";do curl -X POST "${URL}/do/script" -H "Content-Type: application/json" -d '{"command":"stress-ng -c 1 -l 50 -i 1 --vm-bytes 64M -t 120s"}';sleep 10;done
+apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: fla-hpa-a
   namespace: fla-na-a
   #annotations:
   #  autoscaling.alpha.kubernetes.io/metrics: '[{"type":"Resource","resource":{"name":"memory","targetAverageUtilization":90}}]'
+#spec:
+  #minReplicas: 2
+  #maxReplicas: 8
+  #scaleTargetRef:
+  #  apiVersion: apps/v1
+  #  kind: Deployment
+  #  name: fla-deployment-a
+  #targetCPUUtilizationPercentage: 60
+
 spec:
   minReplicas: 2
   maxReplicas: 8
@@ -12,4 +24,35 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: fla-deployment-a
-  targetCPUUtilizationPercentage: 60
+  behavior:
+    scaleDown:
+      policies:
+      - periodSeconds: 15
+        type: Percent
+        value: 100
+      selectPolicy: Max
+      stabilizationWindowSeconds: 120
+    scaleUp:
+      policies:
+      - periodSeconds: 15
+        type: Percent
+        value: 100
+      - periodSeconds: 15
+        type: Pods
+        value: 2
+      selectPolicy: Max
+      stabilizationWindowSeconds: 0
+  metrics:
+  - resource:
+      name: memory
+      target:
+        averageUtilization: 60
+        type: Utilization
+    type: Resource
+  - resource:
+      name: cpu
+      target:
+        averageUtilization: 60
+        type: Utilization
+    type: Resource
+

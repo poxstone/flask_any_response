@@ -44,7 +44,7 @@ spec:
         - name: WORKERS
           value: '2'  # this increase ram required
         - name: TIMEOUT
-          value: '120'
+          value: '180'
         - name: VERSION_DEP
           value: 'vp.0.0.1a'
         - name: INIT_APP_TIME
@@ -100,10 +100,10 @@ spec:
           #  - "3"
         resources:
           limits:
-            cpu: 100m  # 140 for test1worker=25-375 2w=27-388
+            cpu: 160m  #100m default; 1worker=25-375 2w=27-388
             memory: 180Mi
           requests:
-            cpu: 50m
+            cpu: 140m  # 50m normal, 14m for test stress 1w
             memory: 140Mi  # 1worker=120-130 2w=140-150
         volumeMounts:
         #- mountPath: /app/.certs/

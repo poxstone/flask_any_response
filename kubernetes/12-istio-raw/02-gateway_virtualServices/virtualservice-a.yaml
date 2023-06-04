@@ -33,7 +33,7 @@ spec:
   #      port:
   #        number: 3000
   - name: fla-virtualservice-a-01
-    timeout: 120s 
+    timeout: 180s 
     route:
     - destination:
         host: fla-service-a
