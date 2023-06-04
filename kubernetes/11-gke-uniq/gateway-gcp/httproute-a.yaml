@@ -2,7 +2,7 @@ kind: HTTPRoute
 apiVersion: gateway.networking.k8s.io/v1beta1
 metadata:
   name: fla-httproute-a
-  namespace: default-a
+  namespace: fla-na-a
 spec:
   parentRefs:
   - kind: Gateway

@@ -1,24 +1,24 @@
 {"body_data":[
     {
-        "async":"true", "url":"http://fla-service-b.default-a.svc:8080/sub2a?sleep=0.125&view=none&status=200", "method":"POST", "headers": {}, "body": {}
+        "async":"true", "url":"http://fla-service-b.fla-na-a.svc:8080/sub2a?sleep=0.125&view=none&status=200", "method":"POST", "headers": {}, "body": {}
     },
     {
         "async":"false", "url":"http://localhost:8080/requests/https/developers.facebook.com/443", "method":"GET"
     },
     {
-        "async":"false", "url":"http://fla-service-c.default-c.svc:8080/json-requests/2", "method":"POST", "headers":{"Content-Type": "application/json"}, "body": {
+        "async":"false", "url":"http://fla-service-c.fla-na-c.svc:8080/json-requests/2", "method":"POST", "headers":{"Content-Type": "application/json"}, "body": {
             "body_data": [
                 {
-                    "url":"http://fla-service-e.default-c.svc:8080/sub3?sleep=0.25", "method":"POST", "body":{"key": "1"}, "headers":{"Content-Type": "application/json"}
+                    "url":"http://fla-service-e.fla-na-c.svc:8080/sub3?sleep=0.25", "method":"POST", "body":{"key": "1"}, "headers":{"Content-Type": "application/json"}
                 },
                 {
-                    "async":"false", "url":"http://fla-service-e.default-c.svc:8080/grpc-requests/fla-service-z.default-z.svc/50051", "method":"GET"
+                    "async":"false", "url":"http://fla-service-e.fla-na-c.svc:8080/grpc-requests/fla-service-z.fla-na-z.svc/50051", "method":"GET"
                 },
                 {
-                    "async":"false", "url":"http://fla-service-z.default-z.svc:8080/requests/http/fla-service-b.default-a.svc/8080", "method":"GET"
+                    "async":"false", "url":"http://fla-service-z.fla-na-z.svc:8080/requests/http/fla-service-b.fla-na-a.svc/8080", "method":"GET"
                 },
                 {
-                    "url":"http://localhost:8080/udp-requests/fla-service-d.default-c.svc/5005?MESSAGE=udp-no-responde", "method":"GET"
+                    "url":"http://localhost:8080/udp-requests/fla-service-d.fla-na-c.svc/5005?MESSAGE=udp-no-responde", "method":"GET"
                 }
             ]
         }

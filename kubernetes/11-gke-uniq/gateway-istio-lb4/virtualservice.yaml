@@ -2,7 +2,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: frontend-ingress
-  namespace: default-a
+  namespace: fla-na-a
 spec:
   hosts:
   - "*"

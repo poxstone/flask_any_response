@@ -2,7 +2,7 @@ apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
   name: fla-serviceentry-a
-  namespace: default-a
+  namespace: fla-na-a
 spec:
   hosts:
   - api.dropboxapi.com
@@ -27,7 +27,7 @@ apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
   name: fla-serviceentry-z
-  namespace: default-z
+  namespace: fla-na-z
 spec:
   hosts:
   - api.dropboxapi.com

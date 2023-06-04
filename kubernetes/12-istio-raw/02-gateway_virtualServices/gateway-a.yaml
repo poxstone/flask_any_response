@@ -2,7 +2,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: fla-gateway-a  # select gateway namespace
-  namespace: default-a
+  namespace: fla-na-a
   labels:
     app: fla-app-a  # may not required for group app
 spec:
@@ -18,6 +18,6 @@ spec:
       protocol: HTTP  # HTTP, HTTPS
     tls:
       #mode: SIMPLE
-      #credentialName: default-a/fla-secret-service-a-tls  # todo fix
+      #credentialName: fla-na-a/fla-secret-service-a-tls  # todo fix
 
 # curl istio-ingressgateway.istio-system.svc.cluster.local

@@ -18,7 +18,7 @@ GRPC_PORT = argv[2] if len(argv) > 2 else GRPC_PORT
 CERTFILE_CRT = argv[3] if len(argv) > 3 else CERTFILE_CRT
 KEYFILE_TLS = argv[4] if len(argv) > 4 else KEYFILE_TLS
 CHAIN_PEM = argv[5] if len(argv) > 5 else CHAIN_PEM
-# python3 GRPC/main_client.py fla-service-a.default-a.svc 50051 './.certs-self/tls.crt' './.certs-self/tls.key' './.certs-self/chain.pem'
+# python3 GRPC/main_client.py fla-service-a.fla-na-a.svc 50051 './.certs-self/tls.crt' './.certs-self/tls.key' './.certs-self/chain.pem'
 
 
 def run(user_name="John Doe", age=30, email="johndoe@example.com"):

@@ -2,7 +2,7 @@ apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
   name: fla-deployment-c
-  namespace: default-c
+  namespace: fla-na-c
 spec:
   minReplicas: 2
   maxReplicas: 4
@@ -16,7 +16,7 @@ apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
   name: fla-deployment-d
-  namespace: default-c
+  namespace: fla-na-c
 spec:
   minReplicas: 2
   maxReplicas: 4
@@ -30,7 +30,7 @@ apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
   name: fla-deployment-e
-  namespace: default-c
+  namespace: fla-na-c
 spec:
   minReplicas: 2
   maxReplicas: 4
@@ -44,7 +44,7 @@ apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
   name: fla-deployment-f
-  namespace: default-c
+  namespace: fla-na-c
 spec:
   minReplicas: 2
   maxReplicas: 4

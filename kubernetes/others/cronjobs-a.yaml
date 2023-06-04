@@ -3,7 +3,7 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: fla-cronjob-a-1
-  namespace: default-a
+  namespace: fla-na-a
 spec:
   schedule: "0 * * * *"
   concurrencyPolicy: Allow  # Allow | Forbid | Replace

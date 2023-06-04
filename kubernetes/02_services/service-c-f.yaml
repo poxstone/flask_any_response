@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: fla-service-c
-  namespace: default-c
+  namespace: fla-na-c
   labels:
     app: fla-app-c  # required for group app
 spec:
@@ -47,7 +47,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: fla-service-d
-  namespace: default-c
+  namespace: fla-na-c
   labels:
     app: fla-app-d  # required for group app
 spec:
@@ -92,7 +92,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: fla-service-e
-  namespace: default-c
+  namespace: fla-na-c
   labels:
     app: fla-app-e  # required for group app
 spec:
@@ -137,7 +137,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: fla-service-f
-  namespace: default-c
+  namespace: fla-na-c
   labels:
     app: fla-app-f  # required for group app
 spec:

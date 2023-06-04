@@ -1,7 +1,7 @@
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
-  namespace: default-a
+  namespace: fla-na-a
   name: flask-gateway-external-http
 spec:
   gatewayClassName: gke-l7-gxlb

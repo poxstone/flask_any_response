@@ -3,7 +3,7 @@ kind: Namespace
 metadata:
   labels:
     istio-injection: enabled
-  name: default-z
+  name: fla-na-z
 spec:
   finalizers:
   - kubernetes

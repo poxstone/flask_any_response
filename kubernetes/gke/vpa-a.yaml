@@ -2,7 +2,7 @@ apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
   name: fla-deployment-a
-  namespace: default-a
+  namespace: fla-na-a
 spec:
   targetRef:
     apiVersion: apps/v1

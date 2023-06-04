@@ -40,12 +40,12 @@ def print_request(request, title="Response", print_logs='true'):
     try:
         print_logs = request.args.get('print_logs')
     except:
-        print_logs = print_logs if print_logs else int(LOGS_PRINT)
+        print_logs = print_logs if print_logs else LOGS_PRINT
     # print front
     try:
-        view_print = request.args.get('view')
+        view_print = request.args.get('view') if request.args.get('view') else VIEW_PRINT
     except:
-        view_print = print_logs if print_logs else int(VIEW_PRINT)
+        view_print = print_logs if print_logs else VIEW_PRINT
     
     try:
         free_mem = str(subprocess.check_output(["./script.sh", "free -h"]).decode("utf-8"))

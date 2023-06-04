@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend
-  namespace: default-a
+  namespace: fla-na-a
 spec:
   selector:
     matchLabels:

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fla-deployment-z
-  namespace: default-z
+  namespace: fla-na-z
   labels:
     app: fla-app-z  # may not required for group app
     deploy: fla-deployment-z

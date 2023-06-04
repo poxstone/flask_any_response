@@ -3,7 +3,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: fla-job-a-1
-  namespace: default-a
+  namespace: fla-na-a
 spec:
   template:
     spec:

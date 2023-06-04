@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: fls-statefulset-a
-  namespace: default-a
+  namespace: fla-na-a
   labels:
     app: fls-app-a
 spec:

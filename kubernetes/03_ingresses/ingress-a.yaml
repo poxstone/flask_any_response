@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: fla-service-a-ingress
-  namespace: default-a
+  namespace: fla-na-a
   annotations:
 #   nginx.ingress.kubernetes.io/rewrite-target: /$1  ## minikube ingress
 #   kubernetes.io/ingress.allow-http: "false"  # only HTTPS

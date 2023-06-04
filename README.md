@@ -29,7 +29,7 @@ docker run -itd --pull=always --restart always --net host -e VERSION_DEP=MAIN -p
 - Simple k8s
 ```bash
 # Run normal
-kubectl run test-app --image=poxstone/flask_any_response --port=8080 --labels="app=flask,env=dev" -n default-a;
+kubectl run test-app --image=poxstone/flask_any_response --port=8080 --labels="app=flask,env=dev" -n fla-na-a;
 
 # Run Interactive
 kubectl run -i -t test-tty --image=poxstone/flask_any_response --restart=Never -- sh;
@@ -81,7 +81,7 @@ kubectl apply -f ./;
 ```bash
 export service="fla-service-a";
 export secret="fla-secret-service-a";
-export namespace="default-a";
+export namespace="fla-na-a";
 
 export csrName="${service}.${namespace}";
 #export tmpdir="$(mktemp -d)";
@@ -124,9 +124,9 @@ subjectAltName = @alt_names
 DNS.1 = ${service}.${namespace}.svc
 DNS.2 = ${service}.${namespace}.svc.cluster.local
 DNS.3 = ${service}
-DNS.2 = *.default-b.svc.cluster.local
-DNS.2 = *.default-c.svc.cluster.local
-DNS.2 = *.default-z.svc.cluster.local
+DNS.2 = *.fla-na-b.svc.cluster.local
+DNS.2 = *.fla-na-c.svc.cluster.local
+DNS.2 = *.fla-na-z.svc.cluster.local
 DNS.5 = *.minikube.com
 IP.1 = 127.0.0.1
 IP.2 = 10.109.16.167
@@ -284,7 +284,7 @@ curl -H 'host: my.domain1.com' http://${GATEWAY_IP};
 cd istio/gke;
 istioctl install;
 kubectl get service -n istio-system;  # appearce 2 items only
-kubectl label namespace default-a istio-injection=enabled;
+kubectl label namespace fla-na-a istio-injection=enabled;
 # recrate pods of deployments
 istioctl analyze;
 kubectl -n istio-system get controlplanerevision;  # only response -- error: the server doesn't have a resource type "controlplanerevision"
@@ -301,7 +301,7 @@ curl http://${GATEWAY_IP}:80;
 - * Require deplyment-a.yaml and service-a.yaml
 ```bash
 cd istio/istio-ingressgateway;
-kubectl label namespace default-a istio-injection=enabled;
+kubectl label namespace fla-na-a istio-injection=enabled;
 kubectl apply -f serviceaccount.yaml -f serviceaccount.yaml -f pdb-v1.yaml -f deployment.yaml -fservice.yaml;
 ```
 
@@ -363,7 +363,7 @@ minikube addons enable metrics-server;
 minikube addons enable registry;
 minikube start --embed-certs;
 
-kubectl config set-context --current --namespace=default-a;
+kubectl config set-context --current --namespace=fla-na-a;
 # minikube mount "$PWD/.certs:/certs";
 
 istioctl install --set components.egressGateways[0].name=istio-egressgateway --set components.egressGateways[0].enabled=true;
@@ -376,7 +376,7 @@ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.17/samp
 #kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.11.0/cert-manager.yaml;
 
 # ingress and egress
-kubectl label namespace default-a istio-injection=enabled;
+kubectl label namespace fla-na-a istio-injection=enabled;
 minikube dashboard;
 istioctl dashboard kiali;
 istioctl dashboard prometheus;

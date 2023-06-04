@@ -2,7 +2,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: frontend-gateway
-  namespace: default-a
+  namespace: fla-na-a
 spec:
   selector:
     istio: ingressgateway

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fla-deployment-c
-  namespace: default-c
+  namespace: fla-na-c
   labels:
     app: fla-app-c  # may not required for group app
     deploy: fla-deployment-c
@@ -126,7 +126,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fla-deployment-d
-  namespace: default-c
+  namespace: fla-na-c
   labels:
     app: fla-app-d  # may not required for group app
     deploy: fla-deployment-d
@@ -250,7 +250,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fla-deployment-e
-  namespace: default-c
+  namespace: fla-na-c
   labels:
     app: fla-app-e  # may not required for group app
     deploy: fla-deployment-e
@@ -375,7 +375,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fla-deployment-f
-  namespace: default-c
+  namespace: fla-na-c
   labels:
     app: fla-app-f  # may not required for group app
     deploy: fla-deployment-f

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: service-a
-  namespace: default-a
+  namespace: fla-na-a
   labels:
     app: service-a
 spec:
@@ -29,7 +29,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: service-b
-  namespace: default-a
+  namespace: fla-na-a
   labels:
     app: service-b
 spec:
@@ -57,7 +57,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: service-c
-  namespace: default-a
+  namespace: fla-na-a
   labels:
     app: service-c
 spec:
