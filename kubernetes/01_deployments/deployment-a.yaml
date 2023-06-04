@@ -100,11 +100,11 @@ spec:
           #  - "3"
         resources:
           limits:
-            cpu: 500m
-            memory: 256Mi
+            cpu: 100m  # 1worker=25-375 2w=27-388
+            memory: 180Mi
           requests:
             cpu: 50m
-            memory: 132Mi
+            memory: 140Mi  # 1worker=120-130 2w=140-150
         volumeMounts:
         #- mountPath: /app/.certs/
         #  name: tls-domain

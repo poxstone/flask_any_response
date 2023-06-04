@@ -485,8 +485,9 @@ curl -X GET -kLI "${URL}/redirect-absolute/https/eltiempo.com/443?path=/opinion/
 curl -X GET "${URL}/testsmtp/smtp.gmail.com:587/user@comain.com/MyPasswd";
 
 # tests stress --time (cloud run not works)
+curl -X POST "${URL}/do/script" -H "Content-Type: application/json" -d '{"command":"stress-ng -c 1 -i 1 -m 1 --vm-bytes 128M -t 30s"}';
+# without time
 curl -X POST "${URL}/do/script" -H "Content-Type: application/json" -d '{"command":"stress-ng --cpu 1 --vm-bytes 128M"}';
-curl -X POST "${URL}/do/script" -H "Content-Type: application/json" -d '{"command":"stress-ng -c 1 -i 1 -m 1 --vm-bytes 128M -t 10s"}';
 
 # cloud run metadata curl get token
 curl -X POST "${URL}/do/script" -H "Content-Type: application/json"  -d '{"command":"curl  -H \"Metadata-Flavor: Google\" http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token"}'
@@ -656,17 +657,22 @@ kubectl describe ingress fla-service-a-ingress;
 ```
 ## supported requests
 
-- initialDelaySeconds: 20
+- initialDelaySeconds: 45
 - periodSeconds: 15
 - successThreshold: 1
 - timeoutSeconds: 60
 
-| config                    | cpu-init | cpu-min | cpu-max | ram-init | ram-min | ram-max | request-sim | request-max |
-| ------------------------- | -------- | ------- | ------- | -------- | ------- | ------- | ----------- | ----------- |
-| 1replica, 1worker         | 51m      | 4m      | ---     | ---      | 74Mi    | ---     | 1           | ---         |
-| 1replica, 2worker         | 51m      | 16m     | 3045m   | ---      | 90Mi    | 106Mi   | 2           | ---         |
-| 1replica, 10worker        | 103m     | 4m      | ---     | ---      | 218Mi   | ---     | 10          | ---         |
-| 1replica, 1worker,  istio | ---      | 12m     | ---     | ---      | 118Mi   | ---     | 1           | ---         |
-| 1replica, 2worker,  istio | 70m      | 8m      | 3045m   | 132Mi    | 134Mi   | 153Mi   | 2 45/1.5min | 259rpms     |
-| 1replica, 10worker, istio | 102m     | 8m      | ---     | ---      | 260Mi   | ---     | 10          | ---         |
+- notes
+  - med: ´watch -n 0.25 curl $URL?view=simple´
+  - istio sidecard increase: --m CPU, 40Mi Ram
+  - cpu-med: 1,2,4,8,max,2max/s
+
+| config                    | cpu-startup | cpu-min | cpu-med 1,2,4,8,max,2max/s| cpu-max | ram-startup | ram-min | ram-max | ram-med r/s          | request-sim | request-max |
+| ------------------------- | ----------- | ------- | -------------------- | ------- | ----------- | ------- | ------- | -------------------- | ----------- | ----------- |
+| 1replica, 1worker         | 51m         | 4m      | 4m                   | ---     | ---         | 74Mi    | ---     | ---                  | 1           | ---         |
+| 1replica, 2worker         | 51m         | 16m     | 16m                  | 3045m   | ---         | 90Mi    | 106Mi   | 106Mi                | 2           | ---         |
+| 1replica, 10worker        | 103m        | 4m      | 4m                   | ---     | ---         | 218Mi   | ---     | ---                  | 10          | ---         |
+| 1replica, 1worker,  istio | ---         | 6m      | 7m,10,14,25...375    | 375m    | ---         | 118Mi   | 126Mi   | 121Mi,122,,125...126 | 1           | ---         |
+| 1replica, 2worker,  istio | 70m         | 6m      | 9m,10,15,27...388/611| 3045m   | 132Mi       | 138Mi   | 153Mi   | 138Mi,,,144...145    | 2 45/1.5min | 259rpms     |
+| 1replica, 10worker, istio | 102m        | 8m      | 8m                   | ---     | ---         | 260Mi   | ---     | ---                  | 10          | ---         |
 
