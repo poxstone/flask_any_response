@@ -104,7 +104,7 @@ spec:
             memory: 180Mi
           requests:
             cpu: 140m  # 50m normal, 14m for test stress 1w
-            memory: 140Mi  # 1worker=120-130 2w=140-150
+            memory: 160Mi  # 1worker=120-130 2w=140-150
         volumeMounts:
         #- mountPath: /app/.certs/
         #  name: tls-domain
