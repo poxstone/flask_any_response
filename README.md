@@ -313,9 +313,14 @@ kubectl apply -f serviceaccount.yaml -f serviceaccount.yaml -f pdb-v1.yaml -f de
 - [hello_world](https://cloud.google.com/appengine/docs/standard/python3/runtime)
 - Uncomment "uwsgi==..." from **requirements.txt**
 
+
 ```bash
-gcloud app deploy --appyaml="app_standard.yaml" --project="${GOOGLE_CLOUD_PROJECT}"
-gcloud app browse;
+# run local
+dev_appserver.py app_standard.yaml
+
+# deploy
+gcloud app deploy --appyaml="app_standard.yaml" --version="fla-app-py" --project="${GOOGLE_CLOUD_PROJECT}";
+gcloud app browse --project="${GOOGLE_CLOUD_PROJECT}";
 ```
 
 ### appengine flex
