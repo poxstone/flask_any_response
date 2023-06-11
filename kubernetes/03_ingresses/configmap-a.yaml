@@ -1,0 +1,15 @@
+apiVersion: v1
+metadata:
+kind: ConfigMap
+metadata:
+  name: fla-service-a-ingress
+  namespace: fla-na-a
+  namespace: ingress-nginx
+  name: nginx-ingress-nginx-ingress
+data:
+  proxy-buffering: "false"
+  ssl-ciphers: EECDH+ECDSA+AESGCM:EECDH+aRSA+AESGCM:EECDH+ECDSA+SHA256:EECDH+aRSA+SHA256:EECDH+ECDSA+SHA384:EECDH+ECDSA+SHA256:EECDH+aRSA+SHA384:EDH+aRSA+AESGCM:EDH+aRSA+SHA256:EDH+aRSA:EECDH:!aNULL:!eNULL:!MEDIUM:!LOW:!3DES:!MD5:!EXP:!PSK:!SRP:!DSS:!RC4:!SEED
+  ssl-protocols: TLSv1.2 TLSv1.3
+  ssl-redirect: "true"
+  use-forward-headers: "true"
+  use-http2: "true"
