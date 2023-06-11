@@ -36,4 +36,13 @@ spec:
             port:
               #name: http-web
               number: 8080  # for gke with NodePort
-              
+  - http:
+      paths:
+      - path: /subpath/
+        pathType: Prefix  # Exact | Prefix (ImplementationSpecific)
+        backend:
+          service:
+            name: fla-service-b
+            port:
+              number: 8080
+
