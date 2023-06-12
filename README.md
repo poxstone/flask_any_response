@@ -558,6 +558,19 @@ curl 'http://localhost:5678/' \
 
 - (Setting up an internal HTTP(S) load balancer with Cloud Run)[https://console.cloud.google.com/net-services/loadbalancing/details/internalRegionalHttp/us-central1/urlmap-oscar-run-internal]
 
+### http2 test
+
+- Run docker (required .certs/ folder)
+```bash
+docker run -it --rm --net host -e NGINX_PORT=443 -p 8443:443 -v "$(pwd)/.certs/:/app/.certs/" poxstone/flask_any_response;
+```
+- Test curl
+```bash
+curl --http2 -ki 'https://localhost:8443/' -H 'Host: local.poxsilver5.store'; 
+```
+- Optional is-http2 [doc](https://www.npmjs.com/package/is-http2)
+
+
 ## Linux requests test
 
 ```bash
