@@ -17,7 +17,7 @@ gunicorn --workers="2" --timeout="120" --bind="0.0.0.0:8080" --certfile=".certs/
 
 - Docker
 ```bash
-docker build -t poxstone/flask_any_response .;
+docker build -t poxstone/flask_any_response -f fla_Dockerfile ./;
 docker push poxstone/flask_any_response;
 # local
 docker run --rm -it --net host -p 80:80 -p 9090:9090/tcp -p 9191:9191 -p 8080:8080 -p 5005:5005/udp -p 5678:5678 -p 50051:50051 -e GOOGLE_CLOUD_PROJECT="${GOOGLE_CLOUD_PROJECT}" poxstone/flask_any_response;

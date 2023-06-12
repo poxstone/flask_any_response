@@ -9,8 +9,14 @@ if [[ "${ENTRYPOINT}" != "" ]];then
 fi;
 
 # delete nginx default service id use port 80
-if [[ "${PORT}" == "80" || "${PROXY_HTTP_PORT}" == "80" || "${PROXY_TCP_PORT}" == "80" ]];then
+if [[ "${PORT}" == "80" || "${PROXY_HTTP_PORT}" == "80" || "${PROXY_TCP_PORT}" == "80" || "${NGINX_PORT}" != "80" ]];then
+  # test https and http2
+  if [[ "${NGINX_PORT}" == "443" ]];then
+    mv "/etc/nginx/conf.d/default.conf" "/etc/nginx/conf.d/_default.conf";
+    mv "/etc/nginx/conf.d/default_ssl.conf" "/etc/nginx/conf.d/default.conf";
+  else
     echo "" > /etc/nginx/conf.d/default.conf;
+  fi;
 fi;
 # run nginx
 echo "" | awk  -v _port="${PROXY_HTTP_PORT}" '{system("sed -iE \"s#listen 3333;#listen "_port";#gI\" /etc/nginx/sites-enabled/reverse-proxy.conf")}';

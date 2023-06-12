@@ -27,6 +27,8 @@ spec:
         #  value: 'stress-ng --cpu 1 -t 3m --vm-bytes 128M'
         - name: PORT
           value: '8080'
+        - name: NGINX_PORT
+          value: '80'  # 443 for https and http2
         - name: UDP_PORT
           value: '5005'
         - name: PROXY_HTTP_PORT
