@@ -26,6 +26,7 @@ spec:
       port:
         #name: http-web
         number: 8080  # for gke with NodePort
+  # comment tls for inital gke
   rules:
   - host: local.poxsilver5.store  # my.domain1.com
     http:
