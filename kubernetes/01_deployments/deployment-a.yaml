@@ -70,32 +70,33 @@ spec:
         - containerPort: 9191
         - containerPort: 9090
         - containerPort: 50051
-        readinessProbe:
-          initialDelaySeconds: 15  #5-15 (45)
-          periodSeconds: 15  #5-15 (15)
-          timeoutSeconds: 5  #1-5 (60)
-          successThreshold: 1  #1-3 (1)
-          failureThreshold: 5  #no especified (4)
-          #tcpSocket:
-          httpGet:
-            path: /index.html
-            port: 8080
-            scheme: HTTP  # HTTPS TCP
+        # comment for gcp ingress initial
+        #readinessProbe:
+        #  initialDelaySeconds: 15  #5-15 (45)
+        #  periodSeconds: 15  #5-15 (15)
+        #  timeoutSeconds: 5  #1-5 (60)
+        #  successThreshold: 1  #1-3 (1)
+        #  failureThreshold: 5  #no especified (4)
+        #  #tcpSocket:
+        #  httpGet:
+        #    path: /index.html
+        #    port: 8080
+        #    scheme: HTTP  # HTTPS TCP
           #exec:
           #  command:
           #  - "sleep"
           #  - "10"
-        livenessProbe:
-          initialDelaySeconds: 30  #10-30 (50)
-          periodSeconds: 15  #5-15 (15)
-          timeoutSeconds: 5  #1-5 (60)
-          successThreshold: 1  #3-5 (1)
-          failureThreshold: 5  #3-5 (30)
-          #tcpSocket:
-          httpGet:
-            path: /index.html
-            port: 8080
-            scheme: HTTP  # HTTPS TCP
+        #livenessProbe:
+        #  initialDelaySeconds: 30  #10-30 (50)
+        #  periodSeconds: 15  #5-15 (15)
+        #  timeoutSeconds: 5  #1-5 (60)
+        #  successThreshold: 1  #3-5 (1)
+        #  failureThreshold: 5  #3-5 (30)
+        #  #tcpSocket:
+        #  httpGet:
+        #    path: /index.html
+        #    port: 8080
+        #    scheme: HTTP  # HTTPS TCP
           #exec:
           #  command:
           #  - "sleep"
