@@ -15,10 +15,10 @@ metadata:
 spec:
   # comment tls for inital gke
   tls:
-  - hosts:
-    - my.domain1.com
-    - local.poxsilver5.store
-    secretName: secret-main-domain-tls
+  #- hosts:
+  #  - my.domain1.com
+  #  - local.poxsilver5.store
+  #  secretName: secret-main-domain-tls
 
   defaultBackend:
     service:
@@ -38,13 +38,13 @@ spec:
               #name: http-web
               number: 8080  # for gke with NodePort
   # comment subpath for inital gke
-  - http:
-      paths:
-      - path: /subpath/
-        pathType: Prefix  # Exact | Prefix (ImplementationSpecific)
-        backend:
-          service:
-            name: fla-service-b
-            port:
-              number: 8080
+  #- http:
+  #    paths:
+  #    - path: /subpath/
+  #      pathType: Prefix  # Exact | Prefix (ImplementationSpecific)
+  #      backend:
+  #        service:
+  #          name: fla-service-b
+  #          port:
+  #            number: 8080
 
