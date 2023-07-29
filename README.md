@@ -427,6 +427,11 @@ curl -iLX POST "${URL}/grpc-requests/127.0.0.1/50051" -H "Content-Type: applicat
 # proxy request GET external html request
 curl -X GET "${URL}/requests/https/eltiempo.com/443?path=/opinion/columnistas/martha-senn&other=none";
 
+
+# set cookies: key,value,max_age,expires,path,domain,secure,httponly,samesite
+#              llave,valor,3600,9999999999991,/mypath,test.com.co,True,True,Strict
+curl -X GET "${URL}?set_cookie=llave,value";
+
 # proxy request POST test API (curl -k -X POST https://jsonplaceholder.typicode.com/posts -H "Content-Type: application/json" -d '{"hola":"perro"}')
 curl -X POST "${URL}/requests/https/jsonplaceholder.typicode.com/443?path=/posts" -H "Content-Type: application/json" -d '{"hola":"perro"}';
 

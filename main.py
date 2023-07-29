@@ -6,9 +6,9 @@ import datetime
 import subprocess
 import asyncio
 from time import sleep
-from application.config import FULL_METHODS, PATH_IGNORE, REQUEST_STR_LENGTH, PORT, lets_token, CERTFILE_CRT, KEYFILE_TLS, CHAIN_PEM, STR_GLOBAL, GLOBAL_STATE, UDP_MESSAGE
-from application.utils import get_random_string, printing, print_request, ping ,getPost ,do_request_method_async ,do_request_method
-from flask import Flask, request, redirect, url_for, Response, render_template, send_file
+from application.config import FULL_METHODS, PATH_IGNORE, REQUEST_STR_LENGTH, PORT, lets_token, CERTFILE_CRT, KEYFILE_TLS, CHAIN_PEM, STR_GLOBAL, GLOBAL_STATE, UDP_MESSAGE, COOKIE_VAL
+from application.utils import get_random_string, printing, print_request, ping ,getPost ,do_request_method_async ,do_request_method, config_response
+from flask import Flask, request, redirect, url_for, Response, render_template, send_file, make_response
 # email
 import smtplib
 
@@ -34,9 +34,8 @@ except (ValueError, NotImplementedError) as exc:
 
 @app.route('/', methods=FULL_METHODS)
 def l0():
-    printing('lv0():')
-    resp, mime_type, status_code, message_code = print_request(request, title='lv0():')
-    return Response(resp, mimetype=mime_type), status_code
+    response, status_code = config_response(request, 'lv0():')
+    return response, status_code
 
 
 @app.route('/ping/<host>', methods=FULL_METHODS)
@@ -292,9 +291,8 @@ def redirect_absolute(protocol, domain, port):
 
 @app.route('/redirect-redirected', methods=FULL_METHODS)
 def redirected():
-    printing('redirected(): 302')
-    resp, mime_type, status_code, message_code = print_request(request, title="Redirected")
-    return Response(resp, mimetype=mime_type), status_code
+    response, status_code = config_response(request, 'redirected(): 302')
+    return response, status_code
 
 
 @app.route('/download/<size>')
@@ -340,54 +338,47 @@ def sets_status_code(num):
 
 @app.route('/<lv1>', methods=FULL_METHODS)
 def l1(lv1):
+    # ignore favicon.ico
     if lv1 in PATH_IGNORE.split(','):
         return ""
-
-    printing('def l1(lv1):')
-    resp, mime_type, status_code, message_code = print_request(request)
-    return Response(resp, mimetype=mime_type), status_code
+    response, status_code = config_response(request, 'def l1(lv1):')
+    return response, status_code
 
 
 @app.route('/<lv1>/<lv2>', methods=FULL_METHODS)
 def l2(lv1, lv2):
-    printing('def l2(lv1, lv2):')
-    resp, mime_type, status_code, message_code = print_request(request)
-    return Response(resp, mimetype=mime_type), status_code
+    response, status_code = config_response(request, 'def l2(lv1, lv2):')
+    return response, status_code
 
 
 @app.route('/<lv1>/<lv2>/<lv3>', methods=FULL_METHODS)
 def l3(lv1, lv2, lv3):
-    printing('def l3(lv1, lv2, lv3):')
-    resp, mime_type, status_code, message_code = print_request(request)
-    return Response(resp, mimetype=mime_type), status_code
+    response, status_code = config_response(request, 'def l3(lv1, lv2, lv3):')
+    return response, status_code
 
 
 @app.route('/<lv1>/<lv2>/<lv3>/<lv4>', methods=FULL_METHODS)
 def l4(lv1, lv2, lv3, lv4):
-    printing('def l4(lv1, lv2, lv3, lv4):')
-    resp, mime_type, status_code, message_code = print_request(request)
-    return Response(resp, mimetype=mime_type), status_code
+    response, status_code = config_response(request, 'def l4(lv1, lv2, lv3, lv4):')
+    return response, status_code
 
 
 @app.route('/<lv1>/<lv2>/<lv3>/<lv4>/<lv5>', methods=FULL_METHODS)
 def lv5(lv1, lv2, lv3, lv4, lv5):
-    printing('lv5(lv1, lv2, lv3, lv4, lv5):')
-    resp, mime_type, status_code, message_code = print_request(request)
-    return Response(resp, mimetype=mime_type), status_code
+    response, status_code = config_response(request, 'lv5(lv1, lv2, lv3, lv4, lv5):')
+    return response, status_code
 
 
 @app.route('/<lv1>/<lv2>/<lv3>/<lv4>/<lv5>/<lv6>', methods=FULL_METHODS)
 def lv6(lv1, lv2, lv3, lv4, lv5, lv6):
-    printing('lv6(lv1, lv2, lv3, lv4, lv5, lv6):')
-    resp, mime_type, status_code, message_code = print_request(request)
-    return Response(resp, mimetype=mime_type), status_code
+    response, status_code = config_response(request, 'lv6(lv1, lv2, lv3, lv4, lv5, lv6):')
+    return response, status_code
 
 
 @app.route('/<lv1>/<lv2>/<lv3>/<lv4>/<lv5>/<lv6>', methods=FULL_METHODS)
 def lv7(lv1, lv2, lv3, lv4, lv5, lv6, lv7):
-    printing('lv6(lv1, lv2, lv3, lv4, lv5, lv6, lv7):')
-    resp, mime_type, status_code, message_code = print_request(request)
-    return Response(resp, mimetype=mime_type), status_code
+    response, status_code = config_response(request, 'lv6(lv1, lv2, lv3, lv4, lv5, lv6, lv7):')
+    return response, status_code
 
 
 printing(f'INIT_TIME_APP_PY_={STR_GLOBAL}: {str(datetime.datetime.now())}')

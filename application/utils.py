@@ -6,8 +6,8 @@ import subprocess
 import json
 import re
 from time import sleep
-from .config import ENV, REQUEST_STR_LENGTH, SLEEP_TIME, LOGS_PRINT, STR_GLOBAL, GLOBAL_STATE, VIEW_PRINT
-
+from .config import ENV, REQUEST_STR_LENGTH, SLEEP_TIME, LOGS_PRINT, STR_GLOBAL, GLOBAL_STATE, VIEW_PRINT, COOKIE_VAL
+from flask import Response
 
 def get_random_string(length):
     # choose from all lowercase letter
@@ -152,3 +152,37 @@ def do_request_method(method, url, headers_data, body_data):
         res = f'fail for: method:{method}, url:{url}, headers_data:{headers_data}, body_data:{body_data}'
     
     return str(res)
+
+def set_cookies(response, request):
+    coockie_out = ['fla-key','fla-value01','3600','','','',False,False,'Strict']
+    cookie_str = request.args.get('set_cookie')
+    cookie_val = cookie_str if cookie_str else COOKIE_VAL
+    cookie_val = cookie_val.split(',')
+    for i in range(len(cookie_val)):
+        if i in [6,7]:
+            coockie_out[i] = bool(cookie_val[i])
+        elif i in [2]:
+            coockie_out[i] = int(cookie_val[i])
+        else:
+            coockie_out[i] = str(cookie_val[i])
+
+    response.set_cookie(
+        key=coockie_out[0],
+        value=coockie_out[1],
+        max_age=coockie_out[2],
+        expires=coockie_out[3],
+        path=coockie_out[4],
+        domain=coockie_out[5],
+        secure=coockie_out[6],
+        httponly=coockie_out[7],
+        samesite=coockie_out[8]
+    )
+    return response
+
+
+def config_response(request, title, print_logs='false'):
+    printing(title)
+    resp, mime_type, status_code, message_code = print_request(request, title=title, print_logs=print_logs)
+    response = Response(resp, mimetype=mime_type)
+    response = set_cookies(response, request)
+    return response, status_code
