@@ -430,6 +430,7 @@ curl -X GET "${URL}/requests/https/eltiempo.com/443?path=/opinion/columnistas/ma
 
 # set cookies: key,value,max_age,expires,path,domain,secure,httponly,samesite
 #              llave,valor,3600,9999999999991,/mypath,test.com.co,True,True,Strict
+#              fla-key1,mivalor,3600,1,/a,flask1.poxsilver5.store,True,True,Strict
 curl -X GET "${URL}?set_cookie=llave,value";
 
 # proxy request POST test API (curl -k -X POST https://jsonplaceholder.typicode.com/posts -H "Content-Type: application/json" -d '{"hola":"perro"}')
