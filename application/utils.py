@@ -154,28 +154,46 @@ def do_request_method(method, url, headers_data, body_data):
     return str(res)
 
 def set_cookies(response, request):
-    coockie_out = ['fla-key','fla-value01','3600','','','',False,False,'Strict']
-    cookie_str = request.args.get('set_cookie')
-    cookie_val = cookie_str if cookie_str else COOKIE_VAL
-    cookie_val = cookie_val.split(',')
-    for i in range(len(cookie_val)):
-        if i in [6,7]:
-            coockie_out[i] = bool(cookie_val[i])
+    global COOKIE_VAL
+
+    cookie_out = list([None] * 9)
+    cookie_val = request.args.get('set_cookie')
+    cookie_val = cookie_val.split(',') if cookie_val else COOKIE_VAL.split(',')
+    
+    # save global if key is same as enviroment
+    if cookie_val[0] == COOKIE_VAL.split(',')[0]:
+        COOKIE_VAL = ','.join(cookie_val)
+
+    for i in range(len(cookie_out)):
+        if i < len(cookie_val):
+            cookie_val.append('')
+        if i in [0]:
+            cookie_out[i] = str(cookie_val[i]) if cookie_val[i] else 'key-none'
+        elif i in [1]:
+            cookie_out[i] = str(cookie_val[i]) if cookie_val[i] else 'val-none'
         elif i in [2]:
-            coockie_out[i] = int(cookie_val[i])
+            cookie_out[i] = int(cookie_val[i]) if cookie_val[i] and cookie_val[i].isdigit() else 3600
+        elif i in [3]:
+            cookie_out[i] = int(cookie_val[i]) if cookie_val[i] and cookie_val[i].isdigit() else ''
+        elif i in [6]:
+            cookie_out[i] = True if cookie_val[i] in ['True','true','TRUE'] or cookie_val[i] == '' else False
+        elif i in [7]:
+            cookie_out[i] = True if cookie_val[i] in ['True','true','TRUE'] else False
+        elif i in [8]:
+            cookie_out[i] = str(cookie_val[i]) if cookie_val[i] else 'None'
         else:
-            coockie_out[i] = str(cookie_val[i])
+            cookie_out[i] = str(cookie_val[i]) if cookie_val[i] else ''
 
     response.set_cookie(
-        key=coockie_out[0],
-        value=coockie_out[1],
-        max_age=coockie_out[2],
-        expires=coockie_out[3],
-        path=coockie_out[4],
-        domain=coockie_out[5],
-        secure=coockie_out[6],
-        httponly=coockie_out[7],
-        samesite=coockie_out[8]
+        key=cookie_out[0],
+        value=cookie_out[1],
+        max_age=cookie_out[2],
+        expires=cookie_out[3],
+        path=cookie_out[4],
+        domain=cookie_out[5],
+        secure=cookie_out[6],
+        httponly=cookie_out[7], 
+        samesite=cookie_out[8]
     )
     return response
 

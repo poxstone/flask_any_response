@@ -54,7 +54,7 @@ spec:
         - name: SLEEP_TIME
           value: '0'
         - name: COOKIE_VAL
-          value: 'fla-key1,fla-value1,3600,,,,False,False,Strict'
+          value: 'fla-key1,fla-value1,3600,,,,True,False,None'
         - name: LOGS_PRINT
           value: 'false'
         - name: CERTFILE_CRT
