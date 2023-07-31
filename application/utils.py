@@ -174,7 +174,7 @@ def set_cookies(response, request):
         elif i in [2]:
             cookie_out[i] = int(cookie_val[i]) if cookie_val[i] and cookie_val[i].isdigit() else 3600
         elif i in [3]:
-            cookie_out[i] = int(cookie_val[i]) if cookie_val[i] and cookie_val[i].isdigit() else ''
+            cookie_out[i] = int(cookie_val[i]) if cookie_val[i] and cookie_val[i].isdigit() else None
         elif i in [6]:
             cookie_out[i] = True if cookie_val[i] in ['True','true','TRUE'] or cookie_val[i] == '' else False
         elif i in [7]:
@@ -182,7 +182,7 @@ def set_cookies(response, request):
         elif i in [8]:
             cookie_out[i] = str(cookie_val[i]) if cookie_val[i] else 'None'
         else:
-            cookie_out[i] = str(cookie_val[i]) if cookie_val[i] else ''
+            cookie_out[i] = str(cookie_val[i]) if cookie_val[i] else None
 
     response.set_cookie(
         key=cookie_out[0],

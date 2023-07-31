@@ -26,7 +26,7 @@ UDP_IP_ALLOW = os.getenv('UDP_IP_ALLOW', '0.0.0.0')
 UDP_PORT = os.getenv('UDP_PORT', '5005')
 UDP_MESSAGE = os.getenv('UDP_MESSAGE', 'Hello UDP World')
 VIEW_PRINT = os.getenv('VIEW_PRINT', 'full')  # full simple none
-           # key,value,max_age,expires,path,domain,secure,httponly,samesite(None,Lax,Strict)
+           # key(llave1),value(valor1),max_age(3600),expires(Date),path(/hola),domain(domain.com),secure(False require Strict),httponly,samesite(None,Lax,Strict)
 COOKIE_VAL = os.getenv('COOKIE_VAL', 'fla-key1,fla-value1,3600,,,,True,False,None')
 
 PATH_IGNORE = os.getenv('PATH_IGNORE', "favicon.ico,blank,echo.php,proxy.php")
