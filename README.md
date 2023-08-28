@@ -69,6 +69,11 @@ terraform init;
 terraform apply;
 gcloud container clusters get-credentials "gke-cluster-${TF_VAR_PREFIX_APP}-01" --zone "${TF_VAR_REGION_DEFAULT}" --project "${GOOGLE_CLOUD_PROJECT}";
 ```
+- Simple Pod
+```bash
+kubectl run flask-any-response --image=poxstone/flask_any_response
+```
+
 - Deploy
 ```bash
 cd kubernetes;
