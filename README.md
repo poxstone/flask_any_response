@@ -71,7 +71,8 @@ gcloud container clusters get-credentials "gke-cluster-${TF_VAR_PREFIX_APP}-01" 
 ```
 - Simple Pod
 ```bash
-kubectl run flask-any-response --image=poxstone/flask_any_response
+kubectl run flask-any-response --image=poxstone/flask_any_response;
+kubectl exec -it flask-any-response -- sh;
 ```
 
 - Deploy
