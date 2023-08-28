@@ -33,6 +33,11 @@ kubectl run test-app --image=poxstone/flask_any_response --port=8080 --labels="a
 
 # Run Interactive
 kubectl run -i -t test-tty --image=poxstone/flask_any_response --restart=Never -- sh;
+
+# Simple Pod
+kubectl run flask-any-response --image=poxstone/flask_any_response --labels="app=flask,env=dev";
+kubectl expose pod flask-any-response --port=8080 --type LoadBalancer;
+kubectl exec -it flask-any-response -- sh;
 ```
 
 # To GCP by tag
@@ -68,11 +73,6 @@ export TF_VAR_REGION_DEFAULT="us-east1";
 terraform init;
 terraform apply;
 gcloud container clusters get-credentials "gke-cluster-${TF_VAR_PREFIX_APP}-01" --zone "${TF_VAR_REGION_DEFAULT}" --project "${GOOGLE_CLOUD_PROJECT}";
-```
-- Simple Pod
-```bash
-kubectl run flask-any-response --image=poxstone/flask_any_response;
-kubectl exec -it flask-any-response -- sh;
 ```
 
 - Deploy
