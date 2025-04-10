@@ -20,6 +20,7 @@ ENV INIT_APP_TIME='0'
 ENV VERSION_DEP='vp.0.0.2dock'
 ENV UDP_PORT='5005'
 ENV WEBSOCKET_PORT='5678'
+# 18.5.1.1-1
 ENV MSSQL_VERSION='17.5.2.1-1'
 ENV SLEEP_TIME='0'
 ENV LOGS_PRINT='true'
@@ -39,14 +40,16 @@ ENV ENTRYPOINT=''
 
 RUN apk add --no-cache python3 ca-certificates\
     && apk add nmap mysql-client redis lsblk curl tcpdump tar tmux bind-tools busybox-extras stress-ng vim \
-    && python3 -m ensurepip \
-    && pip3 install --upgrade pip gunicorn 
+    && apk add py3-pip \
+#    && apk add py3-gunicorn \
+    && apk add py3-virtualenv
 #    && adduser -D -h $APP_PATH $GUNICORN_USER
 
 # add gcp profiler
 RUN apk add python3-dev ca-certificates gcc build-base\
-    && pip3 wheel --wheel-dir=/tmp/wheels google-cloud-profiler \
-    && pip3 install --no-index --find-links=/tmp/wheels google-cloud-profiler
+    && pip3 wheel --wheel-dir=/tmp/wheels google-cloud-profiler
+    #&& apk add py3-grpcio \
+    #&& pip3 install --no-index --find-links=/tmp/wheels google-cloud-profiler
     
 # sqlcmd sql server client
 WORKDIR /tmp
@@ -71,7 +74,9 @@ RUN apk add --no-cache curl gnupg --virtual .build-dependencies -- && \
 
 COPY ./ $APP_PATH
 
-RUN pip3 install -r $APP_PATH/requirements.txt --upgrade
+RUN virtualenv /venv && source /venv/bin/activate && \
+    pip install gunicorn && \
+    pip install -r $APP_PATH/requirements.txt --upgrade
 
 # config nginx
 COPY ./nginx/nginx.conf /etc/nginx/nginx.conf

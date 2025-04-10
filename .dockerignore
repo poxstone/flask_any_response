@@ -22,3 +22,12 @@ websocket.txt
 mount/
 jmeter.log
 .fuse_hidden*
+helm/
+jmeter/
+terraform/
+.vscode/
+cloudrun/
+api_gateway/
+openapi/
+cloudbuild.yaml
+fla_Dockerfile

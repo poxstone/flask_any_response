@@ -29,6 +29,7 @@ nohup nginx &
 
 # normal path
 cd $APP_PATH;
+source /venv/bin/activate;
 # run udp and gunicorn
 sleep "${INIT_APP_TIME}";
 echo "CONTAINER_TIME_PY_INIT: $(date)";
