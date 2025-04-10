@@ -5,6 +5,7 @@ import socket
 import datetime
 import subprocess
 import asyncio
+import functions_framework
 from time import sleep
 from application.config import FULL_METHODS, PATH_IGNORE, REQUEST_STR_LENGTH, PORT, lets_token, CERTFILE_CRT, KEYFILE_TLS, CHAIN_PEM, STR_GLOBAL, GLOBAL_STATE, UDP_MESSAGE, COOKIE_VAL
 from application.utils import get_random_string, printing, print_request, ping ,getPost ,do_request_method_async ,do_request_method, config_response
@@ -379,6 +380,15 @@ def lv6(lv1, lv2, lv3, lv4, lv5, lv6):
 def lv7(lv1, lv2, lv3, lv4, lv5, lv6, lv7):
     response, status_code = config_response(request, 'lv6(lv1, lv2, lv3, lv4, lv5, lv6, lv7):')
     return response, status_code
+
+
+@functions_framework.http
+def functions_trigger(request):
+    request_json = request.get_json(silent=True)
+    request_args = request.args
+    response, status_code = config_response(request, '/')
+
+    return response, status_code 
 
 
 printing(f'INIT_TIME_APP_PY_={STR_GLOBAL}: {str(datetime.datetime.now())}')
