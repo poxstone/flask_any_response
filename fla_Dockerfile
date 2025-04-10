@@ -20,8 +20,7 @@ ENV INIT_APP_TIME='0'
 ENV VERSION_DEP='vp.0.0.2dock'
 ENV UDP_PORT='5005'
 ENV WEBSOCKET_PORT='5678'
-# 18.5.1.1-1
-ENV MSSQL_VERSION='17.5.2.1-1'
+ENV MSSQL_VERSION='18.5.1.1-1'
 ENV SLEEP_TIME='0'
 ENV LOGS_PRINT='true'
 ENV LETS_TOKEN=''
@@ -53,20 +52,21 @@ RUN apk add python3-dev ca-certificates gcc build-base\
     
 # sqlcmd sql server client
 WORKDIR /tmp
-# Installing system utilities
+# Installing system utilities https://learn.microsoft.com/en-us/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server?view=sql-server-ver16&tabs=alpine18-install%2Calpine17-install%2Cdebian8-install%2Credhat7-13-install%2Crhel7-offline
 RUN apk add --no-cache curl gnupg --virtual .build-dependencies -- && \
     # Adding custom MS repository for mssql-tools and msodbcsql
-    curl -O https://download.microsoft.com/download/e/4/e/e4e67866-dffd-428c-aac7-8d28ddafb39b/msodbcsql17_${MSSQL_VERSION}_amd64.apk && \
-    curl -O https://download.microsoft.com/download/e/4/e/e4e67866-dffd-428c-aac7-8d28ddafb39b/mssql-tools_${MSSQL_VERSION}_amd64.apk && \
-    # Verifying signature
-    curl -O https://download.microsoft.com/download/e/4/e/e4e67866-dffd-428c-aac7-8d28ddafb39b/msodbcsql17_${MSSQL_VERSION}_amd64.sig && \
-    curl -O https://download.microsoft.com/download/e/4/e/e4e67866-dffd-428c-aac7-8d28ddafb39b/mssql-tools_${MSSQL_VERSION}_amd64.sig && \
-    # Importing gpg key
+    #Download the desired package(s)
+    curl -O https://download.microsoft.com/download/fae28b9a-d880-42fd-9b98-d779f0fdd77f/msodbcsql18_${MSSQL_VERSION}_$architecture.apk && \
+    curl -O https://download.microsoft.com/download/7/6/d/76de322a-d860-4894-9945-f0cc5d6a45f8/mssql-tools18_18.4.1.1-1_$architecture.apk && \
+    #(Optional) Verify signature, if 'gpg' is missing install it using 'apk add gnupg':
+    curl -O https://download.microsoft.com/download/fae28b9a-d880-42fd-9b98-d779f0fdd77f/msodbcsql18_${MSSQL_VERSION}_$architecture.sig && \
+    curl -O https://download.microsoft.com/download/7/6/d/76de322a-d860-4894-9945-f0cc5d6a45f8/mssql-tools18_18.4.1.1-1_$architecture.sig && \
     curl https://packages.microsoft.com/keys/microsoft.asc  | gpg --import - && \
-    gpg --verify msodbcsql17_${MSSQL_VERSION}_amd64.sig msodbcsql17_${MSSQL_VERSION}_amd64.apk && \
-    gpg --verify mssql-tools_${MSSQL_VERSION}_amd64.sig mssql-tools_${MSSQL_VERSION}_amd64.apk && \
-    # Installing packages
-    echo y | apk add --allow-untrusted msodbcsql17_${MSSQL_VERSION}_amd64.apk mssql-tools_${MSSQL_VERSION}_amd64.apk && \
+    gpg --verify msodbcsql18_${MSSQL_VERSION}_$architecture.sig msodbcsql18_${MSSQL_VERSION}_$architecture.apk && \
+    gpg --verify mssql-tools18_18.4.1.1-1_$architecture.sig mssql-tools18_18.4.1.1-1_$architecture.apk && \
+    #Install the package(s)
+    sudo apk add --allow-untrusted msodbcsql18_${MSSQL_VERSION}_$architecture.apk && \
+    sudo apk add --allow-untrusted mssql-tools18_${MSSQL_VERSION}_$architecture.apk && \
     # Deleting packages
     apk del .build-dependencies && rm -f msodbcsql*.sig mssql-tools*.apk && \
     ln -s /opt/mssql-tools/bin/sqlcmd /usr/bin/sqlcmd && ln -s /opt/mssql-tools/bin/bcp /usr/bin/bcp; \
