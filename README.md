@@ -710,4 +710,3 @@ kubectl describe ingress fla-service-a-ingress;
 | 1replica, 1worker,  istio | ---         | 6m      | 7m,10,14,25...375    | 375m    | ---         | 118Mi   | 126Mi   | 121Mi,122,,125...126 | 1           | ---         |
 | 1replica, 2worker,  istio | 70m         | 6m      | 9m,10,15,27...388/611| 3045m   | 132Mi       | 138Mi   | 153Mi   | 138Mi,,,144...145    | 2 45/1.5min | 259rpms     |
 | 1replica, 10worker, istio | 102m        | 8m      | 8m                   | ---     | ---         | 260Mi   | ---     | ---                  | 10          | ---         |
-
