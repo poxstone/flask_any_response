@@ -65,6 +65,21 @@ gcloud builds submit --tag "gcr.io/${GOOGLE_CLOUD_PROJECT}/flask_any_response";
 docker push "poxstone/flask_any_response:latest";
 ```
 
+
+## terraform - cloud functions
+
+- Derraform (update PROJECT_ID variable)
+```bash
+cd ./errafor/cloud_functions;
+config cloud_functions_v2.tf;
+gcloud config set project "${GOOGLE_CLOUD_PROJECT}";
+terraform init;
+terraform plan;
+terraform apply;
+
+curl "https://us-central1-${GOOGLE_CLOUD_PROJECT}.cloudfunctions.net/gcf-tf-flask-any-response";
+```
+
 ## Kubernetes
 
 - Derraform (update PROJECT_ID variable)

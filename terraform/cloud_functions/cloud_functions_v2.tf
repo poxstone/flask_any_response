@@ -1,9 +1,11 @@
 locals {
-  fc_prefix_name = "gcf-tf-any-response"
-  str_date       = formatdate("YYMMDDhhmmss", timestamp())
-  source_path    = "../../"
-  bucket         = "p4-operations-dev-gcf-source"
-  project = "p4-operations-dev"
+  fc_prefix_name     = "gcf-tf-any-response"
+  str_date           = formatdate("YYMMDDhhmmss", timestamp())
+  source_path        = "../../"
+  bucket             = "p4-operations-dev-gcf-source"
+  project            = "p4-operations-dev"
+  sa_cloud_functions = "sa-app-test1@p4-operations-dev.iam.gserviceaccount.com"
+  sa_build           = "sa-app-test1@p4-operations-dev.iam.gserviceaccount.com"
 }
 
 data "archive_file" "zip_cloud_function" {
@@ -50,6 +52,7 @@ resource "google_cloudfunctions2_function" "function" {
   build_config {
     runtime     = "python311"
     entry_point = "functions_trigger" # Set the entry point 
+    #service_account = "projects/${local.project}/serviceAccounts/${local.sa_build}" 
     source {
       storage_source {
         bucket = google_storage_bucket_object.obj_function.bucket
@@ -62,6 +65,11 @@ resource "google_cloudfunctions2_function" "function" {
     max_instance_count = 1
     available_memory   = "256M"
     timeout_seconds    = 60
+    # optional
+    #service_account_email         = local.sa_cloud_functions
+    vpc_connector                 = "projects/${local.project}/locations/us-central1/connectors/vpcless-local-dev2"
+    vpc_connector_egress_settings = "PRIVATE_RANGES_ONLY"
+    ingress_settings              = "ALLOW_ALL"
   }
 
   depends_on = [resource.google_storage_bucket_object.obj_function]

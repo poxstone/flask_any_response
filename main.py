@@ -62,6 +62,7 @@ def sendEmail(host, email, pwd):
         return str(e), GLOBAL_STATE
 
 
+
 @app.route('/bucketlist/<project>', methods=FULL_METHODS)
 def bucketList(project):
     printing('bucketList(project):')
@@ -387,8 +388,8 @@ def functions_trigger(request):
     request_json = request.get_json(silent=True)
     request_args = request.args
     response, status_code = config_response(request, '/')
-
-    return response, status_code 
+    response, GLOBAL_STATE = bucketList('p4-operations-dev')
+    return str(response), status_code 
 
 
 printing(f'INIT_TIME_APP_PY_={STR_GLOBAL}: {str(datetime.datetime.now())}')
