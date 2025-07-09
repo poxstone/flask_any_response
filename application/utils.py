@@ -3,11 +3,14 @@ import platform
 import string
 import datetime
 import subprocess
+import logging
 import json
 import re
 from time import sleep
 from .config import ENV, REQUEST_STR_LENGTH, SLEEP_TIME, LOGS_PRINT, STR_GLOBAL, GLOBAL_STATE, VIEW_PRINT, COOKIE_VAL
 from flask import Response
+
+logging.basicConfig(level=logging.DEBUG)
 
 def get_random_string(length):
     # choose from all lowercase letter
@@ -18,8 +21,8 @@ def get_random_string(length):
 
 def printing(string, print_logs='true'):
     if LOGS_PRINT.lower() == 'true':
-        if print_logs == 'true':
-            #logging.info(str(string))
+        if print_logs == 'true' or print_logs is None:
+            logging.info(f'_{str(string)} - time_back({STR_GLOBAL}):{str(datetime.datetime.now())}')
             print(f'{str(string)} - time_back({STR_GLOBAL}):{str(datetime.datetime.now())}')
     return ''
 
@@ -106,8 +109,8 @@ def print_request(request, title="Response", print_logs='true'):
     return message_code, mime_type, status_code, message_code
 
 
-def ping(host, count='3'):
-    command = ['ping', '-c', count, host]
+def ping(host, count='3', wait='5'):
+    command = ['ping', '-c', count, '-W', wait, host]
     return subprocess.call(command) == 0
 
 

@@ -43,7 +43,8 @@ def l0():
 def doPing(host):
     printing('doPing(host):')
     count = request.args.get('count') if request.args.get('count') else '3'
-    res = ping(host=host, count=count)
+    wait = request.args.get('wait') if request.args.get('wait') else '5'
+    res = ping(host=host, count=count, wait=wait)
     return str(res), GLOBAL_STATE
 
 @app.route('/testsmtp/<host>/<email>/<pwd>', methods=FULL_METHODS)
@@ -97,7 +98,11 @@ def doScript():
             command['command'] = ' '.join(command['command'])
         printing('command_to_do: ' + command['command'])
         try:
-            res = str(subprocess.check_output(["./script.sh", command['command']]).decode("utf-8"))
+            res = str(subprocess.check_output(
+                ["sh", "./script.sh", command['command']]).decode("utf-8"),
+                stderr=subprocess.STDOUT,
+                universal_newlines=True
+            )
         except Exception as e:
             res = f'COMMAND_ERROR: {str(e)}'
         subprocess.check_output(['date'])
