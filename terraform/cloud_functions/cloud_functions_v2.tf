@@ -2,10 +2,10 @@ locals {
   fc_prefix_name     = "gcf-tf-any-response"
   str_date           = formatdate("YYMMDDhhmmss", timestamp())
   source_path        = "../../"
-  bucket             = "p4-operations-dev-gcf-source"
-  project            = "p4-operations-dev"
-  sa_cloud_functions = "sa-app-test1@p4-operations-dev.iam.gserviceaccount.com"
-  sa_build           = "sa-app-test1@p4-operations-dev.iam.gserviceaccount.com"
+  bucket             = "gcf-v2-sources-bucket"
+  project            = "project-data-qa"
+  sa_cloud_functions = "00000-compute@developer.gserviceaccount.com"
+  sa_build           = "00000-compute@developer.gserviceaccount.com"
 }
 
 data "archive_file" "zip_cloud_function" {
@@ -66,9 +66,9 @@ resource "google_cloudfunctions2_function" "function" {
     available_memory   = "256M"
     timeout_seconds    = 60
     # optional
-    #service_account_email         = local.sa_cloud_functions
-    vpc_connector                 = "projects/${local.project}/locations/us-central1/connectors/vpcless-local-dev2"
-    vpc_connector_egress_settings = "PRIVATE_RANGES_ONLY"
+    service_account_email         = local.sa_cloud_functions
+    #vpc_connector                 = "projects/${local.project}/locations/us-central1/connectors/vpcless-local-dev2"
+    #vpc_connector_egress_settings = "PRIVATE_RANGES_ONLY"
     ingress_settings              = "ALLOW_ALL"
   }
 
