@@ -388,12 +388,67 @@ def lv7(lv1, lv2, lv3, lv4, lv5, lv6, lv7):
     return response, status_code
 
 
+@app.route('/dfcx/<go>', methods=FULL_METHODS)
+def dialogflow_reply(go):
+    printing(f'/dfcx/<go>')
+    return dialogflow_trigger(request)
+
+
+@functions_framework.http
+def dialogflow_trigger(request):
+    """
+    Función HTTP de Google Cloud para manejar webhooks de Dialogflow CX.
+    Parsea la petición, ejecuta una lógica simple y devuelve una respuesta formateada.
+    """
+    response, status_code = config_response(request, 'dialogflow_response')
+    # imprime request de solicitud
+    # 1. Parsea el cuerpo de la petición JSON que envía Dialogflow CX.
+    request_json = request.get_json(silent=True)
+
+    # Es una buena práctica verificar si el JSON es válido.
+    if not request_json:
+        printing("Error: No se recibió un cuerpo JSON válido.")
+        return "Error: Petición malformada", 400
+
+    # El 'tag' se define en la consola de Dialogflow CX cuando configuras el webhook.
+    tag = request_json.get("fulfillmentInfo", {}).get("tag")
+    # El nombre de la intención que fue detectada.
+    intent_name = request_json.get("intentInfo", {}).get("displayName")
+    # Los parámetros de la sesión actual.
+    session_params = request_json.get("sessionInfo", {}).get("parameters", {})
+    
+    response_text = ""
+    if tag == "saludo_webhook":
+        response_text = f"Hola desde el webhook! Recibí la intención '{intent_name}'."
+    elif tag == "consultar_producto":
+        producto_id = session_params.get("producto_id", "ninguno")
+        response_text = f"Consultando información para el producto: {producto_id}."
+    else:
+        response_text = "Webhook contactado, pero no se encontró una acción para este tag."
+
+    response_payload = {
+        "fulfillment_response": {"messages": [
+            {"text": {
+                "text": [response_text],
+                "allow_playback_interruption": False
+            }}]}}
+    printing(response_payload)
+    return json.dumps(response_payload), 200, {'Content-Type': 'application/json'}
+
+
+@app.route('/gcf/<go>', methods=FULL_METHODS)
+def functions_reply(go):
+    response, status_code = config_response(request, '/gcf/<go>')
+    return functions_trigger(request)
+
+
 @functions_framework.http
 def functions_trigger(request):
+    response, status_code = config_response(request, 'functions_trigger')
     request_json = request.get_json(silent=True)
+    project_id = os.environ.get("GOOGLE_CLOUD_PROJECT", "project-not-found")
     request_args = request.args
-    response, status_code = config_response(request, '/')
-    response, GLOBAL_STATE = bucketList('p4-operations-dev')
+    response, GLOBAL_STATE = bucketList(project_id)
     return str(response), status_code 
 
 

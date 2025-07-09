@@ -70,12 +70,13 @@ docker push "poxstone/flask_any_response:latest";
 
 - Derraform (update PROJECT_ID variable)
 ```bash
-cd ./errafor/cloud_functions;
-config cloud_functions_v2.tf;
+cd ./terraform/cloud_functions;
+# config cloud_functions_v2.tf;
+export GOOGLE_CLOUD_PROJECT="";
 gcloud config set project "${GOOGLE_CLOUD_PROJECT}";
 terraform init;
 terraform plan;
-terraform apply;
+terraform apply -auto-approve;
 
 curl "https://us-central1-${GOOGLE_CLOUD_PROJECT}.cloudfunctions.net/gcf-tf-flask-any-response";
 ```
@@ -441,6 +442,12 @@ curl -X GET "${URL}/lv1/lv2";
 curl -X POST "${URL}/lv1/lv2";
 # sleep in any get level or url
 curl -X GET "${URL}/lv1/lv2?sleep=10";
+
+# execute Google Cloud Functions trigger
+curl -X GET "${URL}/gcf/go";
+
+# execute dialog flow cx webhook
+curl -X GET "${URL}/dfcx/go";
 
 # udp send
 curl -X GET "${URL}/udp-requests/localhost/5005?MESSAGE=hola";

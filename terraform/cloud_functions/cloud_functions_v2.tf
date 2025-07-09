@@ -51,6 +51,7 @@ resource "google_cloudfunctions2_function" "function" {
 
   build_config {
     runtime     = "python311"
+    #entry_point = "dialogflow_trigger" # Set the entry point 
     entry_point = "functions_trigger" # Set the entry point 
     #service_account = "projects/${local.project}/serviceAccounts/${local.sa_build}" 
     source {
