@@ -72,6 +72,7 @@ resource "google_cloudfunctions2_function" "function" {
     ingress_settings = "ALLOW_ALL"
     environment_variables = {
       GOOGLE_CLOUD_PROJECT = local.project
+      LOGS_PRINT = "true"
     }
   }
 
