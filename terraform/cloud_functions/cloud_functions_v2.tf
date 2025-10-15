@@ -2,10 +2,10 @@ locals {
   fc_prefix_name     = "gcf-tf-any-response"
   str_date           = formatdate("YYMMDDhhmmss", timestamp())
   source_path        = "../../"
-  bucket             = "bluetab-colombia-data-qa-tmp"
-  project            = "bluetab-colombia-data-qa"
-  sa_cloud_functions = "886084989545-compute@developer.gserviceaccount.com"
-  sa_build           = "886084989545-compute@developer.gserviceaccount.com"
+  bucket             = "project-qa-tmp"
+  project            = "project-qa"
+  sa_cloud_functions = "886084989000-compute@developer.gserviceaccount.com"
+  sa_build           = "886084989000-compute@developer.gserviceaccount.com"
 }
 
 data "archive_file" "zip_cloud_function" {

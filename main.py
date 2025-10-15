@@ -444,12 +444,13 @@ def functions_reply(go):
 
 @functions_framework.http
 def functions_trigger(request):
-    response, status_code = config_response(request, 'functions_trigger')
-    request_json = request.get_json(silent=True)
-    project_id = os.environ.get("GOOGLE_CLOUD_PROJECT", "project-not-found")
-    request_args = request.args
-    response, GLOBAL_STATE = bucketList(project_id)
-    return str(response), status_code 
+    response, status_code = config_response(request, 'functions_trigger', print_logs='true')
+    if os.environ.get('SERVICE') == 'gcs-test':
+        request_json = request.get_json(silent=True)
+        project_id = os.environ.get("GOOGLE_CLOUD_PROJECT", "project-not-found")
+        request_args = request.args
+        response, GLOBAL_STATE = bucketList(project_id)
+    return response  
 
 
 printing(f'INIT_TIME_APP_PY_={STR_GLOBAL}: {str(datetime.datetime.now())}')
