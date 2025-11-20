@@ -445,12 +445,21 @@ def functions_reply(go):
 @functions_framework.http
 def functions_trigger(request):
     response, status_code = config_response(request, 'functions_trigger', print_logs='true')
-    if os.environ.get('SERVICE') == 'gcs-test':
+
+    # reenvia la solicitud a curl
+    if request.path.startswith('/requests/'):
+        parts = request.path.strip('/').split('/')
+        if len(parts) >= 4:
+            protocol, domain, port = parts[1], parts[2], parts[3]
+            return requests(protocol, domain, port)
+
+    # valida un permisos de buckets
+    if request.path == '/gcf/gcs-test' and os.environ.get('SERVICE') == 'gcs-test':
         request_json = request.get_json(silent=True)
         project_id = os.environ.get("GOOGLE_CLOUD_PROJECT", "project-not-found")
-        request_args = request.args
-        response, GLOBAL_STATE = bucketList(project_id)
-    return response  
+        return bucketList(project_id)
+
+    return response
 
 
 printing(f'INIT_TIME_APP_PY_={STR_GLOBAL}: {str(datetime.datetime.now())}')

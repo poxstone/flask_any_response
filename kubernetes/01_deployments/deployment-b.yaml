@@ -53,6 +53,8 @@ spec:
           value: '0'
         - name: SLEEP_TIME
           value: '0'
+        - name: MAX_TIMEOUT
+          value: '30'
         - name: COOKIE_VAL
           value: 'fla-key1,fla-value1,3600,,,,True,False,None'
         - name: LOGS_PRINT
