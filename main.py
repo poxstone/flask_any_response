@@ -388,7 +388,7 @@ def lv7(lv1, lv2, lv3, lv4, lv5, lv6, lv7):
     return response, status_code
 
 
-@app.route('/dfcx/<go>', methods=FULL_METHODS)
+@app.route('/google-dfcx/<go>', methods=FULL_METHODS)
 def dialogflow_reply(go):
     printing(f'/dfcx/<go>')
     return dialogflow_trigger(request)
@@ -401,20 +401,14 @@ def dialogflow_trigger(request):
     Parsea la petición, ejecuta una lógica simple y devuelve una respuesta formateada.
     """
     response, status_code = config_response(request, 'dialogflow_response')
-    # imprime request de solicitud
-    # 1. Parsea el cuerpo de la petición JSON que envía Dialogflow CX.
     request_json = request.get_json(silent=True)
 
-    # Es una buena práctica verificar si el JSON es válido.
     if not request_json:
         printing("Error: No se recibió un cuerpo JSON válido.")
-        return "Error: Petición malformada", 400
+        request_json = {}
 
-    # El 'tag' se define en la consola de Dialogflow CX cuando configuras el webhook.
     tag = request_json.get("fulfillmentInfo", {}).get("tag")
-    # El nombre de la intención que fue detectada.
     intent_name = request_json.get("intentInfo", {}).get("displayName")
-    # Los parámetros de la sesión actual.
     session_params = request_json.get("sessionInfo", {}).get("parameters", {})
     
     response_text = ""
