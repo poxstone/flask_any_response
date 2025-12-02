@@ -447,7 +447,7 @@ curl -X GET "${URL}/lv1/lv2?sleep=10";
 curl -X GET "${URL}/gcf/go";
 
 # execute dialog flow cx webhook
-curl -X GET "${URL}/dfcx/go";
+curl -X GET "${URL}/google-dfcx/go";
 
 # udp send
 curl -X GET "${URL}/udp-requests/localhost/5005?MESSAGE=hola";
