@@ -396,10 +396,6 @@ def dialogflow_reply(go):
 
 @functions_framework.http
 def dialogflow_trigger(request):
-    """
-    Función HTTP de Google Cloud para manejar webhooks de Dialogflow CX.
-    Parsea la petición, ejecuta una lógica simple y devuelve una respuesta formateada.
-    """
     response, status_code = config_response(request, 'dialogflow_response')
     request_json = request.get_json(silent=True)
 
@@ -418,7 +414,7 @@ def dialogflow_trigger(request):
         producto_id = session_params.get("producto_id", "ninguno")
         response_text = f"Consultando información para el producto: {producto_id}."
     else:
-        response_text = "Webhook contactado, pero no se encontró una acción para este tag."
+        response_text = f"Webhook contactado, pero no se encontró una acción para este tag. '{intent_name}'"
 
     response_payload = {
         "fulfillment_response": {"messages": [

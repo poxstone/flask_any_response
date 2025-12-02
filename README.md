@@ -447,7 +447,8 @@ curl -X GET "${URL}/lv1/lv2?sleep=10";
 curl -X GET "${URL}/gcf/go";
 
 # execute dialog flow cx webhook
-curl -X GET "${URL}/google-dfcx/go";
+curl -X POST "${URL}/google-dfcx/go" -H "Content-Type: application/json" -d { "fulfillmentInfo": { "tag": "saludo_webhook" }, "intentInfo": { "displayName": "Default Welcome Intent" }, "sessionInfo": { "parameters": { "producto_id": "p1001" }}};
+curl -X POST "${URL}/google-dfcx/go" -H "Content-Type: application/json" -d @./curl_tests/json-dialogflow.json;
 
 # udp send
 curl -X GET "${URL}/udp-requests/localhost/5005?MESSAGE=hola";
