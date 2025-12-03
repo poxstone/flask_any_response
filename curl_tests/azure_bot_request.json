@@ -1,0 +1,28 @@
+{
+    "type": "message",
+    "id": "9934TgCKjFHAPLlc0Z2tk-us|0000...",
+    "timestamp": "2025-12-03T04:19:34.118105Z",
+    "localTimestamp": "2025-12-02T23:19:33.439-05:00",
+    "localTimezone": "America/Bogota",
+    "serviceUrl": "https://webchat.botframework.com/",
+    "channelId": "webchat",
+    "from": {
+        "id": "d81f158c-d412-4bc4-ac83-a53a8...",
+        "name": ""
+    },
+    "conversation": {
+        "id": "9934TgCKjFHAPLlc0Z..."
+    },
+    "recipient": {
+        "id": "agent-test-522@6SmaHvyQfUroyos2FxjgJFcKHypzWjM2efozr...",
+        "name": "agent-test-522"
+    },
+    "textFormat": "plain",
+    "locale": "es-ES",
+    "text": "hola",
+    "attachments": [],
+    "channelData": {
+        "attachmentSizes": [],
+        "clientActivityID": "mbacztbf15"
+    }
+}

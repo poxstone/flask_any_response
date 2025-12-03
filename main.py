@@ -452,6 +452,31 @@ def functions_trigger(request):
     return str(response), status_code 
 
 
+@functions_framework.http
+def azure_bot_trigger(request):
+    from botbuilder.schema import Activity
+    from application.azure_bot import ADAPTER, BOT
+
+    response, status_code = config_response(request, 'azure_bot_trigger')
+    try:
+        body = request.json
+        activity = Activity().deserialize(body)
+        auth_header = request.headers.get("Authorization")
+        async def process_activity():
+            await ADAPTER.process_activity(activity, auth_header, BOT.on_turn)
+        asyncio.run(process_activity())
+        return Response(status=201)
+    except Exception as e:
+        printing(f"Error al procesar la actividad: {e}")
+        return Response(status=500)
+
+
+@app.route('/azure-bot/<go>', methods=FULL_METHODS)
+def azure_bot_reply(go):
+    response, status_code = config_response(request, '/azure-bot/<go>')
+    return azure_bot_trigger(request)
+
+
 printing(f'INIT_TIME_APP_PY_={STR_GLOBAL}: {str(datetime.datetime.now())}')
 
 if __name__ == "__main__":

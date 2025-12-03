@@ -449,6 +449,13 @@ curl -X GET "${URL}/gcf/go";
 # execute dialog flow cx webhook
 curl -X GET "${URL}/dfcx/go";
 
+# azure bot test
+TOKEN="eyJh..."
+curl -i -X POST "http://localhost:8080/azure-bot/go" \
+ -H "Authorization: Bearer ${TOKEN}" \
+ -H "Content-Type: application/json" \
+ -d "$(cat ./curl_tests/azure_bot_request.json)";
+
 # udp send
 curl -X GET "${URL}/udp-requests/localhost/5005?MESSAGE=hola";
 

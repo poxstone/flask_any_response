@@ -29,6 +29,13 @@ ENV COOKIE_VAL='fla-key1,fla-value1,3600,,,,True,False,None'
 ENV CERTFILE_CRT='./.certs/tls.crt'
 ENV KEYFILE_TLS='./.certs/tls.key'
 ENV CHAIN_PEM='./.certs/chain.pem'
+# Azure bot
+ENV APP_ID=''
+ENV APP_PASSWORD=''
+ENV TENANT_ID=''
+ENV DF_AGENT_ID=''
+ENV DF_LOCATION=''
+ENV RESPONSE=''
 
 # Change entrypoint
 ENV ENTRYPOINT=''
