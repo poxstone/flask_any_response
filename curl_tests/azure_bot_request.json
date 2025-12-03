@@ -1,28 +1,46 @@
 {
+    "text": "hola",
+    "textFormat": "plain",
+    "attachments": [
+        {
+            "contentType": "text/html",
+            "content": "<p>hola</p>"
+        }
+    ],
     "type": "message",
-    "id": "9934TgCKjFHAPLlc0Z2tk-us|0000...",
-    "timestamp": "2025-12-03T04:19:34.118105Z",
-    "localTimestamp": "2025-12-02T23:19:33.439-05:00",
-    "localTimezone": "America/Bogota",
-    "serviceUrl": "https://webchat.botframework.com/",
-    "channelId": "webchat",
+    "timestamp": "2025-12-03T04:50:21.8316673Z",
+    "localTimestamp": "2025-12-02T23:50:21.8316673-05:00",
+    "id": "1764737421801",
+    "channelId": "msteams",
+    "serviceUrl": "https://smba.trafficmanager.net/amer/22e8a3dc-7855-445d-8f92-79799066bb24/",
     "from": {
-        "id": "d81f158c-d412-4bc4-ac83-a53a8...",
-        "name": ""
+        "id": "29:1Q03pBnTmjDjQ2gbJBpxFOvknssSBCi4lLVG8vmUk7KgsHS0VOEcjYET-QcH6X8lkaTWEY5xiY_-Dhq_HTuNm5w",
+        "name": "pablo noveno",
+        "aadObjectId": "d81f158c-d412-4bc4-ac83-a53a8b0059bd"
     },
     "conversation": {
-        "id": "9934TgCKjFHAPLlc0Z..."
+        "conversationType": "personal",
+        "tenantId": "22e8a3dc-7855-445d-8f92-79799066bb24",
+        "id": "a:1deFDua-6utroSbr5jXSa11XRvb4487yoGokd-mXHoniFIT_0sCbVYFDgWNRzn9qE-JenrwAsHcGZApcaMwIOxgAo1Yi2-B-hxJdHvYmnPwx3DO84JhHR2PNSaTFGskEB"
     },
     "recipient": {
-        "id": "agent-test-522@6SmaHvyQfUroyos2FxjgJFcKHypzWjM2efozr...",
+        "id": "28:bde8e7ef-01a2-4e18-8fe6-d0a1015c510e",
         "name": "agent-test-522"
     },
-    "textFormat": "plain",
-    "locale": "es-ES",
-    "text": "hola",
-    "attachments": [],
+    "entities": [
+        {
+            "locale": "es-ES",
+            "country": "ES",
+            "platform": "Web",
+            "timezone": "America/Bogota",
+            "type": "clientInfo"
+        }
+    ],
     "channelData": {
-        "attachmentSizes": [],
-        "clientActivityID": "mbacztbf15"
-    }
+        "tenant": {
+            "id": "22e8a3dc-7855-445d-8f92-79799066bb24"
+        }
+    },
+    "locale": "es-ES",
+    "localTimezone": "America/Bogota"
 }
