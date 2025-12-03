@@ -7,7 +7,7 @@ import logging
 import json
 import re
 from time import sleep
-from .config import ENV, REQUEST_STR_LENGTH, SLEEP_TIME, LOGS_PRINT, STR_GLOBAL, GLOBAL_STATE, VIEW_PRINT, COOKIE_VAL
+from .config import ENV, REQUEST_STR_LENGTH, SLEEP_TIME, LOGS_PRINT, STR_GLOBAL, GLOBAL_STATE, VIEW_PRINT, COOKIE_VAL, MAX_TIMEOUT
 from flask import Response
 
 logging.basicConfig(level=logging.DEBUG)
@@ -140,19 +140,19 @@ def do_request_method(method, url, headers_data, body_data):
         json_data = '{}'
     try:
         if method == 'GET':
-            res = requests.get(url, headers=headers_data).text
+            res = requests.get(url, headers=headers_data, timeout=MAX_TIMEOUT).text
         elif method == 'POST':
-            res = requests.post(url, data=json_data, headers=headers_data).text
+            res = requests.post(url, data=json_data, headers=headers_data, timeout=MAX_TIMEOUT).text
         elif method == 'DELETE':
-            res = requests.delete(url, data=json_data, headers=headers_data).text
+            res = requests.delete(url, data=json_data, headers=headers_data, timeout=MAX_TIMEOUT).text
         elif method == 'PUT':
-            res = requests.put(url, data=json_data, headers=headers_data).text
+            res = requests.put(url, data=json_data, headers=headers_data, timeout=MAX_TIMEOUT).text
         elif method == 'PATCH':
-            res = requests.patch(url, data=json_data, headers=headers_data).text
+            res = requests.patch(url, data=json_data, headers=headers_data, timeout=MAX_TIMEOUT).text
         else:
             res = 'not supported method'
     except Exception as e:
-        res = f'fail for: method:{method}, url:{url}, headers_data:{headers_data}, body_data:{body_data}'
+        res = f'fail for: method:{method}, url:{url}, headers_data:{headers_data}, body_data:{body_data}, -- {e}'
     
     return str(res)
 

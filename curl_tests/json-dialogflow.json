@@ -1,0 +1,48 @@
+{
+    "detectIntentResponseId": "7719d2a1-f79d-4059-8b10-43b4d402cc0b",
+    "fulfillmentInfo": {
+        "tag": "saludo_webhook"
+    },
+    "intentInfo": {
+        "confidence": 1.0,
+        "displayName": "Default Welcome Intent",
+        "lastMatchedIntent": "projects/mi-gcp-project/locations/us-central1/agents/5765ef52-78f3-47aa-91b8-ac0e5a1a3b1d/intents/00000000-0000-0000-0000-000000000000"
+    },
+    "languageCode": "es",
+    "languageInfo": {
+        "confidenceScore": 1.0,
+        "inputLanguageCode": "es",
+        "resolvedLanguageCode": "es"
+    },
+    "messages": [
+        {
+            "responseType": "PARAMETER_PROMPT",
+            "source": "VIRTUAL_AGENT",
+            "text": {
+                "redactedText": [
+                    "¿Cuál es el número de cliente?"
+                ],
+                "text": [
+                    "¿Cuál es el número de cliente?"
+                ]
+            }
+        }
+    ],
+    "pageInfo": {
+        "currentPage": "projects/mi-gcp-project/locations/us-central1/agents/5765ef52-78f3-47aa-91b8-ac0e5a1a3b1d/flows/00000000-0000-0000-0000-000000000000/pages/796c7bab-fb02-4ff8-82cf-b2ae605828c0",
+        "displayName": "Solicitar cuenta contrato",
+        "formInfo": {
+            "parameterInfo": [
+                {
+                    "displayName": "cliente",
+                    "required": "True",
+                    "state": "EMPTY"
+                }
+            ]
+        }
+    },
+    "sessionInfo": {
+        "session": "projects/mi-gcp-project/locations/us-central1/agents/5765ef52-78f3-47aa-91b8-ac0e5a1a3b1d/sessions/ea4e43c0-6a12-4545-844b-da29b98f51ed"
+    },
+    "text": "1"
+}

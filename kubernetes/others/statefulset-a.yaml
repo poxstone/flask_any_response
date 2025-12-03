@@ -47,6 +47,8 @@ spec:
           value: '0'
         - name: SLEEP_TIME
           value: '0'
+        - name: MAX_TIMEOUT
+          value: '30'
         - name: LETS_TOKEN
           value: ''
         - name: LOGS_PRINT

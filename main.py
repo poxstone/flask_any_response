@@ -388,7 +388,7 @@ def lv7(lv1, lv2, lv3, lv4, lv5, lv6, lv7):
     return response, status_code
 
 
-@app.route('/dfcx/<go>', methods=FULL_METHODS)
+@app.route('/google-dfcx/<go>', methods=FULL_METHODS)
 def dialogflow_reply(go):
     printing(f'/dfcx/<go>')
     return dialogflow_trigger(request)
@@ -396,25 +396,15 @@ def dialogflow_reply(go):
 
 @functions_framework.http
 def dialogflow_trigger(request):
-    """
-    Función HTTP de Google Cloud para manejar webhooks de Dialogflow CX.
-    Parsea la petición, ejecuta una lógica simple y devuelve una respuesta formateada.
-    """
     response, status_code = config_response(request, 'dialogflow_response')
-    # imprime request de solicitud
-    # 1. Parsea el cuerpo de la petición JSON que envía Dialogflow CX.
     request_json = request.get_json(silent=True)
 
-    # Es una buena práctica verificar si el JSON es válido.
     if not request_json:
         printing("Error: No se recibió un cuerpo JSON válido.")
-        return "Error: Petición malformada", 400
+        request_json = {}
 
-    # El 'tag' se define en la consola de Dialogflow CX cuando configuras el webhook.
     tag = request_json.get("fulfillmentInfo", {}).get("tag")
-    # El nombre de la intención que fue detectada.
     intent_name = request_json.get("intentInfo", {}).get("displayName")
-    # Los parámetros de la sesión actual.
     session_params = request_json.get("sessionInfo", {}).get("parameters", {})
     
     response_text = ""
@@ -424,7 +414,7 @@ def dialogflow_trigger(request):
         producto_id = session_params.get("producto_id", "ninguno")
         response_text = f"Consultando información para el producto: {producto_id}."
     else:
-        response_text = "Webhook contactado, pero no se encontró una acción para este tag."
+        response_text = f"Webhook contactado, pero no se encontró una acción para este tag. '{intent_name}'"
 
     response_payload = {
         "fulfillment_response": {"messages": [
@@ -444,12 +434,22 @@ def functions_reply(go):
 
 @functions_framework.http
 def functions_trigger(request):
-    response, status_code = config_response(request, 'functions_trigger')
-    request_json = request.get_json(silent=True)
-    project_id = os.environ.get("GOOGLE_CLOUD_PROJECT", "project-not-found")
-    request_args = request.args
-    response, GLOBAL_STATE = bucketList(project_id)
-    return str(response), status_code 
+    response, status_code = config_response(request, 'functions_trigger', print_logs='true')
+
+    # reenvia la solicitud a curl
+    if request.path.startswith('/requests/'):
+        parts = request.path.strip('/').split('/')
+        if len(parts) >= 4:
+            protocol, domain, port = parts[1], parts[2], parts[3]
+            return requests(protocol, domain, port)
+
+    # valida un permisos de buckets
+    if request.path == '/gcf/gcs-test' and os.environ.get('SERVICE') == 'gcs-test':
+        request_json = request.get_json(silent=True)
+        project_id = os.environ.get("GOOGLE_CLOUD_PROJECT", "project-not-found")
+        return bucketList(project_id)
+
+    return response
 
 
 @functions_framework.http
