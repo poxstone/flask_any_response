@@ -1,6 +1,7 @@
 import os
 import random
 import string
+import json
 
 
 ENV = os.environ
@@ -9,6 +10,7 @@ GLOBAL_STATE = os.getenv('GLOBAL_STATE', '200')
 VERSION_DEP = os.getenv('VERSION_DEP', 'nover')
 WORKERS = os.getenv('WORKERS', '1')
 GOOGLE_CLOUD_PROJECT = os.getenv('GOOGLE_CLOUD_PROJECT', '')
+LOCATION = os.getenv('LOCATION', 'us-central1')
 SLEEP_TIME = os.getenv('SLEEP_TIME', '0')
 MAX_TIMEOUT = int(os.getenv('MAX_TIMEOUT', '30'))
 LOGS_PRINT = os.getenv('LOGS_PRINT', 'true')
@@ -34,10 +36,4 @@ PATH_IGNORE = os.getenv('PATH_IGNORE', "favicon.ico,blank,echo.php,proxy.php")
 FULL_METHODS = ['POST', 'GET', 'HEAD', 'PUT', 'DELETE']
 REQUEST_STR_LENGTH = os.getenv('REQUEST_STR_LENGTH', '5')  # for randoms strings default (downloads name an requests)
 
-# Azure bot
-APP_ID = os.getenv("APP_ID", "bde8e7ef-01a2-4e18-8fe6-d0...")                 # AZURE_APP_ID_SECRET 
-APP_PASSWORD = os.getenv("APP_PASSWORD", "UaT8Q~oI2WtT00X_qVa~X.th4gPL38...") # AZURE_APP_PASSWORD_SECRET
-TENANT_ID = os.getenv("TENANT_ID", "22e8a3dc-7855-445d-8f92-79...")           # AZURE_TENANT_ID_SECRET
-DF_AGENT_ID = os.getenv("DF_AGENT_ID", "cb379525-3ffd-4c13-a25d-dd...")       # DF_AGENT_ID_SECRET
-DF_LOCATION = os.getenv("DF_LOCATION", "global")                                     # DF_LOCATION_SECRET
-RESPONSE = os.getenv("RESPONSE", "Hola Mirror desde integrador")
+SECRETS_MS_TEAMS = json.loads(os.getenv('SECRETS_MS_TEAMS', '{ "TEAMS_APP_ID": "84ff6681-3128-4cd9-9039-............", "TEAMS_APP_PASSWORD": "5Jt8Q~yhtDx8hFPXddebKPegw5sVrp..........", "TEAMS_TENANT_ID": "5fcccfc8-ac44-4c9c-8b1e-............", "TEAMS_AUTO_RESPONSE": "Hola respuesta espejos", "GCP_DIALOGF_AGENT_ID":"23a20a5c-de0d-448d-bc0d-............" }'))

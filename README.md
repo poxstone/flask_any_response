@@ -454,8 +454,9 @@ curl -X POST "${URL}/google-dfcx/go" -H "Content-Type: application/json" -d @./c
 TOKEN="eyJh..."
 curl -i -X POST "${URL}/azure-bot/go" \
  -H "Authorization: Bearer ${TOKEN}" \
+ -H "X-Forwarded-Authorization: Bearer ${TOKEN}" \
  -H "Content-Type: application/json" \
- -d "$(cat ./curl_tests/azure_bot_request.json)";
+ --data "@./curl_tests/azure_bot_request.json";
 
 # udp send
 curl -X GET "${URL}/udp-requests/localhost/5005?MESSAGE=hola";

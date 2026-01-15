@@ -8,24 +8,24 @@
         }
     ],
     "type": "message",
-    "timestamp": "2025-12-03T04:50:21.8316673Z",
-    "localTimestamp": "2025-12-02T23:50:21.8316673-05:00",
-    "id": "1764737421801",
+    "timestamp": "2026-01-15T15:36:10.2408232Z",
+    "localTimestamp": "2026-01-15T10:36:10.2408232-05:00",
+    "id": "1768491370220",
     "channelId": "msteams",
-    "serviceUrl": "https://smba.trafficmanager.net/amer/22e8a3dc-7855-445d-8f92-79799066bb24/",
+    "serviceUrl": "https://smba.trafficmanager.net/amer/5fcccfc8-ac44-4c9c-8b1e-2d4997f4bed4/",
     "from": {
-        "id": "29:1Q03pBnTmjDjQ2gbJBpxFOvknssSBCi4lLVG8vmUk7KgsHS0VOEcjYET-QcH6X8lkaTWEY5xiY_-Dhq_HTuNm5w",
-        "name": "pablo noveno",
-        "aadObjectId": "d81f158c-d412-4bc4-ac83-a53a8b0059bd"
+        "id": "29:1iiHf0_04PpGin91F45KYF0gBUsWPWDIJ6pBSb0c8rycF81tmhJnl48Qnye9sMTRRZ9NPK30sJme9loBGljgbug",
+        "name": "juab diez",
+        "aadObjectId": "8f9f8885-1819-442c-be30-6bbacd87e91b"
     },
     "conversation": {
         "conversationType": "personal",
-        "tenantId": "22e8a3dc-7855-445d-8f92-79799066bb24",
-        "id": "a:1deFDua-6utroSbr5jXSa11XRvb4487yoGokd-mXHoniFIT_0sCbVYFDgWNRzn9qE-JenrwAsHcGZApcaMwIOxgAo1Yi2-B-hxJdHvYmnPwx3DO84JhHR2PNSaTFGskEB"
+        "tenantId": "5fcccfc8-ac44-4c9c-8b1e-2d4997f4bed4",
+        "id": "a:1AmXg2sOfxaarbJdOQEzRmoCTklpab8GYhvRFocVJ4qnK-9A6dkHWcbcqz71HzeVOnr7iVGNtcdNeoQ2p-kM4GykjZA5XlwMwm0OsXHLCd7KPY0j_SxUypxuJ97mJq7Jw"
     },
     "recipient": {
-        "id": "28:bde8e7ef-01a2-4e18-8fe6-d0a1015c510e",
-        "name": "agent-test-522"
+        "id": "28:84ff6681-3128-4cd9-9039-86b3a7e36603",
+        "name": "bot-vanti-01"
     },
     "entities": [
         {
@@ -38,7 +38,7 @@
     ],
     "channelData": {
         "tenant": {
-            "id": "22e8a3dc-7855-445d-8f92-79799066bb24"
+            "id": "5fcccfc8-ac44-4c9c-8b1e-2d4997f4bed4"
         }
     },
     "locale": "es-ES",

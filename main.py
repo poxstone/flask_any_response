@@ -7,7 +7,7 @@ import subprocess
 import asyncio
 import functions_framework
 from time import sleep
-from application.config import FULL_METHODS, PATH_IGNORE, REQUEST_STR_LENGTH, PORT, lets_token, CERTFILE_CRT, KEYFILE_TLS, CHAIN_PEM, STR_GLOBAL, GLOBAL_STATE, UDP_MESSAGE, COOKIE_VAL
+from application.config import *
 from application.utils import get_random_string, printing, print_request, ping ,getPost ,do_request_method_async ,do_request_method, config_response
 from flask import Flask, request, redirect, url_for, Response, render_template, send_file, make_response
 # email
@@ -454,17 +454,39 @@ def functions_trigger(request):
 
 @functions_framework.http
 def azure_bot_trigger(request):
+    import asyncio
     from botbuilder.schema import Activity
-    from application.azure_bot import ADAPTER, BOT
+    from application.azure_bot import DialogflowBot
+    from application.service_dialog_flow_cx import detect_intent_text, extract_text_from_dialogflow_response
 
     response, status_code = config_response(request, 'azure_bot_trigger')
     try:
         body = request.json
+        ms_bot_tenant_id = body['conversation']['tenantId']
+        ms_bot_session_id = body['conversation']['id']
+        ms_bot_from = body['from']
+        ms_bot_text = body['text']
+        ms_bot_language = body['locale']
+        ms_bot_auth_header_x = request.headers.get("X-Forwarded-Authorization")  # for google api gateway
+        ms_bot_auth_header = ms_bot_auth_header_x if ms_bot_auth_header_x else request.headers.get("Authorization")
+        bot_connection = SECRETS_MS_TEAMS
+        response_agent_text = f'{bot_connection["TEAMS_AUTO_RESPONSE"]}:: (ms_bot_text: {ms_bot_text}) - (ms_bot_tenant_id: {ms_bot_tenant_id})) - (ms_bot_session_id: {ms_bot_session_id}) -- (ms_bot_from: {ms_bot_from})'
+
+        # get response from dialogflow
+        try:
+            response_dialog_agent = detect_intent_text(GOOGLE_CLOUD_PROJECT, LOCATION, bot_connection['GCP_DIALOGF_AGENT_ID'], ms_bot_session_id, ms_bot_text, ms_bot_language)
+            response_agent_text = extract_text_from_dialogflow_response(response_dialog_agent)
+        except Exception as e:
+            printing(f"Error al obtener la respuesta de Dialogflow: {e}")
+
         activity = Activity().deserialize(body)
-        auth_header = request.headers.get("Authorization")
+        bot_az_cli = DialogflowBot(bot_connection['TEAMS_APP_ID'], bot_connection['TEAMS_APP_ID'], 
+                                  bot_connection['TEAMS_APP_PASSWORD'], bot_connection['TEAMS_TENANT_ID'],  response=response_agent_text)
         async def process_activity():
-            await ADAPTER.process_activity(activity, auth_header, BOT.on_turn)
+            await bot_az_cli.adapter.process_activity(activity, ms_bot_auth_header,
+                                                      bot_az_cli.on_turn)
         asyncio.run(process_activity())
+        # return response
         return Response(status=201)
     except Exception as e:
         printing(f"Error al procesar la actividad: {e}")
