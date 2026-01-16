@@ -36,4 +36,4 @@ PATH_IGNORE = os.getenv('PATH_IGNORE', "favicon.ico,blank,echo.php,proxy.php")
 FULL_METHODS = ['POST', 'GET', 'HEAD', 'PUT', 'DELETE']
 REQUEST_STR_LENGTH = os.getenv('REQUEST_STR_LENGTH', '5')  # for randoms strings default (downloads name an requests)
 
-SECRETS_MS_TEAMS = json.loads(os.getenv('SECRETS_MS_TEAMS', '{ "TEAMS_APP_ID": "84ff6681-3128-4cd9-9039-............", "TEAMS_APP_PASSWORD": "5Jt8Q~yhtDx8hFPXddebKPegw5sVrp..........", "TEAMS_TENANT_ID": "5fcccfc8-ac44-4c9c-8b1e-............", "TEAMS_AUTO_RESPONSE": "Hola respuesta espejos", "GCP_DIALOGF_AGENT_ID":"23a20a5c-de0d-448d-bc0d-............" }'))
+SECRETS_MS_TEAMS = json.loads(os.getenv('SECRETS_MS_TEAMS', '{"5fcccfc8-ac44-4c9c-8b1e-............": { "TEAMS_APP_ID": "84ff6681-3128-4cd9-9039-............", "TEAMS_APP_PASSWORD": "5Jt8Q~yhtDx8hFPXddebKPegw5sV............", "TEAMS_TENANT_ID": "5fcccfc8-ac44-4c9c-8b1e-............", "TEAMS_AUTO_RESPONSE": "Hola respuesta espejos", "GCP_DIALOGF_AGENT_ID":"5765ef52-78f3-47aa-91b8-............" }}'))

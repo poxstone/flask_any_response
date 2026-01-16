@@ -469,13 +469,13 @@ def azure_bot_trigger(request):
         ms_bot_language = body['locale']
         ms_bot_auth_header_x = request.headers.get("X-Forwarded-Authorization")  # for google api gateway
         ms_bot_auth_header = ms_bot_auth_header_x if ms_bot_auth_header_x else request.headers.get("Authorization")
-        bot_connection = SECRETS_MS_TEAMS
+        bot_connection = SECRETS_MS_TEAMS[ms_bot_tenant_id]
         response_agent_text = f'{bot_connection["TEAMS_AUTO_RESPONSE"]}:: (ms_bot_text: {ms_bot_text}) - (ms_bot_tenant_id: {ms_bot_tenant_id})) - (ms_bot_session_id: {ms_bot_session_id}) -- (ms_bot_from: {ms_bot_from})'
 
         # get response from dialogflow
         try:
             response_dialog_agent = detect_intent_text(GOOGLE_CLOUD_PROJECT, LOCATION, bot_connection['GCP_DIALOGF_AGENT_ID'], ms_bot_session_id, ms_bot_text, ms_bot_language)
-            response_agent_text = extract_text_from_dialogflow_response(response_dialog_agent)
+            response_agent_text = f'{extract_text_from_dialogflow_response(response_dialog_agent)} -- ms_bot_from: {ms_bot_from}'
         except Exception as e:
             printing(f"Error al obtener la respuesta de Dialogflow: {e}")
 
