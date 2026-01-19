@@ -452,7 +452,8 @@ curl -X POST "${URL}/google-dfcx/go" -H "Content-Type: application/json" -d @./c
 
 # azure bot test
 TOKEN="eyJh..."
-curl -i -X POST "${URL}/azure-bot/go" \
+BOT="vnt-bot-teams-00";
+curl -i -X POST "${URL}/azure-bot/{BOT}" \
  -H "Authorization: Bearer ${TOKEN}" \
  -H "X-Forwarded-Authorization: Bearer ${TOKEN}" \
  -H "Content-Type: application/json" \

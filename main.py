@@ -453,7 +453,7 @@ def functions_trigger(request):
 
 
 @functions_framework.http
-def azure_bot_trigger(request):
+def azure_bot_trigger(request, botId=None):
     import asyncio
     from botbuilder.schema import Activity
     from application.azure_bot import DialogflowBot
@@ -469,8 +469,8 @@ def azure_bot_trigger(request):
         ms_bot_language = body['locale']
         ms_bot_auth_header_x = request.headers.get("X-Forwarded-Authorization")  # for google api gateway
         ms_bot_auth_header = ms_bot_auth_header_x if ms_bot_auth_header_x else request.headers.get("Authorization")
-        bot_connection = SECRETS_MS_TEAMS[ms_bot_tenant_id]
-        response_agent_text = f'{bot_connection["TEAMS_AUTO_RESPONSE"]}:: (ms_bot_text: {ms_bot_text}) - (ms_bot_tenant_id: {ms_bot_tenant_id})) - (ms_bot_session_id: {ms_bot_session_id}) -- (ms_bot_from: {ms_bot_from})'
+        bot_connection = SECRETS_MS_TEAMS[botId]
+        response_agent_text = f'{bot_connection["TEAMS_AUTO_RESPONSE"]}:: (ms_bot_text: {ms_bot_text}) - (botId: {botId})) - (ms_bot_session_id: {ms_bot_session_id}) -- (ms_bot_from: {ms_bot_from})'
 
         # get response from dialogflow
         try:
@@ -493,10 +493,10 @@ def azure_bot_trigger(request):
         return Response(status=500)
 
 
-@app.route('/azure-bot/<go>', methods=FULL_METHODS)
-def azure_bot_reply(go):
-    response, status_code = config_response(request, '/azure-bot/<go>')
-    return azure_bot_trigger(request)
+@app.route('/azure-bot/<botId>', methods=FULL_METHODS)
+def azure_bot_reply(botId):
+    response, status_code = config_response(request, f'/azure-bot/{botId}')
+    return azure_bot_trigger(request, botId)
 
 
 printing(f'INIT_TIME_APP_PY_={STR_GLOBAL}: {str(datetime.datetime.now())}')
