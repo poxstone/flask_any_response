@@ -57,12 +57,12 @@ spec:
           value: '30'
         - name: LOGS_PRINT
           value: 'false'
-        - name: CERTFILE_CRT
-          value: '.certs-self/tls.crt'  # absolute or relative path for certs .certs/tls.crt 
-        - name: KEYFILE_TLS
-          value: '.certs-self/tls.key'  # absolute or relative path for certs .certs/tls.key 
-        - name: CHAIN_PEM
-          value: '.certs-self/chain.pem'  # absolute or relative path for client certs .certs/chain.pem
+        #- name: CERTFILE_CRT
+        #  value: '.certs-self/tls.crt'  # absolute or relative path for certs .certs/tls.crt 
+        #- name: KEYFILE_TLS
+        #  value: '.certs-self/tls.key'  # absolute or relative path for certs .certs/tls.key 
+        #- name: CHAIN_PEM
+        #  value: '.certs-self/chain.pem'  # absolute or relative path for client certs .certs/chain.pem
         ports:
         - containerPort: 80
         - containerPort: 443
