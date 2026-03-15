@@ -9,9 +9,10 @@ Dame un ejemplo para probar el metodo "GetUser" que se encuentra en el archivo d
 ## Enviroment
 - Enable enviroment and libraries:
 ```bash
-python3 -m virtualenv venv;
+pip install uv;
+uv venv venv;
 source venv/bin/activate;
-pip install -r requirements.txt;
+uv pip install -r requirements.txt;
 ```
 
 - Create service_pb2_grpc.py service_pb2.py from service.proto:

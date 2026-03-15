@@ -5,11 +5,12 @@
 - Install
 ```bash
 # python 3.12.3
-python3 -m virtualenv venv;
+pip3 install uv;
+uv venv venv;
 source venv/bin/activate;
 # sudo apt install python3-pip
 python -m ensurepip --upgrade;
-python3 -m pip install -r requirements.txt;
+uv pip install -r requirements.txt;
 ```
 - Run
 ```bash
@@ -24,7 +25,9 @@ gunicorn --workers="2" --timeout="120" --bind="0.0.0.0:8080" --certfile=".certs/
 docker build -t poxstone/flask_any_response -f fla_Dockerfile ./;
 docker push poxstone/flask_any_response;
 # local
-docker run --rm -it --net host -p 80:80 -p 9090:9090/tcp -p 9191:9191 -p 8080:8080 -p 5005:5005/udp -p 5678:5678 -p 50051:50051 -e GOOGLE_CLOUD_PROJECT="${GOOGLE_CLOUD_PROJECT}" poxstone/flask_any_response;
+docker run --rm -it -p 80:80 -p 9090:9090/tcp -p 9191:9191 -p 8080:8080 -p 5005:5005/udp -p 5678:5678 -p 50051:50051 -e GOOGLE_CLOUD_PROJECT="${GOOGLE_CLOUD_PROJECT}" poxstone/flask_any_response;
+# local (Linux native only - --net host does NOT work in WSL2)
+# docker run --rm -it --net host -e GOOGLE_CLOUD_PROJECT="${GOOGLE_CLOUD_PROJECT}" poxstone/flask_any_response;
 # run certs
 docker run --rm -it --net host -p 8080:8080 -v "${PWD}/.certs-self/:/app/.certs/" -e "CERTFILE_CRT=.certs/tls.crt" -e "KEYFILE_TLS=.certs/tls.key" poxstone/flask_any_response;
 # production

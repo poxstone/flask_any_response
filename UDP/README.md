@@ -8,9 +8,10 @@ python3 main_server.py;
 - Server enviroment
 ```bash
 # install
-python3 -m virtualenv venv;
+pip3 install uv;
+uv venv venv;
 source venv/bin/activate;
-pip3 install -r requirements.txt;
+uv pip install -r requirements.txt;
 
 # alternative
 export APP_PATH='./';
