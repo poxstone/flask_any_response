@@ -1,0 +1,30 @@
+[project]
+name = "flask_any_response"
+version = "0.0.1"
+description = "Simple response all url"
+readme = "README.md"
+requires-python = ">=3.12, <3.14"
+dependencies = [
+    "Flask==3.1.0",
+    "requests==2.32.3",
+    "oauth2client==4.1.3",
+    "websockets==15.0.1",
+    "asyncio==3.4.3",
+    "grpcio==1.71.0",
+    "grpcio-tools==1.71.0",
+    "protobuf==5.29.4",
+    "Werkzeug==3.1.3",
+    "functions-framework>=3.0.0",
+    "google-api-python-client==2.166.0",
+    "google-cloud-dialogflow-cx==2.1.0",
+    "aiohttp==3.13.2",
+    "botbuilder-core==4.17.0",
+    "botbuilder-schema==4.17.0"
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["application", "GRPC", "UDP", "WEBSOCKET"]
