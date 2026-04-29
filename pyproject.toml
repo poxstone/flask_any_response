@@ -19,7 +19,10 @@ dependencies = [
     "google-cloud-dialogflow-cx==2.1.0",
     "aiohttp==3.13.2",
     "botbuilder-core==4.17.0",
-    "botbuilder-schema==4.17.0"
+    "botbuilder-schema==4.17.0",
+    "mcp==1.27.0",
+    "httpx==0.28.1",
+    "dnspython==2.8.0"
 ]
 
 [build-system]
@@ -27,4 +30,4 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["application", "GRPC", "UDP", "WEBSOCKET"]
+packages = ["application", "GRPC", "UDP", "WEBSOCKET", "MCP"]

@@ -174,6 +174,17 @@ def testudp(domain, port):
     return '{} ---- {}'.format(message, resp), status_code
 
 
+@app.route('/mcp-requests/<http_protocol>/<mcp_host>/<mcp_port>/<test_url>', methods=FULL_METHODS)
+def mcp_requests(http_protocol, mcp_host, mcp_port, test_url):
+    printing('mcp_requests(mcp_host, mcp_port):')
+    resp, mime_type, status_code, message_code = print_request(request, title='mcp_requests(mcp_host, mcp_port):', print_logs='false')
+    from MCP.test_client import async_main
+    mcp_host = f"{http_protocol}://{mcp_host}:{mcp_port}"
+    mcp_response = asyncio.run(async_main(mcp_host, test_url))
+    printing(f"MCP server received: {str(mcp_response)}")
+    return f"MCP server received: {str(mcp_response)}", status_code
+
+
 @app.route('/grpc-requests/<domain>/<port>', methods=FULL_METHODS)
 def grpc_requests(domain, port):
     printing('grpc_requests(domain, port):')
@@ -263,7 +274,7 @@ def json_requests(num):
         if 'async' in requested and requested['async'] == 'true':
             #req = str(do_request_method_async(method, url, headers, body))
             #loop = asyncio.get_event_loop()
-            task = asyncio.run(do_request_method_async(method, url, headers, body))
+            task = mcp_response = asyncio.run(do_request_method_async(method, url, headers, body))
             #task = loop.create_task(do_request_method_async(method, url, headers, body))
             #loop.run_until_complete(task)
             #loop.close()
@@ -485,7 +496,7 @@ def azure_bot_trigger(request, botId=None):
         async def process_activity():
             await bot_az_cli.adapter.process_activity(activity, ms_bot_auth_header,
                                                       bot_az_cli.on_turn)
-        asyncio.run(process_activity())
+        mcp_response = asyncio.run(process_activity())
         # return response
         return Response(status=201)
     except Exception as e:

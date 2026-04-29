@@ -31,3 +31,4 @@ api_gateway/
 openapi/
 cloudbuild.yaml
 fla_Dockerfile
+.claude/

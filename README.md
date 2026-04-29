@@ -25,13 +25,13 @@ gunicorn --workers="2" --timeout="120" --bind="0.0.0.0:8080" --certfile=".certs/
 docker build -t poxstone/flask_any_response -f fla_Dockerfile ./;
 docker push poxstone/flask_any_response;
 # local
-docker run --rm -it -p 80:80 -p 9090:9090/tcp -p 9191:9191 -p 8080:8080 -p 5005:5005/udp -p 5678:5678 -p 50051:50051 -e GOOGLE_CLOUD_PROJECT="${GOOGLE_CLOUD_PROJECT}" poxstone/flask_any_response;
+docker run --rm -it -p 80:80 -p 9090:9090/tcp -p 9191:9191 -p 8080:8080 -p 5005:5005/udp -p 5678:5678 -p 50051:50051 -p 50055:50055 -e GOOGLE_CLOUD_PROJECT="${GOOGLE_CLOUD_PROJECT}" poxstone/flask_any_response;
 # local (Linux native only - --net host does NOT work in WSL2)
 # docker run --rm -it --net host -e GOOGLE_CLOUD_PROJECT="${GOOGLE_CLOUD_PROJECT}" poxstone/flask_any_response;
 # run certs
 docker run --rm -it --net host -p 8080:8080 -v "${PWD}/.certs-self/:/app/.certs/" -e "CERTFILE_CRT=.certs/tls.crt" -e "KEYFILE_TLS=.certs/tls.key" poxstone/flask_any_response;
 # production
-docker run -itd --pull=always --restart always --net host -e VERSION_DEP=MAIN -p 9090:9090/tcp -p 80:80 -p 9191:9191 -p 5678:5678 -p 8080:8080 -p 5005:5005/udp -p 50051:50051 -e GOOGLE_CLOUD_PROJECT="${GOOGLE_CLOUD_PROJECT}" poxstone/flask_any_response;
+docker run -itd --pull=always --restart always --net host -e VERSION_DEP=MAIN -p 9090:9090/tcp -p 80:80 -p 9191:9191 -p 5678:5678 -p 8080:8080 -p 5005:5005/udp -p 50055:50055 -p  -e GOOGLE_CLOUD_PROJECT="${GOOGLE_CLOUD_PROJECT}" poxstone/flask_any_response;
 ```
 - Simple k8s
 ```bash
@@ -468,6 +468,9 @@ curl -X GET "${URL}/udp-requests/localhost/5005?MESSAGE=hola";
 # grpc test
 curl -iLX GET "${URL}/grpc-requests/127.0.0.1/50051";
 curl -iLX POST "${URL}/grpc-requests/127.0.0.1/50051" -H "Content-Type: application/json" -d '{"user_name":"Carl Sagan", "age": "42", "email": "John_doe@mail.com"}';
+
+# mcp send
+curl -X GET "${URL}/mcp-requests/https/mcp-simple-server-ecf6d00000-uc.a.run.app/443/eltiempo.com";
 
 # proxy request GET external html request
 curl -X GET "${URL}/requests/https/eltiempo.com/443?path=/opinion/columnistas/martha-senn&other=none";
